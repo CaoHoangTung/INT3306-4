@@ -39,16 +39,16 @@ services:
         ports:
             - "8000:8000"
 
-    medius-frontend:
-        build:
-            context: ./medius-frontend
-            dockerfile: Dockerfile
-        depends_on:
-            - medius-server
-        networks:
-            - medius-network
-        ports:
-            - "3000:3000"
+#    medius-frontend:
+#        build:
+#            context: ./medius-frontend
+#            dockerfile: Dockerfile
+#        depends_on:
+#            - medius-server
+#        networks:
+#            - medius-network
+#        ports:
+#            - "3000:3000"
 
 
 networks:
