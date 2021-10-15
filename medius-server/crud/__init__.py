@@ -2,6 +2,7 @@ from .crud_user import user
 from .crud_category import category
 from .crud_conversation import conversation
 from .crud_message import message
+from .crud_post import post
 
 # For a new basic set of CRUD operations you could just do
 
