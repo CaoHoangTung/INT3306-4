@@ -26,9 +26,8 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
     Get all posts with user_id 
     """  
     def get_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
-        print("\n\nLAG-------------------\n")
-
         try:
+            print("AFEWFAFAWEF")
             return db.query(Post) \
                 .filter(Post.user_id == user_id) \
                 .all()
@@ -45,8 +44,13 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             view_count = 0,
             upvote = 0,
             downvote = 0,
+            created_at = func.now(), # TODO: need to fix this 
+            updated_at = func.now(), # TODO: need to fix this 
+            published_at = func.now(),
+            post_id = obj_in.post_id, # TODO: don't use thiss 
+            user_id = obj_in.user_id, # TODO: don't use thiss 
         )
-        
+
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -59,6 +63,10 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             update_data = obj_in
         else:
             update_data = obj_in.dict(exclude_unset=True)
+
+        print("^^^^^^^^^")
+        print(db_obj)
+        print(obj_in)     
         
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
