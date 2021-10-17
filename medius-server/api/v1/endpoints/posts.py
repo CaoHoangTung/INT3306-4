@@ -24,18 +24,16 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None) -> A
     """
     posts = crud.post.get_by_user_id(db=db, user_id=user_id)
 
-    print(posts)
-    print(user_id)
-
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
             
     return posts
 
 @router.get("/view/{post_id}", response_model=schemas.Post)
-def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+# def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
     """
-    View message
+    View post
     """
     post = crud.post.get_by_post_id(
         db=db, 
@@ -47,10 +45,12 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_us
     return post
 
 @router.post("/create", response_model=schemas.Post)
-def create_message(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+# def create_message(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_message(db: Session = Depends(deps.get_db), *, creating_post: PostCreate) -> Any:
     """
     Create new post
     """
+
     try:
         post = crud.post.create(
             db=db, 
@@ -62,11 +62,15 @@ def create_message(db: Session = Depends(deps.get_db), creating_post: PostCreate
         raise HTTPException(status_code=500, detail=msg.INVALID_POST_ID)
     
 @router.put("/update", response_model=schemas.Post)
-def update_message(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+# def update_message(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_message(db: Session = Depends(deps.get_db), *, updating_post: PostUpdate) -> Any:
     """
     Update post
     """
-    query_post = crud.post.get_by_post_id(db=db, message_id=updating_post.post_id)
+
+    print("LAGLAG")
+
+    query_post = crud.post.get_by_post_id(db=db, post_id=updating_post.post_id)
     if not query_post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
         
