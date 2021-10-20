@@ -9,7 +9,7 @@ class Post(Base):
     title = Column(String)
     content = Column(String)
     created_at = Column(DateTime) # only author can see this thing
-    updated_at = Column(DateTime) # everyone can see this thing 
+    updated_at = Column(DateTime, default=func.now()) # everyone can see this thing 
     published_at = Column(DateTime) # everyone can see this thing
     preview_image_path = Column(String)
     cover_image_path = Column(String)

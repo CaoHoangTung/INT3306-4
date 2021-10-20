@@ -45,8 +45,8 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
     return post
 
 @router.post("/create", response_model=schemas.Post)
-# def create_message(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def create_message(db: Session = Depends(deps.get_db), *, creating_post: PostCreate) -> Any:
+# def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate) -> Any:
     """
     Create new post
     """
@@ -62,13 +62,11 @@ def create_message(db: Session = Depends(deps.get_db), *, creating_post: PostCre
         raise HTTPException(status_code=500, detail=msg.INVALID_POST_ID)
     
 @router.put("/update", response_model=schemas.Post)
-# def update_message(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def update_message(db: Session = Depends(deps.get_db), *, updating_post: PostUpdate) -> Any:
+# def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_post(db: Session = Depends(deps.get_db), *, updating_post: PostUpdate) -> Any:
     """
     Update post
     """
-
-    print("LAGLAG")
 
     query_post = crud.post.get_by_post_id(db=db, post_id=updating_post.post_id)
     if not query_post:
@@ -83,7 +81,8 @@ def update_message(db: Session = Depends(deps.get_db), *, updating_post: PostUpd
 
     
 @router.delete("/delete", response_model=schemas.Post)
-def delete_message(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+# def delete_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
     """
     Delete post
     """

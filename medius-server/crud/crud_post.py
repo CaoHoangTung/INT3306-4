@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional, Union, List
 
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import func
+from  sqlalchemy.sql.expression import func, update
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
@@ -27,7 +27,6 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
     """  
     def get_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
         try:
-            print("AFEWFAFAWEF")
             return db.query(Post) \
                 .filter(Post.user_id == user_id) \
                 .all()
@@ -44,10 +43,9 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             view_count = 0,
             upvote = 0,
             downvote = 0,
-            created_at = func.now(), # TODO: need to fix this 
-            updated_at = func.now(), # TODO: need to fix this 
-            published_at = func.now(),
-            post_id = obj_in.post_id, # TODO: don't use thiss 
+            created_at = func.now(),
+            updated_at = func.now(),
+            published_at = func.now(), # TODO: need to fix thiss
             user_id = obj_in.user_id, # TODO: don't use thiss 
         )
 
@@ -64,10 +62,6 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
-        print("^^^^^^^^^")
-        print(db_obj)
-        print(obj_in)     
-        
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
     def delete(self, db: Session, *, post_id: str) -> Any:
