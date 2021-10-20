@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, List
 
 from pydantic import BaseModel
@@ -7,8 +8,8 @@ from schemas.message import Message
 
 # Shared properties
 class PostBase(BaseModel):
-    title: str
-    content: str 
+    title: Optional[str]
+    content: Optional[str] 
 
 
 # Properties to receive via API on creation
@@ -16,7 +17,6 @@ class PostCreate(PostBase):
     preview_image_path: Optional[str]
     cover_image_path: Optional[str]
     user_id: Optional[int] # TODO: don't use this 
-    post_id: Optional[int] # TODO: auto calculate this in db
 
 # Properties to receive via API on update
 class PostUpdate(PostBase):
@@ -31,9 +31,9 @@ class PostUpdate(PostBase):
 class PostInDBBase(PostBase):
     post_id: int
     user_id: Optional[int] 
-    # created_at: Optional[DateTime] 
-    # published_at: Optional[DateTime]
-    # updated_at: Optional[DateTime] 
+    created_at: Optional[datetime] 
+    published_at: Optional[datetime] ###### TODO: fixxxx
+    updated_at: Optional[datetime] 
     preview_image_path: Optional[str]
     cover_image_path: Optional[str]
     upvote: Optional[int]
