@@ -42,9 +42,6 @@ class CRUDTopic(CRUDBase[Topic, TopicCreate, TopicUpdate]):
             created_at=func.now()
         )
 
-        print(db_obj)
-        print("------------------++++++++++++")
-
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -62,16 +59,16 @@ class CRUDTopic(CRUDBase[Topic, TopicCreate, TopicUpdate]):
     
     def delete(self, db: Session, *, topic_id: str) -> Any:
         query = db.query(Topic).filter(Topic.topic_id == topic_id)
-        deleting_post = query.first()
-        if deleting_post:
-            deleting_post = Topic(
-                topic_id = deleting_post.topic_id, 
-                topic_name = deleting_post.topic_name, 
-                created_at = deleting_post.created_at 
+        deleting_topic = query.first()
+        if deleting_topic:
+            deleting_topic = Topic(
+                topic_id = deleting_topic.topic_id, 
+                topic_name = deleting_topic.topic_name, 
+                created_at = deleting_topic.created_at 
             )
             query.delete()
             db.commit()
-        return deleting_post
+        return deleting_topic
 
     def truncate(self, db: Session) -> bool:
         result = db.execute("""

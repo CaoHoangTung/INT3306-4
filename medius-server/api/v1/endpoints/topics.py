@@ -40,7 +40,7 @@ def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any:
         topic_id=topic_id
     )
     if not topic:
-        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+        raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)
             
     return topic
 
@@ -59,7 +59,7 @@ def create_topic(db: Session = Depends(deps.get_db), *, creating_topic: TopicCre
         return post
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_POST_ID)
+        raise HTTPException(status_code=500, detail=msg.INVALID_TOPIC_ID)
     
 @router.put("/update", response_model=schemas.Topic)
 # def update_topic(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
@@ -70,7 +70,7 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpd
 
     query_topic = crud.topic.get_by_topic_id(db=db, topic_id=updating_topic.topic_id)
     if not query_topic:
-        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+        raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)
         
     topic = crud.post.update(
         db=db,
@@ -91,6 +91,6 @@ def delete_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any
         topic_id=topic_id
     )
     if not topic:
-        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+        raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)
     
     return topic

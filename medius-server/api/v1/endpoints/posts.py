@@ -13,6 +13,7 @@ from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.post import PostCreate, PostUpdate
+from schemas.posttopic import PostTopicCreate
 
 router = APIRouter()
 
@@ -46,7 +47,7 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
 
 @router.post("/create", response_model=schemas.Post)
 # def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate) -> Any:
+def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate, list_topics: List[int] = Body(None)) -> Any:
     """
     Create new post
     """
@@ -56,6 +57,18 @@ def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate
             db=db, 
             obj_in=creating_post
         )
+        
+        if list_topics:
+            for loop_topic_id in list_topics:
+                crud.posttopic.create(
+                    db=db,
+                    obj_in=PostTopicCreate(
+                        topic_id=loop_topic_id, 
+                        post_id=post.post_id,
+                        score=1 # TODO: fix to need this 
+                    )
+                )
+
         return post
     except Exception as e:
         print(e)
