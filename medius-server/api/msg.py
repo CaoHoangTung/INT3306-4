@@ -7,4 +7,7 @@ NO_UNASSIGNED_CONVERSATION = "There are no conversation that need to be annotate
 INVALID_MESSAGE_ID = "Invalid message id"
 INVALID_IMPORT_FILE_FORMAT = "Invalid import file format"
 DATABASE_ERROR = "Database error"
+
 INVALID_POST_ID = "Invalid post id"
+INVALID_TOPIC_ID = "Invalid topic id"
+INVALID_POSTTOPIC_ID = "Invalid posttopic id"
