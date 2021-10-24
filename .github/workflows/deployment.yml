@@ -4,12 +4,18 @@ on:
     branches:
       - master
       - autodeploy
-uses: appleboy/ssh-action@master
-with:
-  host: ${{ secrets.HOST }}
-  username: ${{ secrets.USERNAME }}
-  password: ${{ secrets.PASSWORD }}
-  port: ${{ secrets.PORT }}
-  script: |
-    whoami
-    ls -al
+jobs:
+  build:
+    name: deploy_everything
+    runs-on: ubuntu-latest
+    steps:
+    - name: execute deployment scripts  
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          whoami
+          ls -al
