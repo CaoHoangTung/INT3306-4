@@ -17,5 +17,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          git clone https://github.com/CaoHoangTung/INT3306-4
-          cd INT3306-4 && docker-compose up
+          git clone git@github.com:CaoHoangTung/INT3306-4.git
+          cd INT3306-4
+          git pull
+          docker-compose up
