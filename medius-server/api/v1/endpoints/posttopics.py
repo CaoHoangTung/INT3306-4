@@ -17,7 +17,6 @@ from schemas.posttopic import PostTopicCreate, PostTopicUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.PostTopic])
-# def view_all_topics(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def view_all_posttopics(db: Session = Depends(deps.get_db)) -> Any:
     """
     Get all posttopics
@@ -30,7 +29,6 @@ def view_all_posttopics(db: Session = Depends(deps.get_db)) -> Any:
     return posttopics
 
 @router.get("/view", response_model=schemas.PostTopic)
-# def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...), topic_id:str = Query(...)) -> Any:
     """
     View posttopic
@@ -46,24 +44,22 @@ def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...),
     return posttopic
 
 @router.post("/create", response_model=schemas.PostTopic)
-# def create_topic(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: PostTopicCreate) -> Any:
     """
     Create new posttopic
     """
 
     try:
-        post = crud.posttopic.create(
+        posttopic = crud.posttopic.create(
             db=db, 
             obj_in=creating_posttopic
         )
-        return post
+        return posttopic
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
     
 @router.put("/update", response_model=schemas.PostTopic)
-# def update_topic(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
 def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate) -> Any:
     """
     Update posttopic
@@ -82,7 +78,6 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: Post
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-# def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
 def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, topic_id:str = None) -> Any:
     """
     Delete posttopic

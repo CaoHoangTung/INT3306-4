@@ -17,7 +17,6 @@ from schemas.topic import TopicCreate, TopicUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Topic])
-# def view_all_topics(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def view_all_topics(db: Session = Depends(deps.get_db)) -> Any:
     """
     Get all topics
@@ -30,7 +29,6 @@ def view_all_topics(db: Session = Depends(deps.get_db)) -> Any:
     return topics
 
 @router.get("/view/{topic_id}", response_model=schemas.Topic)
-# def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any:
     """
     View topic
@@ -45,24 +43,22 @@ def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any:
     return topic
 
 @router.post("/create", response_model=schemas.Topic)
-# def create_topic(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
 def create_topic(db: Session = Depends(deps.get_db), *, creating_topic: TopicCreate) -> Any:
     """
     Create new topic
     """
 
     try:
-        post = crud.topic.create(
+        topic = crud.topic.create(
             db=db, 
             obj_in=creating_topic
         )
-        return post
+        return topic
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=msg.INVALID_TOPIC_ID)
     
 @router.put("/update", response_model=schemas.Topic)
-# def update_topic(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
 def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpdate) -> Any:
     """
     Update topic
@@ -72,7 +68,7 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpd
     if not query_topic:
         raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)
         
-    topic = crud.post.update(
+    topic = crud.topic.update(
         db=db,
         db_obj=query_topic,
         obj_in=updating_topic
@@ -81,7 +77,6 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpd
 
     
 @router.delete("/delete", response_model=schemas.Topic)
-# def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
 def delete_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any:
     """
     Delete topic
