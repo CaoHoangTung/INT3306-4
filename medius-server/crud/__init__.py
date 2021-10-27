@@ -6,7 +6,8 @@ from .crud_message import message
 from .crud_post import post
 from .crud_topic import topic
 from .crud_posttopic import posttopic
-
+from .crud_role import role
+from .crud_userpostrelation import userpostrelation
 # For a new basic set of CRUD operations you could just do
 
 # from .base import CRUDBase
