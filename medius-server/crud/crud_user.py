@@ -26,7 +26,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db_obj = User(
             profile=obj_in.profile,
             avatar_path=obj_in.avatar_path,
-            subscription=obj_in.subscription,
+            subscription=0,
             user_id=obj_in.user_id,
             role_id=obj_in.role_id,
             first_name=obj_in.first_name,

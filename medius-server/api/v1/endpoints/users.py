@@ -16,8 +16,7 @@ from schemas.user import UserCreate, UserUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.User])
-# def view_all_user(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def view_all_user(db: Session = Depends(deps.get_db)) -> Any:
+def view_all_user(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all user
     """
@@ -28,8 +27,7 @@ def view_all_user(db: Session = Depends(deps.get_db)) -> Any:
     return users
 
 @router.get("/view/{user_id}", response_model=schemas.User)
-# def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def view_user(db: Session = Depends(deps.get_db), user_id:str = None) -> Any:
+def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View user
     """
@@ -44,8 +42,7 @@ def view_user(db: Session = Depends(deps.get_db), user_id:str = None) -> Any:
     return user
 
 @router.post("/create", response_model=schemas.User)
-# def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate) -> Any:
+def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new user
     """
@@ -64,8 +61,7 @@ def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate
         raise HTTPException(status_code=500, detail=msg.INVALID_USER_ID)
         
 @router.put("/update", response_model=schemas.User)
-# def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def update_user(db: Session = Depends(deps.get_db), *, updating_user: UserUpdate) -> Any:
+def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update user
     """
@@ -82,8 +78,7 @@ def update_user(db: Session = Depends(deps.get_db), *, updating_user: UserUpdate
 
     
 @router.delete("/delete", response_model=schemas.User)
-# def delete_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def delete_user(db: Session = Depends(deps.get_db), user_id:str = None) -> Any:
+def delete_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete user
     """

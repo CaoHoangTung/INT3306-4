@@ -29,7 +29,7 @@ def view_all_posttopics(db: Session = Depends(deps.get_db)) -> Any:
     return posttopics
 
 @router.get("/view", response_model=schemas.PostTopic)
-def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...), topic_id:str = Query(...)) -> Any:
+def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...), topic_id:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View posttopic
     """
@@ -44,7 +44,7 @@ def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...),
     return posttopic
 
 @router.post("/create", response_model=schemas.PostTopic)
-def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: PostTopicCreate) -> Any:
+def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: PostTopicCreate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Create new posttopic
     """
@@ -60,7 +60,7 @@ def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: 
         raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
     
 @router.put("/update", response_model=schemas.PostTopic)
-def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate) -> Any:
+def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update posttopic
     """
@@ -78,7 +78,7 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: Post
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, topic_id:str = None) -> Any:
+def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, topic_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete posttopic
     """
