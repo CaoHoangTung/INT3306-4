@@ -30,10 +30,11 @@ def login_access_token(
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "access_token": security.create_access_token(
-            user.user_id, expires_delta=access_token_expires
+            user.email, expires_delta=access_token_expires
         ),
         "token_type": "bearer",
         "user_id": user.user_id,
+        "email": user.email,
         "is_admin": crud.user.is_admin(db, user)
     }
 

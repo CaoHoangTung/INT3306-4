@@ -9,7 +9,6 @@ from pydantic import BaseModel
 class UserBase(BaseModel):
     profile: Optional[str]
     avatar_path: Optional[str]
-    subscription: Optional[str]
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
@@ -38,6 +37,7 @@ class UserInDBBase(UserBase):
     password_hash: str 
     register_at: Optional[datetime]
     last_seen_at: Optional[datetime]
+    subscription: Optional[str]
 
     class Config:
         orm_mode = True

@@ -19,7 +19,7 @@ from schemas.post import PostUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.UserPostRelation])
-def view_all_user_post_relations(db: Session = Depends(deps.get_db)) -> Any:
+def view_all_user_post_relations(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all user post relations 
     """
@@ -31,7 +31,7 @@ def view_all_user_post_relations(db: Session = Depends(deps.get_db)) -> Any:
     return relations
 
 @router.get("/view", response_model=schemas.Role)
-def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), post_id:str = Query(...)) -> Any:
+def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), post_id:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View relation
     """
@@ -46,7 +46,7 @@ def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), 
     return relation
 
 @router.post("/create", response_model=schemas.UserPostRelation)
-def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserPostRelationCreate) -> Any:
+def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserPostRelationCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new relation 
     """
@@ -62,7 +62,7 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
         raise HTTPException(status_code=500, detail=msg.INVALID_USERPOST_ID)
     
 @router.put("/update", response_model=schemas.UserPostRelation)
-def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserPostRelationUpdate) -> Any:
+def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserPostRelationUpdate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update relation
     """
@@ -109,7 +109,7 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
 
     
 @router.delete("/delete", response_model=schemas.UserPostRelation)
-def delete_relation(db: Session = Depends(deps.get_db), user_id:str = None, post_id:str = None) -> Any:
+def delete_relation(db: Session = Depends(deps.get_db), user_id:str = None, post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete relation
     """

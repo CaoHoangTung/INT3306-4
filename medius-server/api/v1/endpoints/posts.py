@@ -18,8 +18,7 @@ from schemas.posttopic import PostTopicCreate
 router = APIRouter()
 
 @router.get("/all/{user_id}", response_model=List[schemas.Post])
-# def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all posts with user_id 
     """
@@ -31,8 +30,7 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None) -> A
     return posts
 
 @router.get("/view/{post_id}", response_model=schemas.Post)
-# def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def view_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
+def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View post
     """
@@ -46,8 +44,7 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
     return post
 
 @router.post("/create", response_model=schemas.Post)
-# def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate, list_topics: List[int] = Body(None)) -> Any:
+def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new post
     """
@@ -75,8 +72,7 @@ def create_post(db: Session = Depends(deps.get_db), *, creating_post: PostCreate
         raise HTTPException(status_code=500, detail=msg.INVALID_POST_ID)
     
 @router.put("/update", response_model=schemas.Post)
-# def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def update_post(db: Session = Depends(deps.get_db), *, updating_post: PostUpdate) -> Any:
+def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update post
     """
@@ -94,8 +90,7 @@ def update_post(db: Session = Depends(deps.get_db), *, updating_post: PostUpdate
 
     
 @router.delete("/delete", response_model=schemas.Post)
-# def delete_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
-def delete_post(db: Session = Depends(deps.get_db), post_id:str = None) -> Any:
+def delete_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete post
     """
