@@ -17,10 +17,10 @@ class CRUDRole(CRUDBase[Role, RoleCreate, RoleUpdate]):
     """
     def get_by_role_id(self, db: Session, *, role_id: int) -> Optional[Role]:
         try:
-            return db.query(role_id) \
+            return db.query(Role) \
                 .filter(Role.role_id == role_id) \
                 .first()
-        except:
+        except Exception as e:
             return None
     
     """
