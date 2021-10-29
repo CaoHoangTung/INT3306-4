@@ -7,7 +7,7 @@ from  sqlalchemy.sql.expression import func
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
-from models.user import User
+from models import User, Role
 from schemas.user import UserCreate, UserUpdate
 
 from crud.crud_role import role
@@ -17,9 +17,10 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def get_all(self, db: Session) -> Optional[List[User]]:
         return db.query(User).all()
     
-    def get_by_user_id(self, db: Session, *, user_id: str) -> Optional[User]:
-        print(db.query(User).filter(User.user_id == user_id).first()) 
-        return db.query(User).filter(User.user_id == user_id).first()
+    
+    def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
+        return db.query(User).filter(User.email == email).first()
+
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         db_obj = User(
@@ -40,6 +41,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db.refresh(db_obj)
         return db_obj
 
+
     def update(
         self, db: Session, *, db_obj: User, obj_in: Union[UserUpdate, Dict[str, Any]]
     ) -> User:
@@ -54,6 +56,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             update_data["password_hash"] = hashed_password
 
         return super().update(db, db_obj=db_obj, obj_in=update_data)
+    
     
     def delete(self, db: Session, *, user_id: str) -> Any:
         query = db.query(User).filter(User.user_id == user_id)
@@ -76,19 +79,21 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             db.commit()
         return deleting_user
 
-    def authenticate(self, db: Session, *, user_id: str, password: str) -> Optional[User]:
-        user = self.get_by_user_id(db, user_id=user_id)
+
+    def authenticate(self, db: Session, *, email: str, password: str) -> Optional[User]:
+        user = self.get_by_email(db, email=email)
         if not user:
             return None
         if not verify_password(password, user.password_hash):
             return None
         return user
 
-    def is_admin(self, user: User) -> bool:
-        matched_role = role.get_by_role_id(user.role_id)
+
+    def is_admin(self, db: Session, user: User) -> bool:
+        matched_role = role.get_by_role_id(db=db, role_id=user.role_id)
         
         role_name = "not_admin"
-        if role:
+        if matched_role:
             role_name = matched_role.role_name
         return role_name == "admin"
         

@@ -22,8 +22,9 @@ def login_access_token(
     OAuth2 compatible token login, get an access token for future requests
     """
     user = crud.user.authenticate(
-        db, user_id=form_data.username, password=form_data.password
+        db, email=form_data.username, password=form_data.password
     )
+    
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect user id or password")
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -33,7 +34,7 @@ def login_access_token(
         ),
         "token_type": "bearer",
         "user_id": user.user_id,
-        "role": user.role
+        "is_admin": crud.user.is_admin(db, user)
     }
 
 
