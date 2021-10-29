@@ -3,29 +3,44 @@ from typing import Any, Dict, Optional, Union, List
 from sqlalchemy import asc
 from sqlalchemy.orm import Session
 
+from  sqlalchemy.sql.expression import func
+
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
-from models.user import User
+from models import User, Role
 from schemas.user import UserCreate, UserUpdate
+
+from crud.crud_role import role
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def get_all(self, db: Session) -> Optional[List[User]]:
         return db.query(User).all()
     
-    def get_by_user_id(self, db: Session, *, user_id: str) -> Optional[User]:
-        return db.query(User).filter(User.user_id == user_id).first()
+    
+    def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
+        return db.query(User).filter(User.email == email).first()
+
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         db_obj = User(
+            profile=obj_in.profile,
+            avatar_path=obj_in.avatar_path,
+            subscription=obj_in.subscription,
             user_id=obj_in.user_id,
-            password=get_password_hash(obj_in.password),
-            role=obj_in.role,
+            role_id=obj_in.role_id,
+            first_name=obj_in.first_name,
+            last_name=obj_in.last_name,
+            email=obj_in.email,  
+            password_hash=get_password_hash(obj_in.password),
+            register_at = func.now(),
+            last_seen_at = func.now() # TODO: need to fix this 
         )
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
         return db_obj
+
 
     def update(
         self, db: Session, *, db_obj: User, obj_in: Union[UserUpdate, Dict[str, Any]]
@@ -34,36 +49,53 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             update_data = obj_in
         else:
             update_data = obj_in.dict(exclude_unset=True)
-        if update_data["password"]:
-            hashed_password = get_password_hash(update_data["password"])
-            del update_data["password"]
-            update_data["password"] = hashed_password
-        else:
-            update_data["password"] = db_obj.password
-        
-        if not update_data["role"]:
-            update_data["role"] = db_obj.role
-            
+
+        if update_data["password_hash"]:
+            hashed_password = get_password_hash(update_data["password_hash"])
+            del update_data["password_hash"]
+            update_data["password_hash"] = hashed_password
+
         return super().update(db, db_obj=db_obj, obj_in=update_data)
+    
     
     def delete(self, db: Session, *, user_id: str) -> Any:
         query = db.query(User).filter(User.user_id == user_id)
         deleting_user = query.first()
         if deleting_user:
+            deleting_user = User( 
+                user_id = deleting_user.user_id, 
+                role_id = deleting_user.role_id,
+                first_name = deleting_user.first_name, 
+                last_name = deleting_user.last_name, 
+                email = deleting_user.email, 
+                password_hash = deleting_user.password_hash, 
+                register_at = deleting_user.register_at, 
+                last_seen_at = deleting_user.last_seen_at,
+                profile = deleting_user.profile, 
+                avatar_path = deleting_user.avatar_path, 
+                subscription = deleting_user.subscription
+            )
             query.delete()
             db.commit()
         return deleting_user
 
-    def authenticate(self, db: Session, *, user_id: str, password: str) -> Optional[User]:
-        user = self.get_by_user_id(db, user_id=user_id)
+
+    def authenticate(self, db: Session, *, email: str, password: str) -> Optional[User]:
+        user = self.get_by_email(db, email=email)
         if not user:
             return None
-        if not verify_password(password, user.password):
+        if not verify_password(password, user.password_hash):
             return None
         return user
 
-    def is_admin(self, user: User) -> bool:
-        return user.role == "admin"
+
+    def is_admin(self, db: Session, user: User) -> bool:
+        matched_role = role.get_by_role_id(db=db, role_id=user.role_id)
+        
+        role_name = "not_admin"
+        if matched_role:
+            role_name = matched_role.role_name
+        return role_name == "admin"
         
 
 
