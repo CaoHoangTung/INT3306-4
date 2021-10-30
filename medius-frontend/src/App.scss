@@ -6,11 +6,11 @@
 ::after {
     box-sizing: inherit;
 }
-.NavBar, .Footer {
+.NavBar {
     background: #fec016;
     border-bottom: 1px solid black;
     position: sticky;
-    top:0;
+    top: 0;
     z-index: 10;
     img {
         max-width: 250px;
@@ -38,6 +38,28 @@
                 list-style: none;
             }
         }
+    }
+}
+.Footer {
+    background: #fec016;
+    border-bottom: 1px solid black;
+    img {
+        max-width: 250px;
+    }
+    .Footer_Lists {
+        ul {
+            display: flex;
+            align-items: center;
+            li {
+                margin-left: 25px;
+                list-style: none;
+            }
+        }
+    }
+    .Footer_Container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 }
 .App_MainSection {
@@ -76,7 +98,7 @@
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
-    right:0;
+    right: 0;
     bottom: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
