@@ -6,8 +6,7 @@
 ::after {
     box-sizing: inherit;
 }
-
-.NavBar {
+.NavBar, .Footer {
     background: #fec016;
     border-bottom: 1px solid black;
     img {
@@ -64,5 +63,76 @@
     }
     img {
         max-width: 500px;
+    }
+}
+
+.MediumPosts {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 30px 0;
+    cursor: pointer;
+    width: 100%;
+
+    .MuiSvgIcon-root {
+        color: #757575;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .MediumPosts_TimeStamps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+        width: 100%;
+
+        .MediumPosts_Bookmark {
+            font-size: 25px;
+        }
+
+        .MuiSvgIcon-root {
+            margin: 0 5px;
+        }
+
+        .MediumPosts_TimeStamp_Paragraph {
+            display: flex;
+            align-items: center;
+            color: #757575;
+
+            span {
+                font-family: "Open Sans", sans-serif !important;
+                color: #757575;
+                font-weight: 400;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .MediumPosts_image {
+        margin-left: 15px;
+        height: 100px;
+        width: 250px;
+        background: red;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .MediumPosts_Text {
+        width: 100%;
+        h2 {
+            font-weight: 700;
+            font-size: 23px;
+            color: #2a2a2a;
+            font-family: "Open Sans", sans-serif !important;
+        }
+
+        p {
+            font-weight: 500;
+            color: #7f7f7f;
+            font-size: 15px;
+            margin: 5px 0;
+            font-family: "Open Sans", sans-serif !important;
+        }
     }
 }

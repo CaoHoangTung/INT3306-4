@@ -1,6 +1,9 @@
 import { Button, Container, Grid } from '@material-ui/core';
 import './App.scss';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
+import MediumPosts from './components/PostPreview'
+import Post from './components/Post'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 function App() {
@@ -27,8 +30,45 @@ function App() {
       <div className="Trending">
         <Container>
           <h2><span><TrendingUpIcon/></span>Trending on Medius</h2>
+          <MediumPosts
+              author = "author"
+              topic = "topic"
+              title = "title"
+              contentPreview = "contentPreview"
+              postTime = "2:00:00 PM 10/29/2021"
+          />
+            <MediumPosts
+                author = "author"
+                topic = "topic"
+                title = "title"
+                contentPreview = "contentPreview"
+                postTime = "2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author = "author"
+                topic = "topic"
+                title = "title"
+                contentPreview = "contentPreview"
+                postTime = "2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author = "author"
+                topic = "topic"
+                title = "title"
+                contentPreview = "contentPreview"
+                postTime = "2:00:00 PM 10/29/2021"
+            />
+            <Post
+                date = "2:00:00 PM 10/29/2021"
+                author = "author"
+                description = "12345678906542321937581793479217380472314712730497398274891072347213749712930470231947730247239482713094"
+                image = "logo512.png"
+                imageLabel = "imageLabel"
+                title = "title"
+            />
         </Container>
       </div>
+      <Footer />
     </div>
   );
 }
