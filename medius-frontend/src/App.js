@@ -16,7 +16,7 @@ function App() {
         <Container>
           <Grid container justify="center" alignItems="center">
             <Grid item lg={6}>
-              <h1>Where good idea find you</h1>
+              <h1>Where good ideas find you</h1>
               <p>
                 Read and share new perspective on just about any topic.
                 Everyone's welcome.
@@ -24,7 +24,7 @@ function App() {
               <Button onClick={() => setShow(true)}>Get started</Button>
             </Grid>
             <Grid item lg={6}>
-              <img src="https://cdn-static-1.medium.com/sites/medium.com/creators/images/Illustrations-Dimensional-1.png" alt="" />
+              <img src="Illustrations-Dimensional.png" alt="" />
             </Grid>
           </Grid>
         </Container>

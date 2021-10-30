@@ -2,7 +2,6 @@ import React from "react";
 import StarIcon from "@material-ui/icons/Star";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import moment from "moment";
-import { Link } from "react-dom";
 
 const MediumPosts = (props) => {
     return (
