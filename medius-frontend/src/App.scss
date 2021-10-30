@@ -64,5 +64,40 @@
     }
     img {
         max-width: 500px;
+        float: right;
+    }
+}
+.modal {
+    /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    right:0;
+    bottom: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal-content {
+        width: 500px;
+        background-color: #ffff;
+    }
+    .modal-header,
+    .modal-footer {
+        padding: 10px;
+    }
+    .modal-title {
+        margin: 0;
+    }
+    .modal-body {
+        padding: 10px;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
     }
 }

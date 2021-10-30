@@ -1,5 +1,8 @@
 import { Button, Container } from "@material-ui/core";
+import LoginModal from "./LoginModal";
+import { useState } from 'react';
 const NavBar = () => {
+    const [show, setShow] = useState(false);
     return (
         <div className="NavBar">
             <Container>
@@ -13,11 +16,12 @@ const NavBar = () => {
                             <li>Our Story</li>
                             <li>Membership</li>
                             <li>Write</li>
-                            <li>Sign in</li>
+                            <li onClick={()=>setShow(true)}>Sign in</li>
                             <li>
-                            <Button>
+                            <Button onClick={()=>setShow(true)}>
                                 Get started
-                            </Button>
+                            </Button >
+                            <LoginModal onClose={()=>setShow(false)} show={show}/>
                             </li>
                         </ul>
                     </div>
