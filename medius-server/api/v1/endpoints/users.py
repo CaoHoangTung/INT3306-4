@@ -27,13 +27,13 @@ def view_all_user(db: Session = Depends(deps.get_db), current_user: models.User 
     return users
 
 @router.get("/view/{user_id}", response_model=schemas.User)
-def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_user(db: Session = Depends(deps.get_db), email:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View user
     """
-    user = crud.user.get_by_user_id(
+    user = crud.user.get_by_email(
         db=db, 
-        user_id=user_id
+        email=email
     )
 
     if not user:
@@ -42,13 +42,10 @@ def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_us
     return user
 
 @router.post("/create", response_model=schemas.User)
-def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new user
     """
-    # query_user = crud.user.get_by_user_id(db=db, user_id=creating_user.user_id)
-    # if query_user:
-    #     raise HTTPException(status_code=500, detail=msg.DUPLICATE_USER_ID)
 
     try:
         user = crud.user.create(
@@ -61,11 +58,11 @@ def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = 
         raise HTTPException(status_code=500, detail=msg.INVALID_USER_ID)
         
 @router.put("/update", response_model=schemas.User)
-def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update user
     """
-    query_user = crud.user.get_by_user_id(db=db, user_id=updating_user.user_id)
+    query_user = crud.user.get_by_email(db=db, email=updating_user.email)
     if not query_user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
@@ -78,13 +75,13 @@ def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = 
 
     
 @router.delete("/delete", response_model=schemas.User)
-def delete_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_user(db: Session = Depends(deps.get_db), email:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete user
     """
     user = crud.user.delete(
         db=db,
-        user_id=user_id
+        email=email
     )
     if not user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)

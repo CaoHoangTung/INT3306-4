@@ -26,8 +26,6 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db_obj = User(
             profile=obj_in.profile,
             avatar_path=obj_in.avatar_path,
-            subscription=0,
-            user_id=obj_in.user_id,
             role_id=obj_in.role_id,
             first_name=obj_in.first_name,
             last_name=obj_in.last_name,
@@ -58,8 +56,8 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
     
-    def delete(self, db: Session, *, user_id: str) -> Any:
-        query = db.query(User).filter(User.user_id == user_id)
+    def delete(self, db: Session, *, email: str) -> Any:
+        query = db.query(User).filter(User.email == email)
         deleting_user = query.first()
         if deleting_user:
             deleting_user = User( 
@@ -73,7 +71,6 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
                 last_seen_at = deleting_user.last_seen_at,
                 profile = deleting_user.profile, 
                 avatar_path = deleting_user.avatar_path, 
-                subscription = deleting_user.subscription
             )
             query.delete()
             db.commit()

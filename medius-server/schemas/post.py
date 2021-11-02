@@ -15,8 +15,7 @@ class PostBase(BaseModel):
 
 # Properties to receive via API on creation
 class PostCreate(PostBase):
-    post_id: Optional[int]
-    user_id: int # TODO: don't use this 
+    pass
 
 # Properties to receive via API on update
 class PostUpdate(PostBase):

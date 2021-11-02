@@ -44,35 +44,24 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_us
     return post
 
 @router.post("/create", response_model=schemas.Post)
-def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = Depends(), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new post
     """
-
     try:
         post = crud.post.create(
             db=db, 
-            obj_in=creating_post
+            obj_in=creating_post,
+            user_id=current_user.user_id
         )
-        
-        if list_topics:
-            for loop_topic_id in list_topics:
-                crud.posttopic.create(
-                    db=db,
-                    obj_in=PostTopicCreate(
-                        topic_id=loop_topic_id, 
-                        post_id=post.post_id,
-                        score=1 # TODO: fix to need this 
-                    )
-                )
-
         return post
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=msg.INVALID_POST_ID)
     
+    
 @router.put("/update", response_model=schemas.Post)
-def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = Depends(), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update post
     """

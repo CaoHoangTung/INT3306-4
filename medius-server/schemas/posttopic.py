@@ -21,6 +21,11 @@ class PostTopicCreate(PostTopicBase):
 class PostTopicUpdate(PostTopicBase):
     pass 
 
+class PostTopicDelete(BaseModel):
+    post_id: int 
+    topic_id: int 
+
+
 class PostTopicInDBBase(PostTopicBase):
     class Config:
         orm_mode = True
