@@ -1,20 +1,29 @@
 import API from "./api";
 
-export async function getAllPostsOfUserId(userId) {
-    const response = await API.get(`posts/all/${userId}`);
+export async function getAllPostsOfUserId(id) {
+    const response = await API.get(`posts/all/${id}`);
     return response?.data;
 }
 
-export async function getPost(postId) {
-    const response = await API.get(`posts/view/${postId}`);
+export async function getPost(id) {
+    const response = await API.get(`posts/view/${id}`);
     return response?.data;
 }
 
 export async function createPost(post) {
-    const response = await API.post(`posts/create`, {}, {params: post});
+    const response = await API.post("posts/create", post);
     return response?.data;
 }
 
-export async function deletePost(postId) {
-    const response = await API.delete(`posts/delete?post_id=${postId}`)
+export async function updatePost(post) {
+    const response = await API.post("posts/update", post);
+    return response?.data;
+}
+
+export async function deletePost(id) {
+    var body = {
+        "post_id": id
+    };
+    const response = await API.delete(`posts/delete`, body);
+    return response?.data;
 }
