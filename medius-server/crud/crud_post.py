@@ -34,7 +34,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             print(e)
             return None
 
-    def create(self, db: Session, *, obj_in: PostCreate) -> Post:
+    def create(self, db: Session, *, obj_in: PostCreate, user_id: int) -> Post:
         db_obj = Post(
             content=obj_in.content,
             title=obj_in.title,
@@ -46,7 +46,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             created_at = func.now(),
             updated_at = func.now(),
             published_at = func.now(), # TODO: need to fix thiss
-            user_id = obj_in.user_id, # TODO: don't use thiss 
+            user_id = user_id
         )
 
         db.add(db_obj)

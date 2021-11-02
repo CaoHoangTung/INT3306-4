@@ -12,7 +12,11 @@ class UserPostRelationBase(BaseModel):
 
 # Properties to receive via API on creation
 class UserPostRelationCreate(UserPostRelationBase):
-    pass
+    is_saved: bool
+    is_blocked: bool
+    is_upvote: bool
+    is_downvote: bool
+
     
 # Properties to receive via API on update
 class UserPostRelationUpdate(UserPostRelationBase):
@@ -20,6 +24,10 @@ class UserPostRelationUpdate(UserPostRelationBase):
     is_blocked: Optional[bool] 
     is_upvote: Optional[bool] 
     is_downvote: Optional[bool]
+
+# Properties to receive via API on delete
+class UserPostRelationDelete(UserPostRelationBase):
+    pass
 
 class UserPostRelationInDBBase(UserPostRelationBase):
     is_saved: Optional[bool]

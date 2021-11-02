@@ -12,7 +12,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.posttopic import PostTopicCreate, PostTopicUpdate
+from schemas.posttopic import PostTopicCreate, PostTopicDelete, PostTopicUpdate
 
 router = APIRouter()
 
@@ -78,14 +78,14 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: Post
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-def delete_topic(db: Session = Depends(deps.get_db), post_id:str = None, topic_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_topic(db: Session = Depends(deps.get_db), deleting_posttopic: PostTopicDelete=None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete posttopic
     """
     posttopic = crud.posttopic.delete(
         db=db,
-        topic_id=topic_id, 
-        post_id=post_id
+        topic_id=deleting_posttopic.topic_id, 
+        post_id=deleting_posttopic.post_id
     )
     if not posttopic:
         raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)

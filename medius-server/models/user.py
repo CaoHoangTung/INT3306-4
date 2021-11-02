@@ -17,5 +17,3 @@ class User(Base):
     last_seen_at = Column(DateTime)
     profile = Column(String)
     avatar_path = Column(String)
-    subscription = Column(String)
-    

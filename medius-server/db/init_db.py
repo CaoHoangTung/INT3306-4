@@ -15,7 +15,7 @@ def init_db(db: Session) -> None:
     # the tables un-commenting the next line
     # Base.metadata.create_all(bind=engine)
 
-    user = crud.user.get_by_user_id(db, user_id=settings.FIRST_SUPERUSER)
+    user = crud.user.get_by_email(db, user_id=settings.FIRST_SUPERUSER)
     if not user:
         user_in = schemas.UserCreate(
             user_id=settings.FIRST_SUPERUSER,

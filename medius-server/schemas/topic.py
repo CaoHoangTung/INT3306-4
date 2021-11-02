@@ -13,7 +13,6 @@ class TopicBase(BaseModel):
 
 # Properties to receive via API on creation
 class TopicCreate(TopicBase):
-    topic_id: Optional[int]
     pass
 
 # Properties to receive via API on update

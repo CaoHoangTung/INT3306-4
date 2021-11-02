@@ -12,7 +12,6 @@ class UserBase(BaseModel):
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
-    user_id: Optional[int]
     role_id: int 
     first_name: str 
     last_name: str
@@ -21,7 +20,6 @@ class UserCreate(UserBase):
 
 # Properties to receive via API on update
 class UserUpdate(UserBase):
-    user_id: int 
     role_id: Optional[int]
     first_name: Optional[str]
     last_name: Optional[str]
@@ -29,7 +27,6 @@ class UserUpdate(UserBase):
     password_hash: Optional[str]
 
 class UserInDBBase(UserBase):
-    user_id: int 
     role_id: int 
     first_name: str 
     last_name: str 
@@ -37,7 +34,6 @@ class UserInDBBase(UserBase):
     password_hash: str 
     register_at: Optional[datetime]
     last_seen_at: Optional[datetime]
-    subscription: Optional[str]
 
     class Config:
         orm_mode = True

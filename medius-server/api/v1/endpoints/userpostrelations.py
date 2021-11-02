@@ -13,7 +13,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.userpostrelation import UserPostRelationCreate, UserPostRelationUpdate
+from schemas.userpostrelation import UserPostRelationCreate, UserPostRelationDelete, UserPostRelationUpdate
 from schemas.post import PostUpdate 
 
 router = APIRouter()
@@ -109,14 +109,14 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
 
     
 @router.delete("/delete", response_model=schemas.UserPostRelation)
-def delete_relation(db: Session = Depends(deps.get_db), user_id:str = None, post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def delete_relation(db: Session = Depends(deps.get_db), deleting_relation: UserPostRelationDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete relation
     """
     relation = crud.userpostrelation.delete(
         db=db,
-        user_id=user_id, 
-        post_id=post_id
+        user_id=deleting_relation.user_id, 
+        post_id=deleting_relation.post_id
     )
     if not relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
