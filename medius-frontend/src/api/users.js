@@ -5,12 +5,25 @@ export async function getAllUsers() {
     return response?.data;
 }
 
-export async function createUser(user) {
-    const response = await API.post("/user/create", {}, {params: user});
+export async function getUser(id) {
+    const response = await API.get(`/users/view/${id}`);
     return response?.data;
 }
 
-export async function deleteUser(userId) {
-    const response = await API.delete(`/users/delete?user_id=${userId}`);
+export async function createUser(user) {
+    const response = await API.post("/user/create", user);
+    return response?.data;
+}
+
+export async function updateUser(user) {
+    const response = await API.post("/user/update", user);
+    return response?.data;
+}
+
+export async function deleteUser(id) {
+    var body = {
+        "user_id": id
+    };
+    const response = await API.delete(`/user/delete`, body);
     return response?.data;
 }
