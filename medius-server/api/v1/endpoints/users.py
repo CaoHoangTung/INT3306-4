@@ -43,6 +43,7 @@ def view_user(db: Session = Depends(deps.get_db), email:str = None, current_user
 
 @router.post("/create", response_model=schemas.User)
 def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+# def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = None) -> Any:
     """
     Create new user
     """

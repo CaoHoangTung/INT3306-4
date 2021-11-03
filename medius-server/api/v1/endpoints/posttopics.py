@@ -28,6 +28,34 @@ def view_all_posttopics(db: Session = Depends(deps.get_db)) -> Any:
             
     return posttopics
 
+@router.get("/view-by-post-id/{post_id}", response_model=List[schemas.PostTopic])
+def view_posttopic_by_post_id(post_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View all topics of given post 
+    """
+    posttopics = crud.posttopic.get_by_post_id(
+        db=db, 
+        post_id=post_id
+    )
+    if not isinstance(posttopics, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
+            
+    return posttopics
+
+@router.get("/view-by-topic-id/{topic_id}", response_model=List[schemas.PostTopic])
+def view_posttopic_by_topic_id(topic_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View all posts with given topic 
+    """
+    posttopics = crud.posttopic.get_by_topic_id(
+        db=db, 
+        topic_id=topic_id
+    )
+    if not isinstance(posttopics, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
+            
+    return posttopics
+
 @router.get("/view", response_model=schemas.PostTopic)
 def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...), topic_id:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
