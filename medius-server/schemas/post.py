@@ -15,6 +15,7 @@ class PostBase(BaseModel):
 
 # Properties to receive via API on creation
 class PostCreate(PostBase):
+    published_at: Optional[datetime] = None 
     pass
 
 # Properties to receive via API on update
@@ -23,16 +24,17 @@ class PostUpdate(PostBase):
     downvote: Optional[int]
     upvote: Optional[int]
     view_count: Optional[int]
+    published_at: Optional[datetime] = None 
 
 
 class PostInDBBase(PostBase):
     post_id: int
-    user_id: Optional[int] 
-    created_at: Optional[datetime] 
-    published_at: Optional[datetime] ###### TODO: fixxxx
-    updated_at: Optional[datetime] 
-    upvote: Optional[int]
-    downvote: Optional[int]
+    user_id: int
+    created_at: datetime
+    published_at: datetime 
+    updated_at: datetime
+    upvote: int
+    downvote: int
 
     class Config:
         orm_mode = True

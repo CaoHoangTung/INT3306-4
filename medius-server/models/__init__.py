@@ -7,3 +7,6 @@ from .posttopic import PostTopic
 from .role import Role
 from .user import User
 from .userpostrelation import UserPostRelation
+from .usertopic import UserTopic
+from .userrelation import UserRelation
+from .comment import Comment 

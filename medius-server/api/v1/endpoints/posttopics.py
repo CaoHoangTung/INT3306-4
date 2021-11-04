@@ -88,7 +88,7 @@ def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: 
         raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
     
 @router.put("/update", response_model=schemas.PostTopic)
-def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_posttopic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update posttopic
     """
@@ -106,14 +106,14 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: Post
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-def delete_topic(db: Session = Depends(deps.get_db), deleting_posttopic: PostTopicDelete=None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_posttopic(db: Session = Depends(deps.get_db), *, topic_id: int, post_id: int, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete posttopic
     """
     posttopic = crud.posttopic.delete(
         db=db,
-        topic_id=deleting_posttopic.topic_id, 
-        post_id=deleting_posttopic.post_id
+        topic_id=topic_id, 
+        post_id=post_id
     )
     if not posttopic:
         raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
