@@ -7,7 +7,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     user_id: str
-    role: str
+    is_admin: bool
 
 
 class TokenPayload(BaseModel):
