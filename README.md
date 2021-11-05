@@ -44,11 +44,6 @@ docker-compose -f docker-compose.dev.yml up --scale medius-server=0
 cd medius-server && pip install -r requirements.txt
 ```
 
-- For the first time running, run the initial script to generate superadmin user
-```
-python init_data.py
-```
-
 - Run the server
 ```
 uvicorn main:app --reload

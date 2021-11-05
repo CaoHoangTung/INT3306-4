@@ -10,30 +10,12 @@ version: '3'
 # docker-compose logs --tail 20 $service_name
 
 services:
-    medius-db:
-        image: mysql:8.0
-        environment:   # Set up mysql database name and password
-            MYSQL_ROOT_PASSWORD: Vinbdi@2021
-            MYSQL_DATABASE: dialog-generation-db
-            MYSQL_USER: vinbdi
-            MYSQL_PASSWORD: Vinbdi@2021
-            MYSQL_ROOT_PASSWORD: Vinbdi@2021@2021
-        networks:
-            - medius-network
-        volumes:
-            - ./medius-db/mount:/var/lib/mysql
-            - ./medius-db/sampledb.sql:/docker-entrypoint-initdb.d/sampledb.sql
-        ports:
-            - "3306"
-
     medius-server:
         build:
             context: ./medius-server
             dockerfile: Dockerfile
         environment:
             PRODUCTION: 1
-        depends_on:
-            - medius-db
         networks:
             - medius-network
         ports:
@@ -48,7 +30,7 @@ services:
         networks:
             - medius-network
         ports:
-            - "3000:3000"
+            - "5000:5000"
 
 
 networks:

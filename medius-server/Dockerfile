@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "start.sh"]
+CMD ["/bin/sh", "start.sh"]
