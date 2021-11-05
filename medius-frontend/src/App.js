@@ -7,6 +7,8 @@ import Post from './components/Post'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import React, { useState } from 'react';
 import LoginModal from './components/LoginModal'
+import Topic from "./components/Topic";
+import PostInProfile from "./components/PostInProfile";
 function App() {
   const [show, setShow] = useState(false);
   return (
@@ -62,14 +64,6 @@ function App() {
             title="title"
             contentPreview="contentPreview"
             postTime="2:00:00 PM 10/29/2021"
-          />
-          <Post
-            date="2:00:00 PM 10/29/2021"
-            author="author"
-            description="12345678906542321937581793479217380472314712730497398274891072347213749712930470231947730247239482713094"
-            image="logo512.png"
-            imageLabel="imageLabel"
-            title="title"
           />
         </Container>
       </div>
