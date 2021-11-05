@@ -30,7 +30,7 @@ const Post = (props) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
+    
     return (
         <Card sx={{ maxWidth: 700 }}>
             <CardHeader
