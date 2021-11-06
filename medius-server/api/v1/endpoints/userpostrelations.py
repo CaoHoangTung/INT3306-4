@@ -30,7 +30,36 @@ def view_all_user_post_relations(db: Session = Depends(deps.get_db), current_use
             
     return relations
 
-@router.get("/view", response_model=schemas.Role)
+@router.get("/view-by-user-id/{user_id}", response_model=List[schemas.UserPostRelation])
+def view_relation_by_user_id(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View relations by user_id 
+    """
+    relations = crud.userpostrelation.get_by_user_id(
+        db=db, 
+        user_id=user_id
+    )
+
+    if not isinstance(relations, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
+            
+    return relations
+
+@router.get("/view-by-post-id/{post_id}", response_model=List[schemas.UserPostRelation])
+def view_relation_by_post_id(post_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View relations by post_id 
+    """
+    relations = crud.userpostrelation.get_by_post_id(
+        db=db, 
+        post_id=post_id
+    )
+    if isinstance(relations, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
+    
+    return relations
+
+@router.get("/view", response_model=schemas.UserPostRelation)
 def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), post_id:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View relation
@@ -71,32 +100,32 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
 
-    # update post upvote and downvote 
-    if updating_relation.is_upvote != query_relation.is_upvote:
-        query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
-        updating_post = query_post
-        updating_post.upvote += 1 if updating_relation.is_upvote else -1 
-        crud.post.update(
-            db=db,
-            db_obj=query_post,
-            obj_in=updating_post.__dict__
-        )
+    # # update post upvote and downvote 
+    # if updating_relation.is_upvote != query_relation.is_upvote:
+    #     query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
+    #     updating_post = query_post
+    #     updating_post.upvote += 1 if updating_relation.is_upvote else -1 
+    #     crud.post.update(
+    #         db=db,
+    #         db_obj=query_post,
+    #         obj_in=updating_post.__dict__
+    #     )
 
-    if updating_relation.is_downvote != query_relation.is_downvote:
-        query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
-        updating_post = query_post 
-        updating_post.downvote += 1 if updating_relation.is_downvote else -1
-        crud.post.update(
-            db=db,
-            db_obj=query_post,
-            obj_in=updating_post.__dict__
-        )
+    # if updating_relation.is_downvote != query_relation.is_downvote:
+    #     query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
+    #     updating_post = query_post 
+    #     updating_post.downvote += 1 if updating_relation.is_downvote else -1
+    #     crud.post.update(
+    #         db=db,
+    #         db_obj=query_post,
+    #         obj_in=updating_post.__dict__
+    #     )
 
-    print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    print(updating_relation.is_downvote)
-    print(query_relation.post_id)
-    print(query_relation.user_id)
-    print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    # print(updating_relation.is_downvote)
+    # print(query_relation.post_id)
+    # print(query_relation.user_id)
+    # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         
     relation = crud.userpostrelation.update(
         db=db,

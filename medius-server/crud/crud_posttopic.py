@@ -23,6 +23,28 @@ class CRUDPostTopic(CRUDBase[PostTopic, PostTopicCreate, PostTopicUpdate]):
                 .first()
         except:
             return None
+
+    """
+    Get all posttopics by topic_id
+    """
+    def get_by_topic_id(self, db: Session, *, topic_id: int) -> List[PostTopic]:
+        try:
+            return db.query(PostTopic) \
+                .filter(PostTopic.topic_id == topic_id) \
+                .all()
+        except:
+            return None
+
+    """
+    Get all posttopics by post_id
+    """
+    def get_by_post_id(self, db: Session, *, post_id: int) -> List[PostTopic]:
+        try:
+            return db.query(PostTopic) \
+                .filter(PostTopic.post_id == post_id) \
+                .all()
+        except:
+            return None
     
     """
     Get all posttopics 
