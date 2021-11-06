@@ -13,7 +13,19 @@
         align-items: center;
         justify-content: space-between;
     }
-    .Main_NavBar_List{
-        
+    .Main_NavBar_List {
+        display: flex;
+        ul {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            li {
+                margin-left: 25px;
+                list-style: none;
+            }
+        }
     }
+}
+.LeftSection{
+    border-right: 1px solid gray;
 }

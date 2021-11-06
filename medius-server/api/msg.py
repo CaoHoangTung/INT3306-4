@@ -1,4 +1,3 @@
-INVALID_USER_ID = "Invalid user id"
 DUPLICATE_USER_ID = "Duplicate user id"
 INVALID_CATEGORY_ID = "Invalid category id or conversation id"
 DUPLICATE_CATEGORY_ID = "Duplicate category id"
@@ -7,3 +6,10 @@ NO_UNASSIGNED_CONVERSATION = "There are no conversation that need to be annotate
 INVALID_MESSAGE_ID = "Invalid message id"
 INVALID_IMPORT_FILE_FORMAT = "Invalid import file format"
 DATABASE_ERROR = "Database error"
+
+INVALID_POST_ID = "Invalid post id"
+INVALID_TOPIC_ID = "Invalid topic id"
+INVALID_POSTTOPIC_ID = "Invalid posttopic id"
+INVALID_USER_ID = "Invalid user id"
+INVALID_ROLE_ID = "Invalid role id"
+INVALID_USERPOST_ID = "Invalid userpost id"

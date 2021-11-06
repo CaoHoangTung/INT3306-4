@@ -1,4 +1,8 @@
 import { Container } from "@material-ui/core";
+import Search from "../components/Search.js";
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 function MainNavBar() {
     return (
         <div className="MainNavBar">
@@ -9,7 +13,12 @@ function MainNavBar() {
                         alt="logo"
                     />
                     <div className="Main_NavBar_List">
-                        <p>test</p>
+                        <ul>
+                            <li><Search/></li>
+                            <li><BookmarksIcon/></li>
+                            <li><NotificationsNoneIcon/></li>
+                            <li><AccountCircleIcon/></li>
+                        </ul>
                     </div>
                 </div>
 

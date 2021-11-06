@@ -1,26 +1,40 @@
 from typing import Optional
+from datetime import datetime
+from fastapi.datastructures import Default
 
 from pydantic import BaseModel
 
 
 # Shared properties
 class UserBase(BaseModel):
-    user_id: str
-    role: str
+    profile: Optional[str]
+    avatar_path: Optional[str]
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
-    user_id: str
+    role_id: int 
+    first_name: str 
+    last_name: str
+    email: str 
     password: str
-
 
 # Properties to receive via API on update
 class UserUpdate(UserBase):
-    password: Optional[str] = None
-    role: Optional[str] = None
-
+    role_id: Optional[int]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[str]
+    password_hash: Optional[str]
 
 class UserInDBBase(UserBase):
+    role_id: int 
+    first_name: str 
+    last_name: str 
+    email: str 
+    password_hash: str 
+    register_at: Optional[datetime]
+    last_seen_at: Optional[datetime]
+
     class Config:
         orm_mode = True
 
