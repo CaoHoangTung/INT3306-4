@@ -33,21 +33,7 @@ const Post = (props) => {
     
     return (
         <Card sx={{ maxWidth: 700 }}>
-            <CardHeader
-                avatar={
-                    <Avatar
-                        alt={props.author}
-                        src={props.image}
-                    />
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title={props.author}
-                subheader={props.date}
-            />
+
             <CardMedia
                 component="img"
                 height="194"

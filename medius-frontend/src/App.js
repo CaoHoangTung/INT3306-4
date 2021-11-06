@@ -9,6 +9,8 @@ import React, { useState } from 'react';
 import LoginModal from './components/LoginModal'
 import Topic from "./components/Topic";
 import PostInProfile from "./components/PostInProfile";
+import PostPreview from "./components/PostPreview";
+import UserIntro from './components/UserIntro';
 function App() {
   const [show, setShow] = useState(false);
   return (
@@ -68,7 +70,13 @@ function App() {
         </Container>
       </div>
       <Footer />
+      <UserIntro
+        author = "user"
+        image = "logo512.png"
+        description = "Hello World! Hello World! Hello World! Hello World! Hello World!"
+      />
     </div>
+
   );
 }
 
