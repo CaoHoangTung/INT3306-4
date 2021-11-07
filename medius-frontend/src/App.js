@@ -7,7 +7,7 @@ import Post from './components/Post'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import React, { useState } from 'react';
 import LoginModal from './components/LoginModal'
-import Topic from "./components/Topic";
+import Topic from "./components/shared/Topic";
 import PostInProfile from "./components/PostInProfile";
 import PostPreview from "./components/PostPreview";
 import UserIntro from './components/UserIntro';

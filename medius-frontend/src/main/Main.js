@@ -1,5 +1,6 @@
 import { AppBar, Container } from "@material-ui/core";
 import { color } from "@mui/system";
+import Footer from "../components/Footer.js";
 import './Main.scss';
 import MainNavBar from "./MainNavBar.js";
 import MainSection from "./MainSection.js";

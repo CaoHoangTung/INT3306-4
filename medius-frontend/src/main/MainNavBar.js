@@ -1,5 +1,5 @@
 import { Container } from "@material-ui/core";
-import Search from "../components/Search.js";
+import Search from "./Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';

@@ -7,10 +7,10 @@ function MainSection() {
         <div className="MainSection_Container">
             <Container>
             <Grid container spacing={0}>
-                <Grid item xs={7}>
+                <Grid item xs={8}>
                     <LeftSection/>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                     <RightSection/>
                 </Grid>
             </Grid>

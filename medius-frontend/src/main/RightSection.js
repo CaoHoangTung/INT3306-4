@@ -1,7 +1,12 @@
+import { Container } from "@material-ui/core";
+import RecommendedTopic from "./RecommendedTopic.js";
+
 function RightSection(){
     return(
         <div className="RightSection">
-            <p>This is right section</p>
+            <Container>
+                <RecommendedTopic/>
+            </Container>
         </div>
     )
 }
