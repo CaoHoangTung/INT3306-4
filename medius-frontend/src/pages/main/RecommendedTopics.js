@@ -1,4 +1,4 @@
-import Topic from "../components/shared/Topic.js";
+import Topic from "../../components/shared/Topic.js";
 import './Main.scss'
 function RecommendedTopics() {
     return (

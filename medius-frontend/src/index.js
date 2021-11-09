@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Main from './main/Main'
+import Main from './pages/main/Main'
 import {
   BrowserRouter as Router,
   Route
