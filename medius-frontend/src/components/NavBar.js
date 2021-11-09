@@ -16,12 +16,12 @@ const NavBar = () => {
                             <li>Our Story</li>
                             <li>Membership</li>
                             <li>Write</li>
-                            <li onClick={()=>setShow(true)}>Sign in</li>
+                            <li onClick={() => setShow(true)}>Sign in</li>
                             <li>
-                            <Button onClick={()=>setShow(true)}>
-                                Get started
-                            </Button >
-                            <LoginModal onClose={()=>setShow(false)} show={show}/>
+                                <Button onClick={() => setShow(true)}>
+                                    Get started
+                                </Button >
+                                <LoginModal onClose={() => setShow(false)} show={show} />
                             </li>
                         </ul>
                     </div>

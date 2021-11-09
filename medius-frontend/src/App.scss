@@ -209,3 +209,35 @@ code {
     }
 }
 
+.UserIntro {
+    display: flex;
+    max-width: 500px;
+    .avatar {
+        //border: solid 1px red;
+        padding: 0px;
+
+    }
+    .text {
+
+        //border: solid 1px red;
+        color: #757575;
+        word-wrap: break-word;
+    }
+    .header {
+        //border: solid 1px red;
+        display: inline-block;
+        cursor:pointer;
+        align-self: center;
+        font: bold;
+    }
+    .descrip {
+        padding: 2px;
+        display: inline-block;
+    }
+    .follow {
+        //border: solid 1px red;
+        font-size: 1px;
+        display: inline-block;
+        align-self: center;
+    }
+}
