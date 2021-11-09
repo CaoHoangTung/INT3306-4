@@ -1,16 +1,15 @@
 import { Button, Container, Grid } from '@material-ui/core';
 import './App.scss';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
-import MediumPosts from './components/PostPreview'
-import Post from './components/Post'
+import NavBar from './NavBar';
+import Footer from './Footer';
+import MediumPosts from './PostPreview'
+import Post from './Post'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import React, { useState } from 'react';
-import LoginModal from './components/LoginModal'
-import Topic from "./components/shared/Topic";
-import PostInProfile from "./components/PostInProfile";
-import PostPreview from "./components/PostPreview";
-import UserIntro from './components/UserIntro';
+import LoginModal from './LoginModal'
+import Topic from '../../components/shared/Topic.js';
+import PostInProfile from "./PostInProfile";
+import UserIntro from './UserIntro';
 function App() {
   const [show, setShow] = useState(false);
   return (
@@ -70,11 +69,6 @@ function App() {
         </Container>
       </div>
       <Footer />
-      <UserIntro
-        author = "user"
-        image = "logo512.png"
-        description = "Hello World! Hello World! Hello World! Hello World! Hello World!"
-      />
     </div>
 
   );

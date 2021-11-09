@@ -1,4 +1,4 @@
-import MediumPosts from "../../components/PostPreview.js";
+import MediumPosts from "../home/PostPreview.js";
 function NewsFeed() {
     return (
         <div>
