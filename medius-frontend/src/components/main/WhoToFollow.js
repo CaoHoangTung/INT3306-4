@@ -1,4 +1,4 @@
-import UserIntro from '../../components/UserIntro.js'
+import UserIntro from '../home/UserIntro.js'
 function WhoToFollow() {
     return (
         <div className="WhoToFollow">

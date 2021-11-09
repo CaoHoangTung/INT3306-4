@@ -1,5 +1,5 @@
 import { Container } from "@material-ui/core";
-import './Main.scss';
+import '../../pages/main/Main.scss'
 import NewsFeed from "./NewsFeed.js";
 import YourTopics from "./YourTopics.js";
 function LeftSection(){
