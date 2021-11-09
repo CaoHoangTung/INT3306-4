@@ -9,8 +9,7 @@ class Search extends React.Component {
                 style={{
                     margin: "0 auto",
                     height: '40px',
-                    border: "none",
-                    
+                    border: "none",                 
                 }}
                 placeholder = 'Search medius'
                

@@ -18,14 +18,7 @@ function YourTopics() {
                 <Topic />
                 <Topic />
                 <Topic />
-                <Topic />
-                <Topic />
-                <Topic />
-                <Topic />
-                <Topic />
-                <Topic />
-                <Topic />
-               
+
             </div>
         </div>
     );

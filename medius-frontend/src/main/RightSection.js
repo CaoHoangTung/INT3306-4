@@ -1,5 +1,5 @@
 import { Container } from "@material-ui/core";
-import RecommendedTopic from "./RecommendedTopic.js";
+import RecommendedTopics from "./RecommendedTopics.js";
 import { Grid } from "@material-ui/core";
 import WhoToFollow from "./WhoToFollow.js";
 function RightSection(){
@@ -8,7 +8,7 @@ function RightSection(){
             <Container>
                 <Grid container>
                 <Grid item xs={8}>
-                <RecommendedTopic/>
+                <RecommendedTopics/>
                 </Grid>
                 <Grid item xs={8}>
                 <WhoToFollow/>

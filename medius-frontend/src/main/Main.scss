@@ -34,13 +34,30 @@
     .YourTopics {
         display: flex;
         flex-wrap: wrap;
+        align-items: baseline;
         width: 100%;
         height: 100%;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid gray;
 
         .TopicContainer {
             display: flex;
             flex-wrap: wrap;
         }
+    }
+}
+.RightSection {
+    .RecommendedTopic {
+        display: flex;
+        flex-direction: column;
+
+        .RecommendedTopic_Container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+    }
+    .WhoToFollow {
+        display: flex;
+        flex-direction: column;
     }
 }
