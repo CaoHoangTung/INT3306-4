@@ -1,5 +1,5 @@
 import Topic from "../../components/shared/Topic.js";
-import './Main.scss'
+import '../../pages/main/Main.scss'
 function RecommendedTopics() {
     return (
         <div className="RecommendedTopic">

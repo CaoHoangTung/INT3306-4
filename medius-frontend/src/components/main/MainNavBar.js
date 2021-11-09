@@ -3,6 +3,7 @@ import Search from "./Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import '../../pages/main/Main.scss'
 function MainNavBar() {
     return (
         <div className="MainNavBar">
