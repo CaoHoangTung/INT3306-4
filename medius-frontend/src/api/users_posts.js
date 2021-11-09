@@ -5,6 +5,16 @@ export async function getUserPostAll() {
     return response?.data;
 }
 
+export async function getUserPostByUserId(userId) {
+    const response = await API.get(`/userpost/view-by-user-id/${userId}`);
+    return response?.data;
+}
+
+export async function getUserPostByPostId(postId) {
+    const response = await API.get(`/userpost/view-by-post-id/${postId}`);
+    return response?.data;
+}
+
 export async function getUserPost(userId, postId) {
     const response = await API.get(`/userpost/view?user_id=${userId}&post_id=${postId}`);
     return response?.data;
