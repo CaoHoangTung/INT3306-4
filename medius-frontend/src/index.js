@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Main from './pages/main/Main'
+import Main from './pages/main'
 import {
   BrowserRouter as Router,
   Route
@@ -10,7 +10,7 @@ import {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Main/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
