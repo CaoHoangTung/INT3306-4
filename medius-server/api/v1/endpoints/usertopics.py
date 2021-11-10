@@ -76,17 +76,26 @@ def create_usertopic(db: Session = Depends(deps.get_db), *, creating_usertopic: 
     """
     Create new usertopic
     """
-
-    try:
-        usertopic = crud.usertopic.create(
-            db=db, 
-            obj_in=creating_usertopic
+    query_usertopic = crud.usertopic.get_by_id(db=db, topic_id=creating_usertopic.topic_id, user_id=creating_usertopic.user_id)
+    if query_usertopic:
+        updating_usertopic = creating_usertopic
+        usertopic = crud.usertopic.update(
+            db=db,
+            db_obj=query_usertopic,
+            obj_in=updating_usertopic
         )
         return usertopic
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_USERTOPIC_ID)
-    
+    else: 
+        try:
+            usertopic = crud.usertopic.create(
+                db=db, 
+                obj_in=creating_usertopic
+            )
+            return usertopic
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=msg.INVALID_USERTOPIC_ID)
+        
 @router.put("/update", response_model=schemas.UserTopic)
 def update_usertopic(db: Session = Depends(deps.get_db), *, updating_usertopic: UserTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """

@@ -129,20 +129,29 @@ def view_relation(db: Session = Depends(deps.get_db), user_id_1:int = Query(...)
     return relation
 
 @router.post("/create", response_model=schemas.UserRelation)
-def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserRelation, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserRelationCreate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Create new relation
     """
-
-    try:
-        relation = crud.userrelation.create(
-            db=db, 
-            obj_in=creating_relation
+    query_relation = crud.userrelation.get_by_id(db=db, user_id_1=creating_relation.user_id_1, user_id_2=creating_relation.user_id_2)
+    if query_relation:
+        updating_relation = creating_relation 
+        relation = crud.userrelation.update(
+            db=db,
+            db_obj=query_relation,
+            obj_in=updating_relation
         )
-        return relation
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_USERRELATION_ID)
+        return relation 
+    else: 
+        try:
+            relation = crud.userrelation.create(
+                db=db, 
+                obj_in=creating_relation
+            )
+            return relation
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=msg.INVALID_USERRELATION_ID)
     
 @router.put("/update", response_model=schemas.UserRelation)
 def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserRelationUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:

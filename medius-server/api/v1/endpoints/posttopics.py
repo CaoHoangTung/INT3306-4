@@ -76,16 +76,29 @@ def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: 
     """
     Create new posttopic
     """
-
-    try:
-        posttopic = crud.posttopic.create(
-            db=db, 
-            obj_in=creating_posttopic
+    query_relation = crud.posttopic.get_by_id(
+        db=db,
+        post_id=creating_posttopic.post_id,
+        topic_id=creating_posttopic.topic_id
+    )
+    if query_relation:
+        updating_relation = creating_posttopic 
+        relation = crud.userpostrelation.update(
+            db=db,
+            db_obj=query_relation,
+            obj_in=updating_relation
         )
-        return posttopic
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
+        return relation
+    else: 
+        try:
+            posttopic = crud.posttopic.create(
+                db=db, 
+                obj_in=creating_posttopic
+            )
+            return posttopic
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
     
 @router.put("/update", response_model=schemas.PostTopic)
 def update_posttopic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
