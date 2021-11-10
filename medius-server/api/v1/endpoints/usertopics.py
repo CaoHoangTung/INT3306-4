@@ -106,14 +106,14 @@ def update_usertopic(db: Session = Depends(deps.get_db), *, updating_usertopic: 
 
     
 @router.delete("/delete", response_model=schemas.UserTopic)
-def delete_usertopic(db: Session = Depends(deps.get_db), *, topic_id: int, user_id: int, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_usertopic(db: Session = Depends(deps.get_db), *, deleting_relation: UserTopicDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete usertopic
     """
     usertopic = crud.usertopic.delete(
         db=db,
-        topic_id=topic_id, 
-        user_id=user_id
+        topic_id=deleting_relation.topic_id, 
+        user_id=deleting_relation.user_id
     )
     if not usertopic:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERTOPIC_ID)

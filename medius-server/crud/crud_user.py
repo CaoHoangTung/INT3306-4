@@ -56,8 +56,8 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
     
-    def delete(self, db: Session, *, email: str) -> Any:
-        query = db.query(User).filter(User.email == email)
+    def delete(self, db: Session, *, user_id: int) -> Any:
+        query = db.query(User).filter(User.user_id == user_id)
         deleting_user = query.first()
         if deleting_user:
             deleting_user = User( 

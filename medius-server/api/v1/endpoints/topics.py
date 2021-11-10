@@ -12,7 +12,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.topic import TopicCreate, TopicUpdate
+from schemas.topic import TopicCreate, TopicDelete, TopicUpdate
 
 router = APIRouter()
 
@@ -77,13 +77,13 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpd
 
     
 @router.delete("/delete", response_model=schemas.Topic)
-def delete_topic(db: Session = Depends(deps.get_db), topic_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def delete_topic(db: Session = Depends(deps.get_db), deleting_topic: TopicDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete topic
     """
     topic = crud.topic.delete(
         db=db,
-        topic_id=topic_id
+        topic_id=deleting_topic.topic_id
     )
     if not topic:
         raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)

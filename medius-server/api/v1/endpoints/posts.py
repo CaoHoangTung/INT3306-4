@@ -12,7 +12,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.post import PostCreate, PostUpdate
+from schemas.post import PostCreate, PostDelete, PostUpdate
 from schemas.posttopic import PostTopicCreate
 
 router = APIRouter()
@@ -79,13 +79,13 @@ def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = 
 
     
 @router.delete("/delete", response_model=schemas.Post)
-def delete_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete post
     """
     post = crud.post.delete(
         db=db,
-        post_id=post_id
+        post_id=deleting_post.post_id
     )
     if not post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)

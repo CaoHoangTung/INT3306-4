@@ -132,7 +132,7 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
         if relation:
             relation = UserRelation(
                 user_id_1=relation.user_id_1, 
-                use_id_2=relation.user_id_2,
+                user_id_2=relation.user_id_2,
                 is_following=relation.is_following, 
                 is_blocked=relation.is_blocked
             )

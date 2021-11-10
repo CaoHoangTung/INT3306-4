@@ -106,14 +106,14 @@ def update_posttopic(db: Session = Depends(deps.get_db), *, updating_posttopic: 
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-def delete_posttopic(db: Session = Depends(deps.get_db), *, topic_id: int, post_id: int, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_posttopic(db: Session = Depends(deps.get_db), *, deleting_relation: PostTopicDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete posttopic
     """
     posttopic = crud.posttopic.delete(
         db=db,
-        topic_id=topic_id, 
-        post_id=post_id
+        topic_id=deleting_relation.topic_id, 
+        post_id=deleting_relation.post_id
     )
     if not posttopic:
         raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)

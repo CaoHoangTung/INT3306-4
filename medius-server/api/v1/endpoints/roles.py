@@ -12,7 +12,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.role import RoleCreate, RoleUpdate
+from schemas.role import RoleCreate, RoleDelete, RoleUpdate
 
 router = APIRouter()
 
@@ -77,13 +77,13 @@ def update_role(db: Session = Depends(deps.get_db), *, updating_role: RoleUpdate
 
     
 @router.delete("/delete", response_model=schemas.Role)
-def delete_role(db: Session = Depends(deps.get_db), role_id:str = None) -> Any:
+def delete_role(db: Session = Depends(deps.get_db), deleting_role: RoleDelete = None) -> Any:
     """
     Delete role
     """
     role = crud.role.delete(
         db=db,
-        role_id=role_id
+        role_id=deleting_role.role_id
     )
     if not role:
         raise HTTPException(status_code=404, detail=msg.INVALID_ROLE_ID)

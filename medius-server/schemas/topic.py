@@ -19,10 +19,12 @@ class TopicCreate(TopicBase):
 class TopicUpdate(TopicBase):
     topic_id: int 
 
+class TopicDelete(BaseModel):
+    topic_id: int 
 
 class TopicInDBBase(TopicBase):
     topic_id: int
-    created_at: Optional[datetime]
+    created_at: datetime
 
     class Config:
         orm_mode = True
