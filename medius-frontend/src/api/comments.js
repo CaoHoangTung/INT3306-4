@@ -30,9 +30,9 @@ export async function updateComment(comment) {
     return response?.data;
 }
 
-export async function deleteComment(id) {
+export async function deleteComment(commendId) {
     var body = {
-        comment_id: id
+        comment_id: commendId
     };
     const response = await API.delete("/comment/delete", { data: body });
     return response?.data;
