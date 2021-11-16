@@ -1,0 +1,63 @@
+:root {
+    box-sizing: border-box;
+}
+
+.MainNavBar {
+    display: flex;
+    img {
+        max-width: 200px;
+    }
+    box-shadow: 0 4px 8px 0 rgba(223, 218, 218, 0.2), 0 1px 20px 0 rgba(218, 209, 209, 0.19);
+    .Main_NavBar_Container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .Main_NavBar_List {
+        display: flex;
+
+        ul {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            li {
+                margin-left: 25px;
+                list-style: none;
+            }
+        }
+    }
+}
+.LeftSection {
+    border-right: 1px solid gray;
+    padding: 0px;
+    margin: 0px;
+    .YourTopics {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid gray;
+
+        .TopicContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+.RightSection {
+    .RecommendedTopic {
+        display: flex;
+        flex-direction: column;
+
+        .RecommendedTopic_Container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+    }
+    .WhoToFollow {
+        display: flex;
+        flex-direction: column;
+    }
+}
