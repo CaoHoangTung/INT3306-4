@@ -15,7 +15,7 @@ function App() {
    * Consist of 3 item: route string, component, exact
    */
   const commonRouters = [
-    ["/", <Home />, true]
+    ["/", <Home/>, true]
   ];
   
   const userRouters = [
