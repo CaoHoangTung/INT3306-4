@@ -4,6 +4,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import '../../pages/main/Main.scss'
+import { logout } from "../../api/login.js";
 function MainNavBar() {
     return (
         <div className="MainNavBar">
@@ -19,6 +20,10 @@ function MainNavBar() {
                             <li><BookmarksIcon/></li>
                             <li><NotificationsNoneIcon/></li>
                             <li><AccountCircleIcon/></li>
+                            <button onClick={() => {
+                                logout();
+                                window.location.href = "/";
+                            }}>Logout</button>
                         </ul>
                     </div>
                 </div>

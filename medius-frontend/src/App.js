@@ -20,7 +20,8 @@ function App() {
   
   const userRouters = [
     ["/my-profile", <p>Profile</p>, true],
-    ["/", <Main />, true]
+    ["/", <Main />, true],
+    ["/topic/:topic_id", <p>Topic</p>, true]
   ];
 
   const adminRouters = [
