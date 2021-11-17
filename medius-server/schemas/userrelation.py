@@ -14,12 +14,12 @@ class UserRelationBase(BaseModel):
 # Properties to receive via API on creation
 class UserRelationCreate(UserRelationBase):
     is_following: Optional[bool]
-    is_blocked: Optional[bool]    
+    is_blocking: Optional[bool]    
 
 # Properties to receive via API on update
 class UserRelationUpdate(UserRelationBase):
     is_following: Optional[bool]
-    is_blocked: Optional[bool]
+    is_blocking: Optional[bool]
 
 class UserRelationDelete(BaseModel):
     user_id_1: int 
@@ -27,7 +27,7 @@ class UserRelationDelete(BaseModel):
 
 class UserRelationInDBBase(UserRelationBase):
     is_following: bool
-    is_blocked: bool
+    is_blocking: bool
 
     class Config:
         orm_mode = True
