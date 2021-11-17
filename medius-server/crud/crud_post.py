@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional, Union, List
 
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import func, update
+from  sqlalchemy.sql.expression import func, null, update
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
@@ -43,9 +43,9 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             view_count = 0,
             upvote = 0,
             downvote = 0,
+            # published_at = func.now(), ##### TODO: need to fix this --> this will return an exception but also create it 
             created_at = func.now(),
             updated_at = func.now(),
-            published_at = func.now(), # TODO: need to fix thiss
             user_id = user_id
         )
 
@@ -73,13 +73,16 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
                 title = deleting_post.title, 
                 content = deleting_post.content, 
                 created_at = deleting_post.created_at, 
+                updated_at = deleting_post.updated_at,
                 published_at = deleting_post.published_at, 
                 preview_image_path = deleting_post.preview_image_path,
                 cover_image_path = deleting_post.cover_image_path,
                 upvote = deleting_post.upvote,
                 downvote = deleting_post.downvote,
-                post_id = deleting_post.post_id
+                post_id = deleting_post.post_id,
+                view_count = deleting_post.view_count
             )
+
             query.delete()
             db.commit()
         return deleting_post

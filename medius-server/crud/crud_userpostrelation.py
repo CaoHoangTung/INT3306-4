@@ -23,6 +23,29 @@ class CRUDUserPostRelation(CRUDBase[UserPostRelation, UserPostRelationCreate, Us
                 .first()
         except:
             return None
+
+    """
+    Get relationships by user id
+    """
+    def get_by_user_id(self, db: Session, *, user_id: int) -> List[UserPostRelation]:
+        try:
+            return db.query(UserPostRelation) \
+                .filter(UserPostRelation.user_id == user_id) \
+                .all()
+        except:
+            return None
+
+    """
+    Get relationships by post_id
+    """
+    def get_by_post_id(self, db: Session, *, post_id: int) -> List[UserPostRelation]:
+        try:
+            return db.query(UserPostRelation) \
+                .filter(UserPostRelation.post_id == post_id) \
+                .all()
+        except:
+            return None
+
     
     """
     Get all relationships  
@@ -40,10 +63,10 @@ class CRUDUserPostRelation(CRUDBase[UserPostRelation, UserPostRelationCreate, Us
         db_obj = UserPostRelation(
             user_id=obj_in.user_id, 
             post_id=obj_in.post_id,
-            is_saved = False, 
-            is_blocked = False, 
-            is_upvote = False, 
-            is_downvote = False
+            is_saved = obj_in.is_saved, 
+            is_blocked = obj_in.is_blocked, 
+            is_upvote = obj_in.is_upvote, 
+            is_downvote = obj_in.is_downvote
         )
 
         db.add(db_obj)

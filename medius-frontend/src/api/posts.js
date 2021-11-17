@@ -20,9 +20,9 @@ export async function updatePost(post) {
     return response?.data;
 }
 
-export async function deletePost(id) {
+export async function deletePost(postId) {
     var body = {
-        "post_id": id
+        "post_id": postId
     };
     const response = await API.delete(`posts/delete`, body);
     return response?.data;

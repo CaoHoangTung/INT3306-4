@@ -38,7 +38,7 @@ class CRUDRole(CRUDBase[Role, RoleCreate, RoleUpdate]):
     def create(self, db: Session, *, obj_in: RoleCreate) -> Role:
         db_obj = Role(
             role_name=obj_in.role_name, 
-            is_admin=obj_in.is_admin
+            is_admin=obj_in.is_admin,
         )
 
         db.add(db_obj)

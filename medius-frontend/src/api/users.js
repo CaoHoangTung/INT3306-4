@@ -20,9 +20,9 @@ export async function updateUser(user) {
     return response?.data;
 }
 
-export async function deleteUser(id) {
+export async function deleteUser(email) {
     var body = {
-        "user_id": id
+        "email": email
     };
     const response = await API.delete(`/user/delete`, body);
     return response?.data;

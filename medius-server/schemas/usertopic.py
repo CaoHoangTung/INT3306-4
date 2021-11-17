@@ -7,32 +7,34 @@ from schemas.message import Message
 
 
 # Shared properties
-class PostTopicBase(BaseModel):
-    post_id: int 
+class UserTopicBase(BaseModel):
+    user_id: int 
     topic_id: int 
 
 
 # Properties to receive via API on creation
-class PostTopicCreate(PostTopicBase):
+class UserTopicCreate(UserTopicBase):
     score: Optional[int]
+    pass
 
 # Properties to receive via API on update
-class PostTopicUpdate(PostTopicBase):
+class UserTopicUpdate(UserTopicBase):
     score: Optional[int]
+    pass 
 
-class PostTopicDelete(BaseModel):
-    post_id: int 
+class UserTopicDelete(BaseModel):
+    user_id: int 
     topic_id: int 
 
 
-class PostTopicInDBBase(PostTopicBase):
+class UserTopicInDBBase(UserTopicBase):
     score: int 
-    
+
     class Config:
         orm_mode = True
 
 
 # Additional properties to return via API
-class PostTopic(PostTopicInDBBase):
+class UserTopic(UserTopicInDBBase):
     pass
 

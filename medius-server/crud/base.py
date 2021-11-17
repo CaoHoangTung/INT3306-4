@@ -58,6 +58,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 setattr(db_obj, field, update_data[field])
 
         print("----------------------------")
+        print(obj_data)
         print(obj_in)
         print(jsonable_encoder(db_obj))
         print("----------------------------")

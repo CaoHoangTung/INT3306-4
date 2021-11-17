@@ -20,9 +20,9 @@ export async function updateTopic(topic) {
     return response?.data;
 }
 
-export async function deleteTopic(id) {
+export async function deleteTopic(topicId) {
     var body = {
-        'topic_id': id
+        'topic_id': topicId
     };
     const response = await API.delete(`/topic/delete`, body);
     return response?.data;

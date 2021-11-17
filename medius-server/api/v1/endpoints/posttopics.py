@@ -28,6 +28,34 @@ def view_all_posttopics(db: Session = Depends(deps.get_db)) -> Any:
             
     return posttopics
 
+@router.get("/view-by-post-id/{post_id}", response_model=List[schemas.PostTopic])
+def view_posttopic_by_post_id(post_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View all topics of given post 
+    """
+    posttopics = crud.posttopic.get_by_post_id(
+        db=db, 
+        post_id=post_id
+    )
+    if not isinstance(posttopics, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
+            
+    return posttopics
+
+@router.get("/view-by-topic-id/{topic_id}", response_model=List[schemas.PostTopic])
+def view_posttopic_by_topic_id(topic_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View all posts with given topic 
+    """
+    posttopics = crud.posttopic.get_by_topic_id(
+        db=db, 
+        topic_id=topic_id
+    )
+    if not isinstance(posttopics, List):
+        raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
+            
+    return posttopics
+
 @router.get("/view", response_model=schemas.PostTopic)
 def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...), topic_id:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
@@ -48,19 +76,32 @@ def create_posttopic(db: Session = Depends(deps.get_db), *, creating_posttopic: 
     """
     Create new posttopic
     """
-
-    try:
-        posttopic = crud.posttopic.create(
-            db=db, 
-            obj_in=creating_posttopic
+    query_relation = crud.posttopic.get_by_id(
+        db=db,
+        post_id=creating_posttopic.post_id,
+        topic_id=creating_posttopic.topic_id
+    )
+    if query_relation:
+        updating_relation = creating_posttopic 
+        relation = crud.userpostrelation.update(
+            db=db,
+            db_obj=query_relation,
+            obj_in=updating_relation
         )
-        return posttopic
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
+        return relation
+    else: 
+        try:
+            posttopic = crud.posttopic.create(
+                db=db, 
+                obj_in=creating_posttopic
+            )
+            return posttopic
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=msg.INVALID_POSTTOPIC_ID)
     
 @router.put("/update", response_model=schemas.PostTopic)
-def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_posttopic(db: Session = Depends(deps.get_db), *, updating_posttopic: PostTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update posttopic
     """
@@ -78,14 +119,14 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_posttopic: Post
 
     
 @router.delete("/delete", response_model=schemas.PostTopic)
-def delete_topic(db: Session = Depends(deps.get_db), deleting_posttopic: PostTopicDelete=None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_posttopic(db: Session = Depends(deps.get_db), *, deleting_relation: PostTopicDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete posttopic
     """
     posttopic = crud.posttopic.delete(
         db=db,
-        topic_id=deleting_posttopic.topic_id, 
-        post_id=deleting_posttopic.post_id
+        topic_id=deleting_relation.topic_id, 
+        post_id=deleting_relation.post_id
     )
     if not posttopic:
         raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)

@@ -38,6 +38,8 @@ class UserInDBBase(UserBase):
     class Config:
         orm_mode = True
 
+class UserDelete(BaseModel):
+    user_id: int  
 
 # Additional properties to return via API
 class User(UserInDBBase):

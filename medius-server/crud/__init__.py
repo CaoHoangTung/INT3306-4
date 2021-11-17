@@ -8,6 +8,9 @@ from .crud_topic import topic
 from .crud_posttopic import posttopic
 from .crud_role import role
 from .crud_userpostrelation import userpostrelation
+from .crud_usertopic import usertopic
+from .crud_userrelation import userrelation
+from .crud_comment import comment 
 # For a new basic set of CRUD operations you could just do
 
 # from .base import CRUDBase
