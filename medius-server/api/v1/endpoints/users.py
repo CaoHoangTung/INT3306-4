@@ -31,7 +31,7 @@ def view_user(db: Session = Depends(deps.get_db), email:str = None, current_user
     """
     View user
     """
-    user = crud.user.get_by_email(
+    user = crud.user.get_by_id(
         db=db, 
         email=email
     )
