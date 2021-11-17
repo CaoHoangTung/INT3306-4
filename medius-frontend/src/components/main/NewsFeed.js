@@ -1,4 +1,5 @@
-import MediumPosts from "../components/PostPreview.js";
+import MediumPosts from "../home/PostPreview.js";
+import '../../pages/main/Main.scss'
 function NewsFeed() {
     return (
         <div>

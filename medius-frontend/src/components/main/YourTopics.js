@@ -1,5 +1,5 @@
-import Topic from "../components/shared/Topic.js";
-import { Grid } from "@material-ui/core";
+import Topic from "../shared/Topic.js";
+
 function YourTopics() {
     return (
         <div className="YourTopics">
