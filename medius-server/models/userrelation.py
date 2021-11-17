@@ -8,5 +8,5 @@ from db.base_class import Base
 class UserRelation(Base):
     user_id_1 = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
     user_id_2 = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
-    is_following = Column(Boolean)
-    is_blocked = Column(Boolean)
+    is_following = Column(Boolean, default=False)
+    is_blocked = Column(Boolean, default=False)

@@ -8,4 +8,4 @@ from db.base_class import Base
 class UserTopic(Base):
     user_id = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
     topic_id = Column(Integer, ForeignKey("Topic.topic_id"), primary_key=True)
-    score = Column(Float)
+    score = Column(Float, default=0)

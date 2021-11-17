@@ -10,16 +10,15 @@ from schemas.message import Message
 class PostTopicBase(BaseModel):
     post_id: int 
     topic_id: int 
-    score: int
 
 
 # Properties to receive via API on creation
 class PostTopicCreate(PostTopicBase):
-    pass
+    score: Optional[int]
 
 # Properties to receive via API on update
 class PostTopicUpdate(PostTopicBase):
-    pass 
+    score: Optional[int]
 
 class PostTopicDelete(BaseModel):
     post_id: int 
@@ -27,6 +26,8 @@ class PostTopicDelete(BaseModel):
 
 
 class PostTopicInDBBase(PostTopicBase):
+    score: int 
+    
     class Config:
         orm_mode = True
 

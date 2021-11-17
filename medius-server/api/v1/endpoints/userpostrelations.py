@@ -1,11 +1,16 @@
 from datetime import timedelta
+import json
 from typing import Any, List
+from fastapi.encoders import jsonable_encoder
+import requests 
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import update
 from sqlalchemy.sql.functions import user
+from starlette.responses import RedirectResponse
+from starlette.requests import Request
 
 import crud, models, schemas
 from api import deps, msg
@@ -64,7 +69,7 @@ def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), 
     """
     View relation
     """
-    relation = crud.userpostrelation.get(
+    relation = crud.userpostrelation.get_by_id(
         db=db, 
         user_id=user_id,
         post_id=post_id
@@ -75,20 +80,34 @@ def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), 
     return relation
 
 @router.post("/create", response_model=schemas.UserPostRelation)
-def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserPostRelationCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_relation(request: Request, db: Session = Depends(deps.get_db), *, creating_relation: UserPostRelationCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new relation 
     """
 
-    try:
-        relation = crud.userpostrelation.create(
-            db=db, 
-            obj_in=creating_relation
+    query_relation = crud.userpostrelation.get_by_id(
+        db=db, 
+        user_id=creating_relation.user_id,
+        post_id=creating_relation.post_id      
+    )
+    if query_relation: 
+        updating_relation = creating_relation 
+        relation = crud.userpostrelation.update(
+            db=db,
+            db_obj=query_relation,
+            obj_in=updating_relation
         )
         return relation
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail=msg.INVALID_USERPOST_ID)
+    else: 
+        try:
+            relation = crud.userpostrelation.create(
+                db=db, 
+                obj_in=creating_relation
+            )
+            return relation
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=msg.INVALID_USERPOST_ID)
     
 @router.put("/update", response_model=schemas.UserPostRelation)
 def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserPostRelationUpdate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -132,7 +151,6 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         db_obj=query_relation,
         obj_in=updating_relation
     )
-
     
     return relation
 

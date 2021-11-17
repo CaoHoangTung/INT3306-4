@@ -11,7 +11,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.user import UserCreate, UserUpdate
+from schemas.user import UserCreate, UserDelete, UserUpdate
 
 router = APIRouter()
 
@@ -31,7 +31,7 @@ def view_user(db: Session = Depends(deps.get_db), email:str = None, current_user
     """
     View user
     """
-    user = crud.user.get_by_email(
+    user = crud.user.get_by_id(
         db=db, 
         email=email
     )
@@ -76,13 +76,13 @@ def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = 
 
     
 @router.delete("/delete", response_model=schemas.User)
-def delete_user(db: Session = Depends(deps.get_db), email:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_user(db: Session = Depends(deps.get_db), deleting_user: UserDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete user
     """
     user = crud.user.delete(
         db=db,
-        email=email
+        user_id=deleting_user.user_id
     )
     if not user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
