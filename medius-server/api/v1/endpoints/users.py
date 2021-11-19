@@ -2,6 +2,7 @@ from datetime import timedelta
 from typing import Any, List
 
 from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi.param_functions import Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
@@ -27,12 +28,27 @@ def view_all_user(db: Session = Depends(deps.get_db), current_user: models.User 
     return users
 
 @router.get("/view/{user_id}", response_model=schemas.User)
-def view_user(db: Session = Depends(deps.get_db), email:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View user
     """
     user = crud.user.get_by_id(
-        db=db, 
+        db=db,
+        user_id=user_id 
+    )
+
+    if not user:
+        raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
+            
+    return user
+
+@router.get("/view-by-email", response_model=schemas.User)
+def view_user(db: Session = Depends(deps.get_db), email:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    View user
+    """
+    user = crud.user.get_by_email(
+        db=db,
         email=email
     )
 
