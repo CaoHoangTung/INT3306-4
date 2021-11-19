@@ -1,7 +1,22 @@
 import API from "./api";
+import qs from "qs";
 
-export async function getAllPostsOfUserId(id) {
-    const response = await API.get(`posts/all/${id}`);
+export async function getAllPostsOfUserId(user_id, topic_ids=[], sort_by_upvote=null) {
+    var getParams = {
+        user_id: user_id,
+    }
+    if (topic_ids != null) {
+        getParams.topic_ids = topic_ids;
+    }
+    if (sort_by_upvote != null) {
+        getParams.sort_by_upvote = sort_by_upvote;
+    }
+    const response = await API.get(`posts/all`, {
+        params: getParams,
+        paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: 'repeat' });
+        }
+    });
     return response?.data;
 }
 
@@ -25,5 +40,14 @@ export async function deletePost(postId) {
         "post_id": postId
     };
     const response = await API.delete(`posts/delete`, body);
+    return response?.data;
+}
+
+export async function searchPosts(searched_text) {
+    const response = await API.get(`posts/search`, {
+        params: {
+            searched_text: searched_text
+        }
+    });
     return response?.data;
 }

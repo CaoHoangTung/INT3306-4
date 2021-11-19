@@ -16,7 +16,12 @@ export async function getUserPostByPostId(postId) {
 }
 
 export async function getUserPost(userId, postId) {
-    const response = await API.get(`/userpost/view?user_id=${userId}&post_id=${postId}`);
+    const response = await API.get(`/userpost/view`, {
+        params: {
+            user_id: userId,
+            post_id: postId
+        }    
+    });
     return response?.data;
 }
 

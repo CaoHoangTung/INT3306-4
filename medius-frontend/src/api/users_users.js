@@ -16,27 +16,32 @@ export async function getUserRelationByUserId2(userId2) {
 }
 
 export async function getUsersIsBlockedByUserId(userId) {
-    const response = await API.get(`/userrelation/view-all-users-is-blocked-by-user-id/${userId}`);
+    const response = await API.get(`/userrelation/view-blocked-users/${userId}`);
     return response?.data;
 }
 
 export async function getUsersIsFollowedByUserId(userId) {
-    const response = await API.get(`/userrelation/view-all-users-is-followed-by-user-id/${userId}`);
+    const response = await API.get(`/userrelation/view-followed-users/${userId}`);
     return response?.data;
 }
 
-export async function getUsersBlockUserId(userId) {
-    const response = await API.get(`/userrelation/view-all-users-block-user-id/${userId}`);
+export async function getUsersBlockingUserId(userId) {
+    const response = await API.get(`/userrelation/view-blocking-users/${userId}`);
     return response?.data;
 }
 
-export async function getUsersFollowUserId(userId) {
-    const response = await API.get(`/userrelation/view-all-users-follow-user-id/${userId}`);
+export async function getUsersFollowingUserId(userId) {
+    const response = await API.get(`/userrelation/view-following-users/${userId}`);
     return response?.data;
 }
 
 export async function getUserRelation(userId1, userId2) {
-    const response = await API.get(`/userrelation/view/${userId1}/${userId2}`);
+    const response = await API.get(`/userrelation/view`, {
+        params: {
+            user_id_1: userId1,
+            user_id_2: userId2
+        }
+    });
     return response?.data;
 }
 

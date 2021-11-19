@@ -16,7 +16,12 @@ export async function getUserTopicByTopicId(topicId) {
 }
 
 export async function getUserTopic(userId, topicId) {
-    const response = await API.get(`/usertopic/view?user_id=${userId}&topic_id=${topicId}`);
+    const response = await API.get(`/usertopic/view`, {
+        params: {
+            user_id: userId,
+            topic_id: topicId
+        }
+    });
     return response?.data;
 }
 
