@@ -56,8 +56,8 @@ def view_user_relation_by_user_id_2(user_id_2: int, db: Session = Depends(deps.g
             
     return relations
 
-@router.get("/view-all-users-is-blocked-by-user-id/{user_id}", response_model=List[schemas.UserRelation])
-def view_all_user_is_blocked_by_user_id(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+@router.get("/view-blocked_users/{user_id}", response_model=List[schemas.UserRelation])
+def view_blocked_users(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View all users is blocked by user id 
     """
@@ -70,8 +70,8 @@ def view_all_user_is_blocked_by_user_id(user_id: int, db: Session = Depends(deps
             
     return relations
 
-@router.get("/view-all-users-is-followed-by-user-id/{user_id}", response_model=List[schemas.UserRelation])
-def view_all_user_is_followed_by_user_id(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+@router.get("/view-followed-users/{user_id}", response_model=List[schemas.UserRelation])
+def view_followed_users(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View all users is followed by user id 
     """
@@ -84,8 +84,8 @@ def view_all_user_is_followed_by_user_id(user_id: int, db: Session = Depends(dep
             
     return relations
 
-@router.get("/view-all-users-block-user-id/{user_id}", response_model=List[schemas.UserRelation])
-def view_all_user_block_user_id(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+@router.get("/view-blocking-users/{user_id}", response_model=List[schemas.UserRelation])
+def view_blocking_users(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View all users block user id 
     """
@@ -98,8 +98,8 @@ def view_all_user_block_user_id(user_id: int, db: Session = Depends(deps.get_db)
             
     return relations
 
-@router.get("/view-all-users-follow-user-id/{user_id}", response_model=List[schemas.UserRelation])
-def view_all_user_follow_user_id(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+@router.get("/view-following-users/{user_id}", response_model=List[schemas.UserRelation])
+def view_following_users(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View all users follow user id 
     """
