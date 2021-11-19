@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relation, relationship
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import nullslast
 
@@ -18,3 +19,6 @@ class Post(Base):
     downvote = Column(Integer)
     post_id = Column(Integer, primary_key=True, autoincrement=True)
     view_count = Column(Integer)
+
+    topics = relationship("PostTopic", back_populates="post")
+    users = relationship("UserPostRelation", back_populates="post")
