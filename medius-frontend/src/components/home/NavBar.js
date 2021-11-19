@@ -18,7 +18,7 @@ const NavBar = () => {
                             <li>Write</li>
                             <li onClick={() => setShow(true)}>Sign in</li>
                             <li>
-                                <Button onClick={() => setShow(true)}>
+                                <Button id='get_start' onClick={() => setShow(true)}>
                                     Get started
                                 </Button >
                                 <LoginModal onClose={() => setShow(false)} show={show} />
