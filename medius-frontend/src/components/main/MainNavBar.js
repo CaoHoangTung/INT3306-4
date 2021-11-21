@@ -2,9 +2,9 @@ import { Container } from "@material-ui/core";
 import Search from "./Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import '../../pages/main/Main.scss'
 import { logout } from "../../api/login.js";
+import ProfileMenu from "./ProfileMenu.js";
 function MainNavBar() {
     return (
         <div className="MainNavBar">
@@ -16,14 +16,10 @@ function MainNavBar() {
                     />
                     <div className="Main_NavBar_List">
                         <ul>
-                            <li><Search/></li>
-                            <li><BookmarksIcon/></li>
-                            <li><NotificationsNoneIcon/></li>
-                            <li><AccountCircleIcon/></li>
-                            <button onClick={() => {
-                                logout();
-                                window.location.href = "/";
-                            }}>Logout</button>
+                            <li><Search /></li>
+                            <li><BookmarksIcon /></li>
+                            <li><NotificationsNoneIcon /></li>
+                            <li><ProfileMenu/></li>
                         </ul>
                     </div>
                 </div>
@@ -32,4 +28,5 @@ function MainNavBar() {
         </div>
     );
 }
+
 export default MainNavBar;
