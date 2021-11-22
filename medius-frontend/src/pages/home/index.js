@@ -6,6 +6,7 @@ import MediumPosts from '../../components/home/PostPreview'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import React, { useState } from 'react';
 import LoginModal from '../../components/home/LoginModal'
+import UserIntro from "../../components/home/UserIntro";
 
 function Home() {
   const [show, setShow] = useState(false);
@@ -63,6 +64,7 @@ function Home() {
             contentPreview="contentPreview"
             postTime="2:00:00 PM 10/29/2021"
           />
+           <UserIntro></UserIntro>
         </Container>
       </div>
       <Footer />
