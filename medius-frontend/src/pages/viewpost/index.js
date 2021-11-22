@@ -34,7 +34,7 @@ function ViewPost(props) {
                 <Grid item xs = {6}>
                     <div className="title">
                         <Typography variant="h2" gutterBottom component="div">
-                            title
+                            title-
                         </Typography>
                     </div>
                     <div className="author">

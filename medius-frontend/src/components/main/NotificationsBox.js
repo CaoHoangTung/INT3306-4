@@ -3,7 +3,7 @@ import NotificationsMenu from './NotificationsMenu.js';
 function NotificationsBox() {
     return (
         <div>
-            <NotificationsMenu />
+            <NotificationsIcon/>
         </div>
     )
 
