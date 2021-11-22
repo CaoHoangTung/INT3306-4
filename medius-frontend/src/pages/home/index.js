@@ -1,15 +1,12 @@
-import { Button, Container, Grid } from '@material-ui/core';
+import {Container, Grid } from '@material-ui/core';
 import './style.scss';
 import NavBar from '../../components/home/NavBar'
 import Footer from '../../components/home/Footer';
 import MediumPosts from '../../components/home/PostPreview'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import React, { useState } from 'react';
-import LoginModal from '../../components/home/LoginModal'
-import UserIntro from "../../components/home/UserIntro";
 
 function Home() {
-  const [show, setShow] = useState(false);
+  
   return (
     <div>
       <NavBar />
@@ -22,7 +19,7 @@ function Home() {
                 Read and share new perspective on just about any topic.
                 Everyone's welcome.
               </p>
-              <Button onClick={() => setShow(true)}>Get started</Button>
+              
             </Grid>
             <Grid item lg={6}>
               <img src="Illustrations-Dimensional.png" alt="" />
@@ -30,9 +27,7 @@ function Home() {
           </Grid>
         </Container>
       </div>
-      <div>
-        <LoginModal onClose={()=>setShow(false)} show={show}/>
-      </div>
+      
       <div className="Trending">
         <Container>
           <h2><span><TrendingUpIcon /></span>Trending on Medius</h2>
@@ -64,7 +59,6 @@ function Home() {
             contentPreview="contentPreview"
             postTime="2:00:00 PM 10/29/2021"
           />
-           <UserIntro></UserIntro>
         </Container>
       </div>
       <Footer />
