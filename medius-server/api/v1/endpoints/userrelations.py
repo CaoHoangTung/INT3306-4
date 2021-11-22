@@ -43,7 +43,7 @@ def view_user_relation_by_user_id_1(user_id_1: int, db: Session = Depends(deps.g
     return relations
 
 @router.get("/view-by-user-id-2/{user_id_2}", response_model=List[schemas.UserRelation])
-def view_user_relation_by_user_id_1(user_id_2: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_user_relation_by_user_id_2(user_id_2: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View all relations of given user_2
     """
