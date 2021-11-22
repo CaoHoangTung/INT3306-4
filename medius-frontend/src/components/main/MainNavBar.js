@@ -1,10 +1,10 @@
 import { Container } from "@material-ui/core";
 import Search from "./Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import '../../pages/main/Main.scss'
 import { logout } from "../../api/login.js";
-import ProfileMenu from "./ProfileMenu.js";
+import ProfileMenu from "./AccountMenu.js";
+import NotificationsBox from "./NotificationsBox.js";
 function MainNavBar() {
     return (
         <div className="MainNavBar">
@@ -18,7 +18,7 @@ function MainNavBar() {
                         <ul>
                             <li><Search /></li>
                             <li><BookmarksIcon /></li>
-                            <li><NotificationsNoneIcon /></li>
+                            <li><NotificationsBox/></li>
                             <li><ProfileMenu/></li>
                         </ul>
                     </div>
