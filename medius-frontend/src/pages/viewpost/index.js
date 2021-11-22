@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Typography from "@mui/material/Typography";
 import {Link} from "@material-ui/core";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import {Block} from "@material-ui/icons";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
