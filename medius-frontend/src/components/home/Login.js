@@ -1,5 +1,5 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } from "@material-ui/core"
-import { useState } from "react"
+import { Button, Checkbox, FormControlLabel, Grid, TextField, Link, Typography } from "@material-ui/core"
+import React, { useState } from "react"
 import { login } from "../../api/login";
 
 const Login = (props) => {
@@ -67,7 +67,7 @@ const Login = (props) => {
                     </Link>
                 </Typography>
                 <Typography > Do you have an account?
-                    <Link href="#" onClick={() => {props.setIsLogin(false)}}>
+                    <Link href="#" onClick={() => { props.setIsLogin(false) }}>
                         Sign Up
                     </Link>
                 </Typography>

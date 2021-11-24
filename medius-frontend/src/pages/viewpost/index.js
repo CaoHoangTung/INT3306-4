@@ -1,40 +1,33 @@
 import './style.scss'
 import Button from "@mui/material/Button";
-import {Avatar, IconButton, MenuItem} from "@mui/material";
+import { Avatar, IconButton, MenuItem } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import SearchIcon from '@mui/icons-material/Search';
 import Typography from "@mui/material/Typography";
-import {Link, Menu} from "@material-ui/core";
+import { Link, Menu } from "@material-ui/core";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import {Block} from "@material-ui/icons";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import {useEffect, useState} from "react";
-import {getUser} from "../../api/users";
-import {getPost} from "../../api/posts";
-import {getPostTopicByPostId} from "../../api/posts_topic";
+import { useEffect, useState } from "react";
+import { getUser } from "../../api/users";
+import { getPost } from "../../api/posts";
+import { getPostTopicByPostId } from "../../api/posts_topic";
 import Topic from "../../components/shared/Topic";
 import Search from "../../components/main/Search";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import {logout} from "../../api/login";
-import Logout from "@mui/icons-material/Logout";
+
 function ViewPost(props) {
     const [author, setAuthors] = useState([]);
     useEffect(() => {
         getUser(1).then(author => {
             console.log(author);
             setAuthors(author);
-            }
+        }
         ).catch(err => console.error(err));
-        }, []
+    }, []
     );
 
     const [post, setPost] = useState([]);
@@ -75,12 +68,12 @@ function ViewPost(props) {
                     <EmailIcon></EmailIcon>
                 </div>
                 <div className="rightHeader">
-                    <Search/>
+                    <Search />
                     <div>
                         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                             <Tooltip title="More">
                                 <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                                    <MoreHorizIcon/>
+                                    <MoreHorizIcon />
                                 </IconButton>
                             </Tooltip>
                         </Box>
@@ -134,8 +127,8 @@ function ViewPost(props) {
                 </div>
             </div>
             <Grid container spacing={2}>
-                <Grid item xs = {3}></Grid>
-                <Grid item xs = {6}>
+                <Grid item xs={3}></Grid>
+                <Grid item xs={6}>
                     <div className="title">
                         <Typography variant="h2" gutterBottom component="div">
                             {post.title}
@@ -143,17 +136,18 @@ function ViewPost(props) {
                     </div>
                     <div className="author">
                         <div className="first">
-                            <Avatar alt="username" src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png"/>
-                            <Link href = "#">{author.first_name} {author.last_name}</Link>
+                            <Avatar alt="username" src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png" />
+                            <Link href="#">{author.first_name} {author.last_name}</Link>
                         </div>
                         <div className="second">
-                            <BookmarkBorderIcon/>
+                            <BookmarkBorderIcon />
                             <MoreHorizIcon></MoreHorizIcon>
                         </div>
                     </div>
                     <div className="content">
                         <img
                             src="../../logo.svg"
+                            alt="Medius"
                         />
                         <Typography>
                             {post.content}
@@ -166,7 +160,7 @@ function ViewPost(props) {
                                 topic={postTopic.topic_id}
                                 link={`/topic/${postTopic.topic_id}`}
                             />
-                            )
+                        )
                         )}
                     </div>
                     <div className="react">
@@ -195,7 +189,7 @@ function ViewPost(props) {
                     {/*    <Grid item xs = {10}></Grid>*/}
                     {/*</Grid>*/}
                 </Grid>
-                <Grid item xs = {3}></Grid>
+                <Grid item xs={3}></Grid>
             </Grid>
             <div className="footer">
             </div>
