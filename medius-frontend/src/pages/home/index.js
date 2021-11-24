@@ -4,7 +4,7 @@ import NavBar from '../../components/home/NavBar'
 import Footer from '../../components/home/Footer';
 import MediumPosts from '../../components/home/PostPreview'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-
+import React from 'react';
 function Home() {
   
   return (

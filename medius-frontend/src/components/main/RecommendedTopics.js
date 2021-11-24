@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllTopics } from "../../api/topic.js";
 import Topic from "../../components/shared/Topic.js";
 import '../../pages/main/Main.scss'
-
+import React from 'react';
 function RecommendedTopics() {
     const [topics, setTopics] = useState([]);
 

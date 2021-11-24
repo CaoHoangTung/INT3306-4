@@ -1,4 +1,5 @@
 import MediumPosts from "../home/PostPreview.js";
+import React from 'react';
 import '../../pages/main/Main.scss'
 function NewsFeed() {
     return (

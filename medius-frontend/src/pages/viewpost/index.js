@@ -1,6 +1,6 @@
 import './style.scss'
 import Button from "@mui/material/Button";
-import {Avatar, IconButton} from "@mui/material";
+import {Avatar} from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,6 +10,7 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import React from 'react';
 function ViewPost(props) {
     return (
         <div className="viewPost">
@@ -49,7 +50,7 @@ function ViewPost(props) {
                     </div>
                     <div className="content">
                         <img
-                            src="../../logo.svg"
+                            src="../../logo.svg" alt=""
                         />
                         <Typography>
                             content

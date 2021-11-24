@@ -1,5 +1,5 @@
 import {Container } from "@material-ui/core";
-
+import React from 'react';
 const Footer = () => {
     return(
         <div className="Footer">
