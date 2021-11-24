@@ -3,6 +3,7 @@ import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } 
 import { useState } from "react"
 import { login } from "../../api/login";
 import Login from "./Login";
+import React from 'react';
 const LoginModal = props => {
 
     if (!props.show) {
