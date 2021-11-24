@@ -1,6 +1,9 @@
 import { Button } from "@mui/material";
+import Login from "./Login.js";
 
 const LoginModal = props => {
+    
+    
     if (!props.show) {
         return null;
     }
@@ -11,8 +14,7 @@ const LoginModal = props => {
                     <h4 className="modal-title">JOIN MEDIUS</h4>
                 </div>
                 <div className="modal-body">
-
-                    Log in form
+                    <Login/>
                 </div>
                 <div className="modal-footer">
                     <Button onClick={props.onClose}>

@@ -10,22 +10,25 @@ from schemas.message import Message
 class UserRelationBase(BaseModel):
     user_id_1: int 
     user_id_2: int 
-    is_following: bool 
-    is_blocked: bool
 
 # Properties to receive via API on creation
 class UserRelationCreate(UserRelationBase):
-    pass
+    is_following: Optional[bool]
+    is_blocking: Optional[bool]    
 
 # Properties to receive via API on update
 class UserRelationUpdate(UserRelationBase):
-    pass 
+    is_following: Optional[bool]
+    is_blocking: Optional[bool]
 
 class UserRelationDelete(BaseModel):
     user_id_1: int 
     user_id_2: int 
 
 class UserRelationInDBBase(UserRelationBase):
+    is_following: bool
+    is_blocking: bool
+
     class Config:
         orm_mode = True
 

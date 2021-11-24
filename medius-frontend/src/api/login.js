@@ -11,8 +11,12 @@ export async function login(username, password) {
         setCredential(response.data);
         return response;
     } catch (error) {
-        alert("Invalid username or password")
         console.log(error);
         return false
     }
+}
+
+export async function logout() {
+    removeLocalCredential();
+    return true;
 }

@@ -1,8 +1,12 @@
+from logging import exception
 from typing import Any, Dict, Optional, Union, List
+import sqlalchemy
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, session
+from sqlalchemy.sql import expression
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import func, null, update
+from  sqlalchemy.sql.expression import bindparam, func, null, update
+from sqlalchemy import text, bindparam
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
@@ -11,6 +15,16 @@ from schemas.post import PostBase, PostCreate, PostUpdate
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
+    """
+    Get all posts 
+    """
+    def get_all(self, db:Session) -> List[Post]:
+        try:
+            return db.query(Post).all()
+        except Exception as e:
+            print(e)
+            return None 
+
     """
     Get a post by id
     """
@@ -23,7 +37,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             return None
     
     """
-    Get all posts with user_id 
+    Get all posts 
     """  
     def get_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
         try:
@@ -43,7 +57,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             view_count = 0,
             upvote = 0,
             downvote = 0,
-            published_at = func.now(), ##### TODO: need to fix this 
+            published_at = func.now(), ##### TODO: need to fix this --> this will return an exception but also create it 
             created_at = func.now(),
             updated_at = func.now(),
             user_id = user_id
@@ -73,13 +87,16 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
                 title = deleting_post.title, 
                 content = deleting_post.content, 
                 created_at = deleting_post.created_at, 
+                updated_at = deleting_post.updated_at,
                 published_at = deleting_post.published_at, 
                 preview_image_path = deleting_post.preview_image_path,
                 cover_image_path = deleting_post.cover_image_path,
                 upvote = deleting_post.upvote,
                 downvote = deleting_post.downvote,
-                post_id = deleting_post.post_id
+                post_id = deleting_post.post_id,
+                view_count = deleting_post.view_count
             )
+
             query.delete()
             db.commit()
         return deleting_post
@@ -90,5 +107,17 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         """)
         db.commit()
         return result
+
+    def search_post_by_text(self, db: Session, searched_text: str) -> List[Post]: 
+        try:
+            raw_query = sqlalchemy.text(
+                'SELECT * FROM Post WHERE MATCH (title, content) AGAINST (:value IN NATURAL LANGUAGE MODE)', 
+                bindparams=[bindparam('value', searched_text)]) 
+            result = db.execute(raw_query)
+            return result 
+            # return db.query(Post).filter(Post.title.match(text)).all()
+        except Exception as e:
+            print(e)
+            return None 
 
 post = CRUDPost(Post)
