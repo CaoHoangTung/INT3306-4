@@ -26,12 +26,12 @@ export async function getPostTopic(postId, topicId) {
 }
 
 export async function createPostTopic(posttopic) {
-    const response = await API.post("/posttopic/create", poststopic);
+    const response = await API.post("/posttopic/create", posttopic);
     return response?.data;
 }
 
 export async function updatePostTopic(posttopic) {
-    const response = await API.post("/posttopic/update", poststopic);
+    const response = await API.post("/posttopic/update", posttopic);
     return response?.data;
 }
 

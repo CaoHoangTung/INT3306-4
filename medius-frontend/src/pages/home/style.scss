@@ -34,7 +34,7 @@ code {
         justify-content: space-between;
     }
     .NavBar_Lists {
-        button {
+        #get_start {
             background: #191919;
             color: #fff;
             text-transform: inherit;
@@ -215,10 +215,8 @@ code {
     .avatar {
         //border: solid 1px red;
         padding: 0px;
-
     }
     .text {
-
         //border: solid 1px red;
         color: #757575;
         word-wrap: break-word;
@@ -226,7 +224,7 @@ code {
     .header {
         //border: solid 1px red;
         display: inline-block;
-        cursor:pointer;
+        cursor: pointer;
         align-self: center;
         font: bold;
     }

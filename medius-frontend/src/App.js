@@ -6,7 +6,9 @@ import {
 } from "react-router-dom";
 import Main from "./pages/main";
 import Home from "./pages/home";
+import ViewPost from "./pages/viewpost"
 import { getLocalCredential } from "./utils/auth"
+import WritePost from "./pages/newpost/index.js";
 
 
 function App() {
@@ -21,13 +23,14 @@ function App() {
   const userRouters = [
     ["/my-profile", <p>Profile</p>, true],
     ["/", <Main />, true],
-    ["/topic/:topic_id", <p>Topic</p>, true]
+    ["/topic/:topic_id", <p>Topic</p>, true],
+    ["/viewpost", <ViewPost />, true],
+    ["/new-story",<WritePost/>,true]
   ];
 
   const adminRouters = [
     ["/manage/user", <p>Manage User</p>, true]
   ];
-
   return (
     <Router>
       <div>
