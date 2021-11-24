@@ -8,6 +8,7 @@ import Main from "./pages/main";
 import Home from "./pages/home";
 import ViewPost from "./pages/viewpost"
 import { getLocalCredential } from "./utils/auth"
+import UserManager from "./pages/admin/usermanager";
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
   ];
 
   const adminRouters = [
-    ["/manage/user", <p>Manage User</p>, true]
+    ["/admin/user", <UserManager />, true]
   ];
   return (
     <Router>
