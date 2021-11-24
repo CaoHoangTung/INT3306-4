@@ -25,6 +25,9 @@ class CommentUpdate(CommentBase):
     upvote: Optional[int] 
     downvote: Optional[int]
 
+class CommentDelete(BaseModel):
+    comment_id: int 
+
 class CommentInDBBase(CommentBase):
     comment_id: int 
     post_id: int 

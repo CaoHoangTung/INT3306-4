@@ -13,4 +13,4 @@ api_router.include_router(userpostrelations.router, prefix="/userpost", tags=["u
 api_router.include_router(usertopics.router, prefix="/usertopic", tags=["users-topics"])
 api_router.include_router(userrelations.router, prefix="/userrelation", tags=["users-users"])
 api_router.include_router(comments.router, prefix="/comment", tags=["comments"])
-api_router.include_router(roles.router, prefix="/roles", tags=["roles"])
+api_router.include_router(roles.router, prefix="/role", tags=["role"])

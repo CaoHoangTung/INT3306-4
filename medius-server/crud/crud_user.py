@@ -21,11 +21,15 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
         return db.query(User).filter(User.email == email).first()
 
+    def get_by_id(self, db:Session, *, user_id: int) -> Optional[User]:
+        return db.query(User).filter(User.user_id == user_id).first()
+
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         db_obj = User(
             profile=obj_in.profile,
             avatar_path=obj_in.avatar_path,
+            cover_image_path=obj_in.cover_image_path,
             role_id=obj_in.role_id,
             first_name=obj_in.first_name,
             last_name=obj_in.last_name,
@@ -56,8 +60,8 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
     
-    def delete(self, db: Session, *, email: str) -> Any:
-        query = db.query(User).filter(User.email == email)
+    def delete(self, db: Session, *, user_id: int) -> Any:
+        query = db.query(User).filter(User.user_id == user_id)
         deleting_user = query.first()
         if deleting_user:
             deleting_user = User( 
@@ -71,6 +75,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
                 last_seen_at = deleting_user.last_seen_at,
                 profile = deleting_user.profile, 
                 avatar_path = deleting_user.avatar_path, 
+                cover_image_path = deleting_user.cover_image_path
             )
             query.delete()
             db.commit()

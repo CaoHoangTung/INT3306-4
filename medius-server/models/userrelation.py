@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, Float, Boolean
+from sqlalchemy.orm import relation, relationship
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import ForeignKey
@@ -8,5 +9,8 @@ from db.base_class import Base
 class UserRelation(Base):
     user_id_1 = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
     user_id_2 = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
-    is_following = Column(Boolean)
-    is_blocked = Column(Boolean)
+    is_following = Column(Boolean, default=False)
+    is_blocking = Column(Boolean, default=False)    
+
+    # user1 = relationship("User", back_populates="users2", foreign_keys=[user_id_1])
+    # user2 = relationship("User", back_populates="users1", foreign_keys=[user_id_2])

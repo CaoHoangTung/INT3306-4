@@ -1,10 +1,11 @@
 from datetime import timedelta
-from typing import Any, List
+from typing import Any, List, Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import user
+from sqlalchemy import func, and_ 
 
 import crud, models, schemas
 from api import deps, msg
@@ -12,22 +13,51 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.post import PostCreate, PostUpdate
+from schemas.post import PostCreate, PostDelete, PostUpdate
 from schemas.posttopic import PostTopicCreate
 
 router = APIRouter()
 
-@router.get("/all/{user_id}", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+@router.get("/all", response_model=List[schemas.Post])
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all posts with user_id 
     """
-    posts = crud.post.get_by_user_id(db=db, user_id=user_id)
+
+    if topic_ids:
+        if not user_id: 
+            posts = db.query(models.Post).outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids)).\
+                group_by(models.Post.post_id).\
+                having(func.count(models.PostTopic.topic_id) == len(topic_ids)).all()
+        else:
+            posts = db.query(models.Post).outerjoin(models.PostTopic).\
+                filter(and_(models.PostTopic.topic_id.in_(topic_ids), models.Post.user_id == user_id)).\
+                group_by(models.Post.post_id).\
+                having(func.count(models.PostTopic.topic_id) == len(topic_ids)).all()
+    elif user_id: 
+        posts = crud.post.get_by_user_id(db=db, user_id=user_id)
+    else: 
+        posts = crud.post.get_all(db=db)
+
+    if sort_by_upvote: 
+        posts = sorted(posts, key = lambda post: post.upvote, reverse=True)
 
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-            
+
     return posts
+
+# @router.get("/all/{user_id}", response_model=List[schemas.Post])
+# def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+#     """
+#     Get all posts with user_id 
+#     """
+#     posts = crud.post.get_by_user_id(db=db, user_id=user_id)
+
+#     if not isinstance(posts, List):
+#         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+            
+#     return posts
 
 @router.get("/view/{post_id}", response_model=schemas.Post)
 def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -40,7 +70,7 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_us
     )
     if not post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
-            
+
     return post
 
 @router.post("/create", response_model=schemas.Post)
@@ -79,15 +109,45 @@ def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = 
 
     
 @router.delete("/delete", response_model=schemas.Post)
-def delete_post(db: Session = Depends(deps.get_db), post_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete post
     """
     post = crud.post.delete(
         db=db,
-        post_id=post_id
+        post_id=deleting_post.post_id
     )
     if not post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
     
     return post
+
+# additional routers 
+@router.get("/search", response_model=List[schemas.Post]) 
+def search(db: Session = Depends(deps.get_db), *, searched_text: Optional[str] = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    raw_posts = crud.post.search_post_by_text(
+        db=db,
+        searched_text=searched_text
+    )
+
+    posts = []
+    for row in raw_posts:
+        post = models.Post(
+            user_id=row.user_id,
+            title=row.title, 
+            content=row.content,
+            created_at=row.created_at,
+            updated_at=row.updated_at,
+            published_at=row.published_at,
+            preview_image_path=row.preview_image_path,
+            cover_image_path=row.cover_image_path,
+            upvote=row.upvote,
+            downvote=row.downvote,
+            post_id=row.post_id,
+            view_count=row.view_count
+        )
+        posts.append(post)
+
+    if not isinstance(posts, List):
+        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+    return posts 

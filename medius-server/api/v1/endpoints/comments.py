@@ -12,7 +12,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.comment import CommentCreate, CommentUpdate
+from schemas.comment import CommentCreate, CommentDelete, CommentUpdate
 
 router = APIRouter()
 
@@ -102,13 +102,13 @@ def update_comment(db: Session = Depends(deps.get_db), updating_comment: Comment
 
     
 @router.delete("/delete", response_model=schemas.Comment)
-def delete_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_comment(db: Session = Depends(deps.get_db), deleting_comment: CommentDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete comment
     """
     comment = crud.comment.delete(
         db=db,
-        comment_id=comment_id
+        comment_id=deleting_comment.comment_id 
     )
     if not comment:
         raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)

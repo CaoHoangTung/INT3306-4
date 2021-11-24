@@ -52,7 +52,7 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
     def get_all_users_is_blocked_by_user_id(self, db: Session, *, user_id: int) -> List[UserRelation]:
         try:
             return db.query(UserRelation) \
-                .filter(UserRelation.user_id_2 == user_id, UserRelation.is_blocked == True) \
+                .filter(UserRelation.user_id_1 == user_id, UserRelation.is_blocking == True) \
                 .all()
         except:
             return None
@@ -63,18 +63,18 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
     def get_all_users_is_followed_by_user_id(self, db: Session, *, user_id: int) -> List[UserRelation]:
         try:
             return db.query(UserRelation) \
-                .filter(UserRelation.user_id_2 == user_id, UserRelation.is_following == True) \
+                .filter(UserRelation.user_id_1 == user_id, UserRelation.is_following == True) \
                 .all()
         except:
             return None
 
     """
-    Get all users blocked an user 
+    Get all users block an user 
     """
     def get_all_users_block_user_id(self, db: Session, *, user_id: int) -> List[UserRelation]:
         try:
             return db.query(UserRelation) \
-                .filter(UserRelation.user_id_1 == user_id, UserRelation.is_blocked == True) \
+                .filter(UserRelation.user_id_2 == user_id, UserRelation.is_blocking == True) \
                 .all()
         except:
             return None
@@ -85,7 +85,7 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
     def get_all_users_follow_user_id(self, db: Session, *, user_id: int) -> List[UserRelation]:
         try:
             return db.query(UserRelation) \
-                .filter(UserRelation.user_id_1 == user_id, UserRelation.is_following == True) \
+                .filter(UserRelation.user_id_2 == user_id, UserRelation.is_following == True) \
                 .all()
         except:
             return None
@@ -107,7 +107,7 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
             user_id_1=obj_in.user_id_1, 
             user_id_2=obj_in.user_id_2,
             is_following=obj_in.is_following,
-            is_blocked=obj_in.is_blocked             
+            is_blocking=obj_in.is_blocking             
         )
 
         db.add(db_obj)
@@ -132,9 +132,9 @@ class CRUDUserRelation(CRUDBase[UserRelation, UserRelationCreate, UserRelationUp
         if relation:
             relation = UserRelation(
                 user_id_1=relation.user_id_1, 
-                use_id_2=relation.user_id_2,
+                user_id_2=relation.user_id_2,
                 is_following=relation.is_following, 
-                is_blocked=relation.is_blocked
+                is_blocking=relation.is_blocking
             )
             query.delete()
             db.commit()
