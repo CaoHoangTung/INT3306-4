@@ -2,7 +2,6 @@ import SignUp from "./SignUp";
 import { Button } from "@material-ui/core"
 import React from "react"
 import Login from "./Login";
-import React from 'react';
 const LoginModal = props => {
 
     if (!props.show) {
