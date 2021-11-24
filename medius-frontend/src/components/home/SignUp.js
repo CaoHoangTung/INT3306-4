@@ -1,7 +1,6 @@
 import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
 import { login } from "../../api/login";
-
 const SignUp = (props) => {
     const [firstName] = useState("");
     const [lastName] = useState("");
