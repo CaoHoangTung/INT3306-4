@@ -2,7 +2,10 @@ import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } 
 import { useState } from "react"
 import { login } from "../../api/login";
 
-const Login = (props) => {
+const SignUp = (props) => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
@@ -13,35 +16,55 @@ const Login = (props) => {
         <Grid>
             <div>
                 <Grid align='center'>
-                    <h2>Sign In</h2>
+                    <h2>Sign Up</h2>
                 </Grid>
+                <TextField
+                    value={firstName}
+                    onChange={e => setUsername(e.target.value)}
+                    label='First name'
+                    placeholder='What is your first name ?'
+                    fullWidth
+                    required />
+                <TextField
+                    value={lastName}
+                    onChange={e => setUsername(e.target.value)}
+                    label='Last name'
+                    placeholder='And your last name ?'
+                    fullWidth
+                    required />
+                <TextField
+                    value={email}
+                    onChange={e => setUsername(e.target.value)}
+                    label='Email'
+                    placeholder='Just a little more.'
+                    fullWidth
+                    required />
                 <TextField
                     value={username}
                     onChange={e => setUsername(e.target.value)}
                     label='Username'
-                    placeholder='Enter username'
+                    placeholder="Let's choose a cool username"
                     fullWidth
                     required />
                 <TextField
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     label='Password'
-                    placeholder='Enter password'
+                    placeholder= "It's a secret!"
                     type='password'
                     fullWidth
                     required
                 />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            name="checkedB"
-                            color="primary"
-                            checked={remember}
-                            onChange={e => setRemember(e.target.checked)}
-                        />
-                    }
-                    label="Remember me"
+                <TextField
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    label='Repeat password'
+                    placeholder='We are done!'
+                    type='password'
+                    fullWidth
+                    required
                 />
+
                 <Button
                     type='submit'
                     color='primary'
@@ -66,9 +89,9 @@ const Login = (props) => {
                         Forgot password ?
                     </Link>
                 </Typography>
-                <Typography > Do you have an account?
-                    <Link href="#" onClick={() => {props.setIsLogin(false)}}>
-                        Sign Up
+                <Typography > You already have an account?
+                    <Link href="#" onClick={() => {props.setIsLogin(true)}}>
+                        Sign In
                     </Link>
                 </Typography>
             </div>
@@ -76,4 +99,4 @@ const Login = (props) => {
     )
 }
 
-export default Login
+export default SignUp;
