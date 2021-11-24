@@ -1,7 +1,6 @@
 import SignUp from "./SignUp";
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } from "@material-ui/core"
-import { useState } from "react"
-import { login } from "../../api/login";
+import { Button } from "@material-ui/core"
+import React from "react"
 import Login from "./Login";
 import React from 'react';
 const LoginModal = props => {
@@ -17,7 +16,7 @@ const LoginModal = props => {
                         <h4 className="modal-title " id='model-header'>Login</h4>
                     </div>
                     <div className="modal-body">
-                        <Login setIsLogin = {props.setIsLogin} />
+                        <Login setIsLogin={props.setIsLogin} />
                     </div>
                     <div className="modal-footer">
                         <Button onClick={props.onClose}>
@@ -36,7 +35,7 @@ const LoginModal = props => {
                         <h4 className="modal-title " id='model-header'>Sign Up</h4>
                     </div>
                     <div className="modal-body">
-                        <SignUp setIsLogin = {props.setIsLogin}/>
+                        <SignUp setIsLogin={props.setIsLogin} />
                     </div>
                     <div className="modal-footer">
                         <Button onClick={props.onClose}>

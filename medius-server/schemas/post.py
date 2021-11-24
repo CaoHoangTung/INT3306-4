@@ -33,7 +33,7 @@ class PostInDBBase(PostBase):
     post_id: int
     user_id: int
     created_at: datetime
-    published_at: datetime 
+    published_at: Optional[datetime] 
     updated_at: datetime
     upvote: int
     downvote: int

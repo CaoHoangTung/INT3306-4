@@ -1,14 +1,13 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } from "@material-ui/core"
-import { useState } from "react"
+import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
+import React, { useState } from "react"
 import { login } from "../../api/login";
 import React from 'react';
 const SignUp = (props) => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
+    const [firstName] = useState("");
+    const [lastName] = useState("");
+    const [email] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(false);
     const [disabled, setDisabled] = useState(false);
 
     const btnstyle = { margin: '8px 0' }
@@ -50,7 +49,7 @@ const SignUp = (props) => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     label='Password'
-                    placeholder= "It's a secret!"
+                    placeholder="It's a secret!"
                     type='password'
                     fullWidth
                     required
@@ -90,7 +89,7 @@ const SignUp = (props) => {
                     </Link>
                 </Typography>
                 <Typography > You already have an account?
-                    <Link href="#" onClick={() => {props.setIsLogin(true)}}>
+                    <Link href="#" onClick={() => { props.setIsLogin(true) }}>
                         Sign In
                     </Link>
                 </Typography>

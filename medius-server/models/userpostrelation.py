@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relation, relationship
 from sqlalchemy.sql import func
 from sqlalchemy.sql.sqltypes import Boolean
 
@@ -13,3 +14,5 @@ class UserPostRelation(Base):
     is_upvote = Column(Boolean, default=False)
     is_downvote = Column(Boolean, default=False)
 
+    user = relationship("User", back_populates="posts", foreign_keys=[user_id])
+    post = relationship("Post", back_populates="users", foreign_keys=[post_id])

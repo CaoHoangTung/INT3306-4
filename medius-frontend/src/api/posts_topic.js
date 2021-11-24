@@ -16,7 +16,12 @@ export async function getPostTopicByTopicId(topicId) {
 }
 
 export async function getPostTopic(postId, topicId) {
-    const response = await API.get(`/posttopic/view?post_id=${postId}&topic_id=${topicId}`);
+    const response = await API.get(`/posttopic/view`, {
+        params: {
+            post_id: postId,
+            topic_id: topicId   
+        }
+    });
     return response?.data;
 }
 
