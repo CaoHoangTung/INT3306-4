@@ -34,7 +34,13 @@ def view_all_user(db: Session = Depends(deps.get_db), *, sort_by_posts_count: Op
     if sort_by_num_followers:
         users = sorted(users, key = lambda user: len(user.following_relationships.all()), reverse=True)
 
-    return users
+    return_users = []
+    for user in users:
+        user_dict = user.__dict__
+        user_dict["num_followers"] = len(user.following_relationships.all())
+        return_users.append(user_dict)
+
+    return return_users
 
 @router.get("/view/{user_id}", response_model=schemas.User)
 def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
