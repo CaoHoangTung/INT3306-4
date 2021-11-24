@@ -66,7 +66,7 @@ export default function AccountMenu() {
                 <MenuItem>
                     <Avatar /> My Profile
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={event =>  window.location.href='/new-story'}>
                     <Avatar /> Write a story
                 </MenuItem>
                 <Divider />

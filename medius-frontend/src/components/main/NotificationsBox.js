@@ -1,5 +1,5 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsMenu from './NotificationsMenu.js';
+import React from 'react';
 function NotificationsBox() {
     return (
         <div>

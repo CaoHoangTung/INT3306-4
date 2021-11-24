@@ -1,4 +1,5 @@
 import UserIntro from '../home/UserIntro.js'
+import React from 'react';
 function WhoToFollow() {
     return (
         <div className="WhoToFollow">
