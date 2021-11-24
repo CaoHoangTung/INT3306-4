@@ -1,12 +1,13 @@
-import MainNavBar from "../../components/main/MainNavBar.js";
+import NewPostNavBar from "../../components/newpost/NewPostNavBar.js";
 import { Container } from "@material-ui/core";
 import TextEditor from "./TextEditor.js";
 import React from 'react';
 import EditorContainer from "./EditorContainer.js";
+import './newpost.scss';
 function WritePost() {
     return (
         <div>
-            <MainNavBar />
+            {<NewPostNavBar />}
             <Container>
                 <TextEditor />
             </Container>

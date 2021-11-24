@@ -1,6 +1,37 @@
 h2{
     text-align:center;
 }
+.NewPostNavBar {
+  display: flex;
+  img {
+      max-width: 200px;
+  }
+  box-shadow: 0 4px 8px 0 rgba(223, 218, 218, 0.2), 0 1px 20px 0 rgba(218, 209, 209, 0.19);
+  .NewPost_NavBar_Container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+  .NewPost_NavBar_List {
+      display: flex;
+
+      ul {
+          margin: 0;
+          display: flex;
+          align-items: center;
+          li {
+              margin-left: 25px;
+              list-style: none;
+          }
+          #publish_button{
+             button{
+              background-color: chartreuse;
+             }
+          }
+      }
+      
+  }
+}
 .rdw-option-wrapper {
     border: 1px solid #F1F1F1;
     padding: 5px;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {EditorState} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
-import './style.scss'
+import './newpost.scss'
 function uploadImageCallBack(file) {
   return new Promise(
     (resolve, reject) => {
