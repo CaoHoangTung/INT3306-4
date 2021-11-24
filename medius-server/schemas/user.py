@@ -4,11 +4,13 @@ from fastapi.datastructures import Default
 
 from pydantic import BaseModel
 
+import models
 
 # Shared properties
 class UserBase(BaseModel):
     profile: Optional[str]
     avatar_path: Optional[str]
+    cover_image_path: Optional[str]
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
@@ -43,7 +45,7 @@ class UserDelete(BaseModel):
 
 # Additional properties to return via API
 class User(UserInDBBase):
-    pass
+    num_followers: Optional[int]
 
 
 # Additional properties stored in DB
