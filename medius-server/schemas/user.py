@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 # Shared properties
 class UserBase(BaseModel):
+    user_id: int
     profile: Optional[str]
     avatar_path: Optional[str]
 
