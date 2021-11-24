@@ -1,6 +1,7 @@
 import {Button, Container, Link} from "@material-ui/core";
 import LoginModal from "./LoginModal";
 import { useState } from 'react';
+import React from 'react';
 const NavBar = () => {
     const [show, setShow] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
