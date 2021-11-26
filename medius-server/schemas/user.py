@@ -8,6 +8,7 @@ import models
 
 # Shared properties
 class UserBase(BaseModel):
+    user_id: int
     profile: Optional[str]
     avatar_path: Optional[str]
     cover_image_path: Optional[str]
