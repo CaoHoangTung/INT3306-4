@@ -10,6 +10,7 @@ import ViewPost from "./pages/viewpost"
 import { getLocalCredential } from "./utils/auth"
 import UserManager from "./pages/admin/usermanager";
 import WritePost from "./pages/newpost/index.js";
+import Profile from "./pages/profile";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
   ];
   
   const userRouters = [
-    ["/my-profile", <p>Profile</p>, true],
+    ["/my-profile", <Profile/>, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
     ["/viewpost", <ViewPost />, true],

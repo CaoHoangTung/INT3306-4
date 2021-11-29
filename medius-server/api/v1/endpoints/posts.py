@@ -151,3 +151,17 @@ def search(db: Session = Depends(deps.get_db), *, searched_text: Optional[str] =
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
     return posts 
+
+@router.get("/view-topics/{post_id}", response_model=List[schemas.Topic])
+def get_topic_title(db: Session = Depends(deps.get_db), *, post_id, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    post = crud.post.get_by_post_id(
+        db=db,
+        post_id=post_id
+    )
+
+    topics = []
+    for relationtopic in post.topics:
+        topic = crud.topic.get_by_topic_id(db, topic_id=relationtopic.topic_id) 
+        topics.append(topic)
+
+    return topics 
