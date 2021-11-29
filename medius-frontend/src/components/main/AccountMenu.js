@@ -12,7 +12,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
-import { currentUserIsAdmin, getCurrentUser, getLocalCredential } from "../../utils/auth.js";
+import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
 import { Link } from "react-router-dom";
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -72,7 +72,7 @@ export default function AccountMenu() {
                 <MenuItem>
                     <Avatar /> My Profile
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={event => window.location.href = '/new-story'}>
                     <Avatar /> Write a story
                 </MenuItem>
                 <Divider />
@@ -93,9 +93,9 @@ export default function AccountMenu() {
                     <div>
                         <Link to="/admin/user">
                             <MenuItem>
-                                    <ListItemIcon>
-                                        <ManageAccounts fontSize="small" />
-                                    </ListItemIcon>
+                                <ListItemIcon>
+                                    <ManageAccounts fontSize="small" />
+                                </ListItemIcon>
                                 Manage users
                             </MenuItem>
                         </Link>

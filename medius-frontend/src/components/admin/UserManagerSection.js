@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Avatar, Button, Container, TableHead } from '@material-ui/core';
 import { deleteUser, getAllUsers } from '../../api/users';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function SmallNote(props) {
     return (
@@ -96,10 +96,6 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-    return { name, calories, fat };
-}
-
 const columns = [
     { id: 'avatar', label: <Avatar sx={{ width: 14, height: 14 }} />, minWidth: 20 },
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -119,13 +115,15 @@ export default function CustomPaginationActionsTable() {
     useEffect(() => {
         getAllUsers()
             .then(result => {
-                const emptyRows =
-                    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - result.length) : 0;
                 setUsers(result);
-                setEmptyRows(emptyRows);
                 console.log(result)
             });
     }, []);
+
+    useEffect(() => {
+        const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+        setEmptyRows(emptyRows);
+    }, [users, page, rowsPerPage]);
 
 
     const handleChangePage = (event, newPage) => {
@@ -140,7 +138,8 @@ export default function CustomPaginationActionsTable() {
     return (
         <div className="MainSection_Container">
             <Container>
-                <h1>User manager {users.length}</h1>
+                <h1>User manager</h1>
+                <Button variant="contained" color="primary">+ Create user</Button>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
                         <TableHead>
@@ -180,8 +179,16 @@ export default function CustomPaginationActionsTable() {
                                         {row.role_id}
                                     </TableCell>
                                     <TableCell style={{ width: 160 }} align="right">
-                                        <Button>
-                                            <DeleteIcon onClick={() => deleteUser()}/>
+                                        <Button onClick={() => {
+                                            const confirm = window.confirm(`Are you sure you want to delete user ${row.email}?`);
+                                            if (confirm) {
+                                                deleteUser(row.user_id)
+                                                    .then(response => {
+                                                        console.log(response)
+                                                    })
+                                            }
+                                        }} >
+                                            <DeleteIcon />
                                         </Button>
                                     </TableCell>
                                 </TableRow>

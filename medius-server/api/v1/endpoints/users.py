@@ -48,11 +48,14 @@ def view_user(db: Session = Depends(deps.get_db), user_id:str = None, current_us
 
     if not user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
-            
-    return user
+
+    user_dict = user.__dict__
+    user_dict["num_followers"] = len(user.following_relationships.all())
+
+    return user_dict  
 
 @router.get("/view-by-email", response_model=schemas.User)
-def view_user(db: Session = Depends(deps.get_db), email:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_user_by_email(db: Session = Depends(deps.get_db), email:str = Query(...), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     View user
     """
@@ -63,8 +66,11 @@ def view_user(db: Session = Depends(deps.get_db), email:str = Query(...), curren
 
     if not user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
-            
-    return user
+
+    user_dict = user.__dict__
+    user_dict["num_followers"] = len(user.following_relationships.all())
+
+    return user_dict      
 
 @router.post("/create", response_model=schemas.User)
 def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:

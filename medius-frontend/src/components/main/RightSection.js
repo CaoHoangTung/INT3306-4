@@ -3,6 +3,7 @@ import RecommendedTopics from "./RecommendedTopics.js";
 import { Grid } from "@material-ui/core";
 import WhoToFollow from "./WhoToFollow.js";
 import '../../pages/main/Main.scss'
+import React  from 'react';
 function RightSection(){
     return(
         <div className="RightSection">

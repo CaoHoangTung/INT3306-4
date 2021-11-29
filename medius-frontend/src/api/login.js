@@ -9,7 +9,7 @@ export async function login(username, password) {
     try {
         const response = await API.post(`login/access-token`, bodyFormData);
         setCredential(response.data);
-        return true
+        return response;
     } catch (error) {
         console.log(error);
         return false

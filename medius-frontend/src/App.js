@@ -9,6 +9,7 @@ import Home from "./pages/home";
 import ViewPost from "./pages/viewpost"
 import { getLocalCredential } from "./utils/auth"
 import UserManager from "./pages/admin/usermanager";
+import WritePost from "./pages/newpost/index.js";
 
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
     ["/my-profile", <p>Profile</p>, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
-    ["/viewpost", <ViewPost />, true]
+    ["/viewpost", <ViewPost />, true],
+    ["/new-story",<WritePost/>,true]
   ];
 
   const adminRouters = [

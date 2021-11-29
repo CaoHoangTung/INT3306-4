@@ -2,6 +2,7 @@ import { Container } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import LeftSection from "./LeftSection.js";
 import RightSection from "./RightSection.js";
+import React from 'react';
 function MainSection() {
     return (
         <div className="MainSection_Container">

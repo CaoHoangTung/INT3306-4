@@ -2,9 +2,9 @@ import { Container } from "@material-ui/core";
 import Search from "./Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import '../../pages/main/Main.scss'
-import { logout } from "../../api/login.js";
 import ProfileMenu from "./AccountMenu.js";
 import NotificationsBox from "./NotificationsBox.js";
+import React from 'react';
 function MainNavBar() {
     return (
         <div className="MainNavBar">

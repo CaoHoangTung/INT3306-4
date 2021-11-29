@@ -29,6 +29,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db_obj = User(
             profile=obj_in.profile,
             avatar_path=obj_in.avatar_path,
+            cover_image_path=obj_in.cover_image_path,
             role_id=obj_in.role_id,
             first_name=obj_in.first_name,
             last_name=obj_in.last_name,
@@ -74,6 +75,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
                 last_seen_at = deleting_user.last_seen_at,
                 profile = deleting_user.profile, 
                 avatar_path = deleting_user.avatar_path, 
+                cover_image_path = deleting_user.cover_image_path
             )
             query.delete()
             db.commit()

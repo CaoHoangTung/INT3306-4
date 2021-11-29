@@ -18,6 +18,7 @@ class User(Base):
     last_seen_at = Column(DateTime)
     profile = Column(String)
     avatar_path = Column(String)    
+    cover_image_path = Column(String, nullable=False)
     
     posts = relationship("UserPostRelation", back_populates="user")
 
