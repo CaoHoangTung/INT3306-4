@@ -12,6 +12,7 @@ import WritePost from "./pages/newpost/index.js";
 import Profile from "./pages/profile";
 import TopicPage from "./pages/topic";
 import ChangeProfile from "./pages/setting";
+import Saved from "./pages/saved";
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
     ["/viewpost", <ViewPost />, true],
     ["/new-story",<WritePost/>,true],
     ["/topicPage", <TopicPage/>, true],
-    ["/setting", <ChangeProfile/>, true]
+    ["/setting", <ChangeProfile/>, true],
+    ["/saved", <Saved/>, true]
   ];
 
   const adminRouters = [

@@ -7,7 +7,7 @@ function NewsFeed() {
     const [show, setShow] = useState(true);
     return (
         <div>
-            <CommentModal onClose={() => {setShow(false)} } show={show}/>
+            {/*<CommentModal onClose={() => {setShow(false)} } show={show}/>*/}
             <MediumPosts
                 author="author"
                 topic="topic"

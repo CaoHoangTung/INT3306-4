@@ -6,6 +6,9 @@ import RecommendedTopics from "../../components/main/RecommendedTopics";
 import WhoToFollow from "../../components/main/WhoToFollow";
 import RightSection from "../../components/main/RightSection";
 import LeftSection from "../../components/main/LeftSection";
+import YourTopics from "../../components/main/YourTopics";
+import NewsFeed from "../../components/main/NewsFeed";
+import React from "react";
 
 function TopicPage(props) {
     return(
@@ -24,7 +27,11 @@ function TopicPage(props) {
                             </Container>
                         </div>
                         <div className="left">
-                            <LeftSection/>
+                            <div className="LeftSection">
+                                <Container>
+                                    <NewsFeed/>
+                                </Container>
+                            </div>
                         </div>
                     </Grid>
                     <Grid item xs = {4}>
