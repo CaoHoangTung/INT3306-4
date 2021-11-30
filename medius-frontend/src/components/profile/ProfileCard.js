@@ -97,6 +97,7 @@ function ProfileCard(props) {
                         <FollowButton 
                             isFollowing={props.isFollowing} 
                             setIsFollowing={props.setIsFollowing}
+                            isOwner={props.isOwner}
                         />
                     </Typography>{" "}
                     <Typography

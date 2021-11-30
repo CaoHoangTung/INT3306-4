@@ -7,7 +7,7 @@ import {
 import Main from "./pages/main";
 import Home from "./pages/home";
 import ViewPost from "./pages/viewpost"
-import { getLocalCredential } from "./utils/auth"
+import { getCurrentUser, getLocalCredential } from "./utils/auth"
 import WritePost from "./pages/newpost/index.js";
 import Profile from "./pages/profile";
 import TopicPage from "./pages/topic";
@@ -25,7 +25,8 @@ function App() {
   ];
   
   const userRouters = [
-    ["/my-profile", <Profile/>, true],
+    ["/my-profile", <Profile userId={getCurrentUser()}/>, true],
+    ["/profile/:userId", <Profile userId={1}/>, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
     ["/viewpost", <ViewPost />, true],
