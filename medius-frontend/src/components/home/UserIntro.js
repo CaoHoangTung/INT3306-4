@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 
 const UserIntro = (props) => {
     return (
-
             <div className="UserIntro">
                 <div className="header">
                     <CardHeader className="avatar"
