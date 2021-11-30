@@ -66,8 +66,8 @@ function NotificationsBox() {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
                     <MenuItem>
-                        <div className={"notificationContent"}>
-                            asd asdf safd dfs dfds wfew ijf aoisjdf iadfoji ojasf ojasdofi fdij
+                        <div className="notificationContent">
+                            this is a ado ijsd ijsidf sdfi L jdf ijf nsdfi iefj df sd dfd sdf sdf sdfw wefewf wef
                         </div>
                     </MenuItem>
                 </Menu>
