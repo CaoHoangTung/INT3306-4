@@ -2,21 +2,32 @@ import NewPostNavBar from "../../components/newpost/NewPostNavBar.js";
 import { Container } from "@material-ui/core";
 import TextEditor from "./TextEditor.js";
 import React from 'react';
-import EditorContainer from "./EditorContainer.js";
 import './newpost.scss';
 import { TextField } from "@mui/material";
+import { styled } from '@mui/material/styles';
+const Input = styled('input')({
+    display: 'none',
+});
 function WritePost() {
     return (
         <div>
             {<NewPostNavBar />}
             <Container>
+                <div>
+                   
+                </div>
                 <TextField
                     label='Title'
-                    placeholder='Enter Tile'
+                    placeholder='Enter Title'
                     fullWidth
                     variant="standard"
                 />
-                <TextField 
+                 <TextField
+                    label='Add photo cover link'
+                    fullWidth
+                    variant="standard"
+                />
+                <TextField
                     label='Post preview'
                     placeholder='Write somethings about your post'
                     fullWidth
