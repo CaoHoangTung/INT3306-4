@@ -64,7 +64,7 @@ class CRUDUserPostRelation(CRUDBase[UserPostRelation, UserPostRelationCreate, Us
             user_id=obj_in.user_id, 
             post_id=obj_in.post_id,
             is_saved = obj_in.is_saved, 
-            is_blocking = obj_in.is_blocking, 
+            is_blocked = obj_in.is_blocked, 
             is_upvote = obj_in.is_upvote, 
             is_downvote = obj_in.is_downvote
         )

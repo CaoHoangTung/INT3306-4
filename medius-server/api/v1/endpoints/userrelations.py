@@ -124,7 +124,12 @@ def view_relation(db: Session = Depends(deps.get_db), user_id_1:int = Query(...)
         user_id_2=user_id_2
     )
     if not relation:
-        raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
+        # return default relation 
+        return schemas.UserRelation(
+            user_id_1=user_id_1,
+            user_id_2=user_id_2
+        )
+        # raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
             
     return relation
 
