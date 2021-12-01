@@ -7,9 +7,12 @@ import {
 import Main from "./pages/main";
 import Home from "./pages/home";
 import ViewPost from "./pages/viewpost"
-import { getLocalCredential } from "./utils/auth"
+import { getCurrentUser, getLocalCredential } from "./utils/auth"
 import WritePost from "./pages/newpost/index.js";
 import Profile from "./pages/profile";
+import TopicPage from "./pages/topic";
+import ChangeProfile from "./pages/setting";
+import Saved from "./pages/saved";
 
 
 function App() {
@@ -22,11 +25,15 @@ function App() {
   ];
   
   const userRouters = [
-    ["/my-profile", <Profile/>, true],
+    ["/my-profile", <Profile userId={getCurrentUser()}/>, true],
+    ["/profile/:userId", <Profile userId={1}/>, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
     ["/viewpost", <ViewPost />, true],
-    ["/new-story",<WritePost/>,true]
+    ["/new-story",<WritePost/>,true],
+    ["/topicPage", <TopicPage/>, true],
+    ["/setting", <ChangeProfile/>, true],
+    ["/saved", <Saved/>, true]
   ];
 
   const adminRouters = [

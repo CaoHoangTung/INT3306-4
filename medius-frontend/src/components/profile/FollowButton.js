@@ -1,6 +1,9 @@
 import { Button } from '@material-ui/core';
-
+import React from 'react';
 export default function FollowButton(props) {
+    if (props.isOwner) {
+        return null;
+    }
     if (props.isFollowing) {
         return (
             <Button

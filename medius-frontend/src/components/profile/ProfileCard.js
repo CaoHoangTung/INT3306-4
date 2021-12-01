@@ -2,7 +2,7 @@ import { Card, CardContent, CardMedia, Avatar, Typography, Grid } from '@mui/mat
 import { makeStyles } from '@mui/styles';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import PeopleIcon from '@mui/icons-material/People';
-
+import React from 'react';
 import { red } from "@material-ui/core/colors";
 import { createTheme } from "@material-ui/core/styles";
 import FollowButton from './FollowButton';
@@ -97,6 +97,7 @@ function ProfileCard(props) {
                         <FollowButton 
                             isFollowing={props.isFollowing} 
                             setIsFollowing={props.setIsFollowing}
+                            isOwner={props.isOwner}
                         />
                     </Typography>{" "}
                     <Typography

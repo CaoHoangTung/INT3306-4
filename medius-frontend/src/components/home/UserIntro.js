@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 
 const UserIntro = (props) => {
     return (
-
             <div className="UserIntro">
                 <div className="header">
                     <CardHeader className="avatar"
@@ -37,9 +36,13 @@ const UserIntro = (props) => {
                         borderRadius:'99em',
                         fontSize: '12px',
                         ":hover" : {
-                            backgroundColor: 'rgba(41, 41, 41, 0.5)'
+                            backgroundColor: 'white',
+                            color: 'rgba(8, 8, 8, 1)',
+                            borderColor: 'rgba(41, 41, 41, 1)',
+                            fontWeight:'400'
                         }
-                    }} variant="contained" href={props.link}>
+                    }}
+                    variant="contained" href={props.link}>
                         Follow
                     </Button>
                 </div>
