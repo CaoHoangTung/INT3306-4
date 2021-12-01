@@ -8,11 +8,11 @@ function RecommendedTopics() {
 
     useEffect(() => {
         getAllTopics()
-        .then(topics => {
-            console.log(topics);
-            setTopics(topics);
-        })
-        .catch(err => console.error(err));
+            .then(topics => {
+                console.log(topics);
+                setTopics(topics);
+            })
+            .catch(err => console.error(err));
     }, []);
 
     return (
@@ -22,12 +22,13 @@ function RecommendedTopics() {
             </p>
             <div className="RecommendedTopic_Container">
                 {topics.map(topic => (
-                    <Topic 
-                        key={topic.topic_id} 
+                    <Topic
+                        key={topic.topic_id}
                         topic={topic.topic_name}
-                        link={`/topic/${topic.topic_id}`}
+                        // link={`/topic/${topic.topic_id}`}
+                        link={`/topic/${topic.topic_name}`}
                     />
-                    )
+                )
                 )}
             </div>
         </div>

@@ -22,3 +22,4 @@ class Post(Base):
 
     topics = relationship("PostTopic", back_populates="post")
     users = relationship("UserPostRelation", back_populates="post")
+    comments = relationship("Comment", back_populates="post")

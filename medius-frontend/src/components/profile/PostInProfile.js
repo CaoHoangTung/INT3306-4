@@ -1,37 +1,38 @@
 import Button from "@mui/material/Button";
-import {Avatar} from "@mui/material";
+import { Avatar } from "@mui/material";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Typography from "@mui/material/Typography";
-import {Link} from "@material-ui/core";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import SaveButton from "./SaveButton";
 
 export default function PostInProfile(props) {
+    const post = props.post;
     return (
-        <Grid item xs = {12}>
+        <Grid item xs={12}>
             <div className="title">
                 <Typography variant="h2" gutterBottom component="div">
-                    {props.title}
+                    {post.title}
                 </Typography>
             </div>
             <div className="author">
                 <div className="first">
-                    <Avatar alt="username" src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png"/>
-                    <Link>userName</Link>
+                    <Avatar alt="username" src={props.author_avatar} />
+                    <Link>{props.author_name}</Link>
                 </div>
                 <div className="second">
-                    <BookmarkBorderIcon/>
                     <MoreHorizIcon></MoreHorizIcon>
                 </div>
             </div>
             <div className="content">
                 <img
                     src="../../logo.svg"
+                    alt="Logo"
                 />
                 <Typography>
-                    {props.content}
+                    {post.content}
                 </Typography>
             </div>
             <div className="relatedTopic">
@@ -43,16 +44,17 @@ export default function PostInProfile(props) {
                 <div className="vote">
                     <div className="upvote">
                         <ThumbUpIcon></ThumbUpIcon>
-                        {props.upvote}
+                        {post.upvote}
                     </div>
                     <div className="downvote">
                         <ThumbDownIcon></ThumbDownIcon>
-                        {props.downvote}
+                        {post.downvote}
                     </div>
                 </div>
                 <div>
-                    <BookmarkBorderIcon></BookmarkBorderIcon>
-                    <MoreHorizIcon></MoreHorizIcon>
+                    <SaveButton
+                        isSaved={post.isSaved}
+                    ></SaveButton>
                 </div>
             </div>
             <hr></hr>

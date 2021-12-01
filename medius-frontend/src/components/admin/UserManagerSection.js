@@ -17,11 +17,11 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Avatar, Button, Container, TableHead } from '@material-ui/core';
-import { deleteUser, getAllUsers } from '../../api/users';
-import React, { useEffect, useState } from 'react';
+import { createUser, deleteUser, getAllUsers, updateUser } from '../../api/users';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getAllRoles } from '../../api/roles';
-import { MenuItem, Select } from '@mui/material';
-import SignUp from '../home/SignUp';
+import { CircularProgress, Input, MenuItem, Select } from '@mui/material';
+import SearchBar from 'material-ui-search-bar';
 
 function SmallNote(props) {
     return (
@@ -108,11 +108,60 @@ const columns = [
     { id: 'action', label: 'Action', minWidth: 100, align: "right" },
 ];
 
-function CreateUserForm() {
+function RoleSelect({ roles, value, onChange }) {
+    return (
+        <Select
+            type="outlined"
+            value={value}
+            onChange={onChange}
+        >
+            <MenuItem disabled key="default" value={-1}>--- Select role ---</MenuItem>
+
+            {roles.map((role) => (
+                <MenuItem key={role.role_id} value={role.role_id}>{role.role_name}</MenuItem>
+            ))}
+        </Select>
+    )
+}
+
+function CreateUserForm({ roles, fetchUsers }) {
+    const [firstName, setFirstname] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState(-1);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const user = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password,
+            role_id: role
+        };
+        console.log(user);
+        createUser(user)
+            .then(response => {
+                alert(`User created`)
+                fetchUsers();
+            }).catch(error => {
+                console.error(error);
+                alert(`Cannot create user`);
+                console.error(error);
+            });
+    };
+
+
     return (
         <div>
             <h1>Create User</h1>
-            <SignUp />
+            <Input id="firstname" label="FirstName" placeholder="First Name" value={firstName} onChange={e => setFirstname(e.target.value)} />
+            <Input id="lastname" label="LastName" placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
+            <Input id="email" label="Email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+            <Input type="password" id="password" label="Password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+            <RoleSelect roles={roles} value={role} onChange={e => setRole(e.target.value)} />
+            <Button variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
         </div>
     )
 }
@@ -123,9 +172,30 @@ export default function CustomPaginationActionsTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [users, setUsers] = useState([]);
-    const [userRoles, setUserRoles] = useState([]);
     const [roles, setRoles] = useState([])
     const [emptyRows, setEmptyRows] = useState(0);
+
+    const [userSearchString, setUserSearchString] = useState("");
+
+    const [userRolesLoading, setUserRolesLoading] = useState([]);
+
+    const setUserRole = (rowIdx, roleId) => {
+        setUserRolesLoading(userRolesLoading.map((loading, idx) => idx === rowIdx ? true : loading));
+
+        const updatingUser = { ...users[rowIdx], role_id: roleId };
+        updateUser(updatingUser)
+            .then(response => {
+                let newUsers = users.map((user, idx) => idx === rowIdx ? { ...user, role_id: roleId } : user);
+                setUsers(newUsers);
+            })
+            .catch(error => {
+                alert(`Cannot update user role`);
+                console.error(error);
+            })
+            .finally(() => {
+                setUserRolesLoading(userRolesLoading.map((loading, idx) => idx === rowIdx ? false : loading));
+            });
+    }
 
     const fetchRoles = async () => {
         setLoading(true);
@@ -161,7 +231,7 @@ export default function CustomPaginationActionsTable() {
     useEffect(() => {
         const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
         setEmptyRows(emptyRows);
-        setUserRoles(users.map(user => user.role_id));
+        setUserRolesLoading(users.map(user => false))
     }, [users, page, rowsPerPage]);
 
 
@@ -174,6 +244,20 @@ export default function CustomPaginationActionsTable() {
         setPage(0);
     };
 
+
+    const getDisplayedUsers = useCallback(() => {
+        if (userSearchString === "") {
+            return users;
+        } else {
+            return users.filter(user =>
+                user.first_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
+                user.last_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
+                user.email.toLowerCase().includes(userSearchString.toLowerCase())
+            );
+        }
+    }, [userSearchString, users]);
+
+
     return (
         <div className="MainSection_Container">
             <Container>
@@ -185,7 +269,19 @@ export default function CustomPaginationActionsTable() {
                         <Button variant="contained" color={creatingUser ? "default" : "primary"} onClick={() => setCreatingUser(!creatingUser)}>
                             {creatingUser ? "- Cancel" : "+ Create User"}
                         </Button>
-                        {creatingUser ? <CreateUserForm /> : <></>}
+                        {creatingUser ? <CreateUserForm roles={roles} fetchUsers={fetchUsers} /> : <></>}
+
+                        <SearchBar
+                            style={{
+                                marginTop: "20px",
+                                marginBottom: "10px",
+                                height: '40px',
+                                border: "none",
+                            }}
+                            value={userSearchString}
+                            onChange={value => setUserSearchString(value)}
+                        />
+
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
                                 <TableHead>
@@ -203,9 +299,9 @@ export default function CustomPaginationActionsTable() {
                                 </TableHead>
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                        ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        : users
-                                    ).map((row) => (
+                                        ? getDisplayedUsers(users).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : getDisplayedUsers(users)
+                                    ).map((row, idx) => (
                                         <TableRow key={row.email}>
                                             <TableCell component="th" scope="row">
                                                 <Avatar
@@ -222,17 +318,15 @@ export default function CustomPaginationActionsTable() {
                                                 <SmallNote><AccessTimeIcon fontSize="inherit" /> Last seen at {row.last_seen_at}</SmallNote>
                                             </TableCell>
                                             <TableCell style={{ width: 160 }} align="right">
-                                                <Select
-                                                    style={{ width: "100%" }}
-                                                    value={row.role_id}
-                                                    onChange={(e) => {
-                                                        console.log(e.target.value)
-                                                    }}
-                                                >
-                                                    {roles.map((role) => (
-                                                        <MenuItem key={role.role_id} value={role.role_id}>{role.role_name}</MenuItem>
-                                                    ))}
-                                                </Select>
+                                                {userRolesLoading[idx] ? <CircularProgress /> :
+                                                    <RoleSelect
+                                                        roles={roles}
+                                                        value={row.role_id}
+                                                        onChange={e => {
+                                                            setUserRole(idx, e.target.value);
+                                                        }}
+                                                    />
+                                                }
                                             </TableCell>
                                             <TableCell style={{ width: 160 }} align="right">
                                                 <Button onClick={() => {
@@ -241,7 +335,6 @@ export default function CustomPaginationActionsTable() {
                                                         console.log(row.user_id)
                                                         deleteUser(row.user_id)
                                                             .then(response => {
-                                                                console.log(response)
                                                                 alert(`User ${row.email} deleted`)
                                                                 fetchUsers();
                                                             }).catch(error => {

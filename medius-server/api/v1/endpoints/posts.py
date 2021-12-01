@@ -5,7 +5,8 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import user
-from sqlalchemy import func, and_ 
+from sqlalchemy import func, and_
+from starlette import responses 
 
 import crud, models, schemas
 from api import deps, msg
@@ -19,7 +20,7 @@ from schemas.posttopic import PostTopicCreate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all posts with user_id 
     """
@@ -42,9 +43,22 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
     if sort_by_upvote: 
         posts = sorted(posts, key = lambda post: post.upvote, reverse=True)
 
+    if limit:
+        posts = posts[offset:offset+limit]
+
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
+    return posts
+
+@router.get("/saved-posts", response_model=List[schemas.Post])
+def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    "Get saved posts of current users"
+    posts = crud.post.get_saved_post_by_user_id(db=db, user_id=current_user.user_id)
+    
+    if not isinstance(posts, List):
+        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+    
     return posts
 
 # @router.get("/all/{user_id}", response_model=List[schemas.Post])

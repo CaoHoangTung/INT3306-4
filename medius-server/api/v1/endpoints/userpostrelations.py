@@ -75,7 +75,12 @@ def view_relation(db: Session = Depends(deps.get_db), user_id:str = Query(...), 
         post_id=post_id
     )
     if not relation:
-        raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
+        # return default relation 
+        return schemas.UserPostRelation(
+            user_id=user_id,
+            post_id=post_id   
+        )
+        # raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
             
     return relation
 

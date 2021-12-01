@@ -26,8 +26,8 @@ class UserRelationDelete(BaseModel):
     user_id_2: int 
 
 class UserRelationInDBBase(UserRelationBase):
-    is_following: bool
-    is_blocking: bool
+    is_following: Optional[bool]
+    is_blocking: Optional[bool]
 
     class Config:
         orm_mode = True

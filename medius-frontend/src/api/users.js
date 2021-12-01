@@ -34,7 +34,7 @@ export async function createUser(user) {
 }
 
 export async function updateUser(user) {
-    const response = await API.post("/users/update", user);
+    const response = await API.put("/users/update", user);
     return response?.data;
 }
 
@@ -42,6 +42,6 @@ export async function deleteUser(user_id) {
     var body = {
         "user_id": user_id
     };
-    const response = await API.delete(`/users/delete`, body);
+    const response = await API.delete(`/users/delete`, { data: body });
     return response?.data;
 }
