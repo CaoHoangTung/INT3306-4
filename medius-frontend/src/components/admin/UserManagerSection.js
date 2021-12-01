@@ -19,6 +19,9 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Avatar, Button, Container, TableHead } from '@material-ui/core';
 import { deleteUser, getAllUsers } from '../../api/users';
 import React, { useEffect, useState } from 'react';
+import { getAllRoles } from '../../api/roles';
+import { MenuItem, Select } from '@mui/material';
+import SignUp from '../home/SignUp';
 
 function SmallNote(props) {
     return (
@@ -105,24 +108,60 @@ const columns = [
     { id: 'action', label: 'Action', minWidth: 100, align: "right" },
 ];
 
+function CreateUserForm() {
+    return (
+        <div>
+            <h1>Create User</h1>
+            <SignUp />
+        </div>
+    )
+}
+
 export default function CustomPaginationActionsTable() {
+    const [loading, setLoading] = useState(false);
+    const [creatingUser, setCreatingUser] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [users, setUsers] = useState([]);
+    const [userRoles, setUserRoles] = useState([]);
     const [roles, setRoles] = useState([])
     const [emptyRows, setEmptyRows] = useState(0);
 
-    useEffect(() => {
+    const fetchRoles = async () => {
+        setLoading(true);
+        getAllRoles()
+            .then(result => {
+                setRoles(result);
+                console.log(result)
+            }).catch(error => {
+                console.error(error);
+            }).finally(() => {
+                setLoading(false);
+            });
+    }
+
+    const fetchUsers = async () => {
+        setLoading(true);
         getAllUsers()
             .then(result => {
                 setUsers(result);
                 console.log(result)
+            }).catch(error => {
+                console.error(error);
+            }).finally(() => {
+                setLoading(false);
             });
+    }
+
+    useEffect(() => {
+        fetchRoles();
+        fetchUsers();
     }, []);
 
     useEffect(() => {
         const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
         setEmptyRows(emptyRows);
+        setUserRoles(users.map(user => user.role_id));
     }, [users, page, rowsPerPage]);
 
 
@@ -139,89 +178,115 @@ export default function CustomPaginationActionsTable() {
         <div className="MainSection_Container">
             <Container>
                 <h1>User manager</h1>
-                <Button variant="contained" color="primary">+ Create user</Button>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {(rowsPerPage > 0
-                                ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : users
-                            ).map((row) => (
-                                <TableRow key={row.email}>
-                                    <TableCell component="th" scope="row">
-                                        <Avatar
-                                            alt="Remy Sharp"
-                                            src={row.avatar}
-                                        />
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">{row.first_name + " " + row.last_name}</TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.email}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <SmallNote><AccessTimeIcon fontSize="inherit" /> Register at {row.register_at}</SmallNote>
-                                        <SmallNote><AccessTimeIcon fontSize="inherit" /> Last seen at {row.last_seen_at}</SmallNote>
-                                    </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.role_id}
-                                    </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        <Button onClick={() => {
-                                            const confirm = window.confirm(`Are you sure you want to delete user ${row.email}?`);
-                                            if (confirm) {
-                                                deleteUser(row.user_id)
-                                                    .then(response => {
-                                                        console.log(response)
-                                                    })
-                                            }
-                                        }} >
-                                            <DeleteIcon />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                {loading ?
+                    <div>Loading...</div>
+                    :
+                    <>
+                        <Button variant="contained" color={creatingUser ? "default" : "primary"} onClick={() => setCreatingUser(!creatingUser)}>
+                            {creatingUser ? "- Cancel" : "+ Create User"}
+                        </Button>
+                        {creatingUser ? <CreateUserForm /> : <></>}
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 300 }} aria-label="custom pagination table">
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column) => (
+                                            <TableCell
+                                                key={column.id}
+                                                align={column.align}
+                                                style={{ minWidth: column.minWidth }}
+                                            >
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {(rowsPerPage > 0
+                                        ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : users
+                                    ).map((row) => (
+                                        <TableRow key={row.email}>
+                                            <TableCell component="th" scope="row">
+                                                <Avatar
+                                                    alt="Remy Sharp"
+                                                    src={row.avatar}
+                                                />
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">{row.first_name + " " + row.last_name}</TableCell>
+                                            <TableCell style={{ width: 160 }} align="right">
+                                                {row.email}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <SmallNote><AccessTimeIcon fontSize="inherit" /> Register at {row.register_at}</SmallNote>
+                                                <SmallNote><AccessTimeIcon fontSize="inherit" /> Last seen at {row.last_seen_at}</SmallNote>
+                                            </TableCell>
+                                            <TableCell style={{ width: 160 }} align="right">
+                                                <Select
+                                                    style={{ width: "100%" }}
+                                                    value={row.role_id}
+                                                    onChange={(e) => {
+                                                        console.log(e.target.value)
+                                                    }}
+                                                >
+                                                    {roles.map((role) => (
+                                                        <MenuItem key={role.role_id} value={role.role_id}>{role.role_name}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </TableCell>
+                                            <TableCell style={{ width: 160 }} align="right">
+                                                <Button onClick={() => {
+                                                    const confirm = window.confirm(`Are you sure you want to delete user ${row.email}?`);
+                                                    if (confirm) {
+                                                        console.log(row.user_id)
+                                                        deleteUser(row.user_id)
+                                                            .then(response => {
+                                                                console.log(response)
+                                                                alert(`User ${row.email} deleted`)
+                                                                fetchUsers();
+                                                            }).catch(error => {
+                                                                console.error(error);
+                                                                alert(`Cannot delete user ${row.email}`);
+                                                                console.error(error);
+                                                            });
+                                                    }
+                                                }} >
+                                                    <DeleteIcon />
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
 
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                    colSpan={3}
-                                    count={users.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    SelectProps={{
-                                        inputProps: {
-                                            'aria-label': 'rows per page',
-                                        },
-                                        native: true,
-                                    }}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                    ActionsComponent={TablePaginationActions}
-                                />
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </TableContainer>
+                                    {emptyRows > 0 && (
+                                        <TableRow style={{ height: 53 * emptyRows }}>
+                                            <TableCell colSpan={6} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <TablePagination
+                                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                            colSpan={3}
+                                            count={users.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            SelectProps={{
+                                                inputProps: {
+                                                    'aria-label': 'rows per page',
+                                                },
+                                                native: true,
+                                            }}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                            ActionsComponent={TablePaginationActions}
+                                        />
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </TableContainer>
+                    </>
+                }
             </Container>
         </div>
     );
