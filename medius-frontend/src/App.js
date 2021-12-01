@@ -7,7 +7,8 @@ import {
 import Main from "./pages/main";
 import Home from "./pages/home";
 import ViewPost from "./pages/viewpost"
-import { getCurrentUser, getLocalCredential } from "./utils/auth"
+import { getLocalCredential, getCurrentUser } from "./utils/auth"
+import UserManager from "./pages/admin/usermanager";
 import WritePost from "./pages/newpost/index.js";
 import Profile from "./pages/profile";
 import TopicPage from "./pages/topic";
@@ -21,23 +22,23 @@ function App() {
    * Consist of 3 item: route string, component, exact
    */
   const commonRouters = [
-    ["/", <Home/>, true]
+    ["/", <Home />, true]
   ];
-  
+
   const userRouters = [
-    ["/my-profile", <Profile userId={getCurrentUser()}/>, true],
-    ["/profile/:userId", <Profile userId={1}/>, true],
+    ["/my-profile", <Profile userId={getCurrentUser()} />, true],
+    ["/profile/:userId", <Profile userId={1} />, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
     ["/viewpost", <ViewPost />, true],
-    ["/new-story",<WritePost/>,true],
-    ["/topicPage", <TopicPage/>, true],
-    ["/setting", <ChangeProfile/>, true],
-    ["/saved", <Saved/>, true]
+    ["/new-story", <WritePost />, true],
+    ["/topicPage", <TopicPage />, true],
+    ["/setting", <ChangeProfile />, true],
+    ["/saved", <Saved />, true]
   ];
 
   const adminRouters = [
-    ["/manage/user", <p>Manage User</p>, true]
+    ["/admin/user", <UserManager />, true]
   ];
   return (
     <Router>
@@ -52,7 +53,7 @@ function App() {
                 {item[1]}
               </Route>
             )
-          )}
+            )}
 
           {!!getLocalCredential() &&
             /**
@@ -63,7 +64,7 @@ function App() {
                 {item[1]}
               </Route>
             )
-          )}       
+            )}
 
           {commonRouters.map(item => (
             /**
@@ -72,7 +73,7 @@ function App() {
             <Route path={item[0]} exact={item[2]}>
               {item[1]}
             </Route>
-            )
+          )
           )}
         </Switch>
       </div>

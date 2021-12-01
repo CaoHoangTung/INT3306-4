@@ -11,6 +11,9 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import ManageAccounts from '@mui/icons-material/ManageAccounts';
+import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
+import { Link } from "react-router-dom";
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -20,6 +23,9 @@ export default function AccountMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    console.log(getLocalCredential())
+
     return (
         <div>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -66,7 +72,7 @@ export default function AccountMenu() {
                 <MenuItem>
                     <Avatar /> My Profile
                 </MenuItem>
-                <MenuItem onClick={event =>  window.location.href='/new-story'}>
+                <MenuItem onClick={event => window.location.href = '/new-story'}>
                     <Avatar /> Write a story
                 </MenuItem>
                 <Divider />
@@ -82,6 +88,20 @@ export default function AccountMenu() {
                     </ListItemIcon>
                     Settings
                 </MenuItem>
+                <Divider />
+                {currentUserIsAdmin() && (
+                    <div>
+                        <Link to="/admin/user">
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <ManageAccounts fontSize="small" />
+                                </ListItemIcon>
+                                Manage users
+                            </MenuItem>
+                        </Link>
+                        <Divider />
+                    </div>
+                )}
                 <MenuItem onClick={() => {
                     logout();
                     window.location.href = "/";

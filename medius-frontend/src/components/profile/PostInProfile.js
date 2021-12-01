@@ -1,20 +1,17 @@
 import Button from "@mui/material/Button";
-import {Avatar} from "@mui/material";
+import { Avatar } from "@mui/material";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Typography from "@mui/material/Typography";
-import {Link} from "@material-ui/core";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SaveButton from "./SaveButton";
-import { useState } from "react";
 
 export default function PostInProfile(props) {
-    const [topics, setTopics] = useState([]);
     const post = props.post;
     return (
-        <Grid item xs = {12}>
+        <Grid item xs={12}>
             <div className="title">
                 <Typography variant="h2" gutterBottom component="div">
                     {post.title}
@@ -22,7 +19,7 @@ export default function PostInProfile(props) {
             </div>
             <div className="author">
                 <div className="first">
-                    <Avatar alt="username" src={props.author_avatar}/>
+                    <Avatar alt="username" src={props.author_avatar} />
                     <Link>{props.author_name}</Link>
                 </div>
                 <div className="second">
@@ -32,6 +29,7 @@ export default function PostInProfile(props) {
             <div className="content">
                 <img
                     src="../../logo.svg"
+                    alt="Logo"
                 />
                 <Typography>
                     {post.content}
@@ -54,7 +52,7 @@ export default function PostInProfile(props) {
                     </div>
                 </div>
                 <div>
-                    <SaveButton 
+                    <SaveButton
                         isSaved={post.isSaved}
                     ></SaveButton>
                 </div>

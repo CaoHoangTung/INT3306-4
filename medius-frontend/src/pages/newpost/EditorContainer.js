@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from 'draftjs-to-html';
 import './newpost.scss'
 function uploadImageCallBack(file) {
   return new Promise(
@@ -64,10 +63,10 @@ class EditorContainer extends Component {
           image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
         }}
       />
-      
+
     </div>
-      
-  
+
+
   }
 }
 

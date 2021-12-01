@@ -1,10 +1,8 @@
 import MediumPosts from "../home/PostPreview.js";
-import React, {useState} from 'react';
+import React from 'react';
 import '../../pages/main/Main.scss'
-import CommentModal from "../shared/CommentModal"
-import LoginModal from "../home/LoginModal";
+
 function NewsFeed() {
-    const [show, setShow] = useState(true);
     return (
         <div>
             {/*<CommentModal onClose={() => {setShow(false)} } show={show}/>*/}

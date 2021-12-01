@@ -1,35 +1,32 @@
 import MainNavBar from "../../components/main/MainNavBar";
-import {Container} from "@mui/material";
-import {TextField} from "@material-ui/core";
-import {useState} from "react";
+import { Container } from "@mui/material";
 
 function Setting(props) {
-    const [lastName, setLastName] = useState("");
     return (
         <div className={"setting"}>
             <div>
-                <MainNavBar/>
+                <MainNavBar />
             </div>
             <div>
                 <div className="aboutYou">
                     <Container>
                         <div className="firstname">
                             <input type="text"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
                             />
                         </div>
                         <div className="lastname">
                             <input type="text"
-                                   placeholder={"oldLastname"}
+                                placeholder={"oldLastname"}
                             />
                         </div>
                         <div className="email">
                             <input type="text"
-                                   placeholder={"oldEmail"}
+                                placeholder={"oldEmail"}
                             />
                         </div>
                         <div className="profileImage">
-                            <input type="file" id="myFile" name="filename"/>
+                            <input type="file" id="myFile" name="filename" />
                         </div>
                         <div>
                             <button>Save changes</button>
@@ -39,13 +36,13 @@ function Setting(props) {
                 <div className="security">
                     <div className="password">
                         <input type="oldPassword"
-                               placeholder={"**********"}
+                            placeholder={"**********"}
                         />
                         <input type="newPassword"
-                               placeholder={"**********"}
+                            placeholder={"**********"}
                         />
                         <input type="newPassword"
-                               placeholder={"**********"}
+                            placeholder={"**********"}
                         />
                     </div>
                 </div>
