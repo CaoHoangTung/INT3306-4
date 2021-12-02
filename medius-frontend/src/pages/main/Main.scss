@@ -69,8 +69,18 @@
     }
 }
 .notificationContent {
-    inline-size: 150px;
+    width: 350px;
     overflow-wrap: break-word;
+    border-bottom: gray 1px solid;
+    margin-bottom: 20px;
+    .left {
+        display: flex;
+        padding-left: 14px;
+    }
+    .time {
+        color: #757575;
+        padding-left: 15px;
+    }
 }
 .NotificationBox {
 
@@ -95,8 +105,9 @@
     }
     .modal-content {
         width: 500px;
-        height: auto;
+        height: 100%;
         background-color: #ffff;
+        overflow-x: scroll;
     }
     .header {
         display: flex;

@@ -2,9 +2,9 @@ import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
 import { login } from "../../api/login";
 const SignUp = (props) => {
-    const [firstName] = useState("");
-    const [lastName] = useState("");
-    const [email] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [disabled, setDisabled] = useState(false);
@@ -18,21 +18,21 @@ const SignUp = (props) => {
                 </Grid>
                 <TextField
                     value={firstName}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={e => setFirstName(e.target.value)}
                     label='First name'
                     placeholder='What is your first name ?'
                     fullWidth
                     required />
                 <TextField
                     value={lastName}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={e => setLastName(e.target.value)}
                     label='Last name'
                     placeholder='And your last name ?'
                     fullWidth
                     required />
                 <TextField
                     value={email}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                     label='Email'
                     placeholder='Just a little more.'
                     fullWidth
