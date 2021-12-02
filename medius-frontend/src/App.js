@@ -27,7 +27,7 @@ function App() {
 
   const userRouters = [
     ["/my-profile", <Profile userId={getCurrentUser()} />, true],
-    ["/profile/:userId", <Profile userId={1} />, true],
+    ["/profile/:userId", <Profile userId={3} />, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
     ["/viewpost", <ViewPost />, true],

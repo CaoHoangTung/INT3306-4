@@ -27,7 +27,7 @@ function Profile(props) {
         getUser(props.userId)
             .then(data => {
                 setAuthor(data);
-                if (data.user_id === getCurrentUser()) {
+                if (data.user_id == getCurrentUser()) {
                     setIsOwner(true);
                 } else {
                     getUserRelation(getCurrentUser(), data.user_id)
@@ -48,17 +48,12 @@ function Profile(props) {
     useEffect(() => {
         getAllPostsOfUserId(props.userId)
             .then(data => {
-                for (let post of data) {
-                    console.log(post);
-                    post.is_saved = false;
-                }
                 setPosts(data);
             })
             .catch(err => {
                 console.log(err);
             });
     }, [props.userId]);
-
     return (
         <div className="viewPost">
             <div className="header">
@@ -66,6 +61,7 @@ function Profile(props) {
                     <Button variant="text">{author.first_name + " " + author.last_name}</Button>
                     <Button variant="text">{author.num_followers} Followers</Button>
                     <FollowButton
+                        key={"Follow" + author.user_id}
                         isFollowing={isFollowing}
                         setIsFollowing={setIsFollowing}
                         isOwner={isOwner}
@@ -84,13 +80,8 @@ function Profile(props) {
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
                         <ProfileCard
-                            email={author.email}
-                            first_name={author.first_name}
-                            last_name={author.last_name}
-                            avatar="https://picsum.photos/seed/picsum/200/300"
-                            profile="I am a software engineer at UET"
-                            numberOfPost="10"
-                            numFollowers={author.num_followers}
+                            key={author.user_id}
+                            author={author}
                             isFollowing={isFollowing}
                             setIsFollowing={setIsFollowing}
                             isOwner={isOwner}
@@ -99,6 +90,7 @@ function Profile(props) {
                     <Grid item xs={6}>
                         {posts.map(post => (
                             <PostInProfile
+                                key={post.post_id}
                                 author_name={author.first_name + " " + author.last_name}
                                 author_avatar="https://picsum.photos/seed/picsum/200/300"
                                 post={post}
