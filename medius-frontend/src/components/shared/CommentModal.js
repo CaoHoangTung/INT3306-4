@@ -25,6 +25,18 @@ const CommentModal = props => {
                     <div>
                         <Comment></Comment>
                         <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
+                        <Comment></Comment>
 
                     </div>
                 </div>

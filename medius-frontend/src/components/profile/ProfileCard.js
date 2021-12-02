@@ -54,6 +54,7 @@ const useStyles = makeStyles(() => ({
 
 
 function ProfileCard(props) {
+    const author = props.author;
     const classes = useStyles();
     return (
 
@@ -65,8 +66,8 @@ function ProfileCard(props) {
             >
                 <CardMedia align="center">
                     <Avatar
-                    alt={props?.first_name}
-                    src={props?.avatar}
+                    alt={author?.first_name}
+                    src={author?.avatar}
                     className={classes.large}
                     />
                 </CardMedia>
@@ -77,7 +78,7 @@ function ProfileCard(props) {
                         variant="h6"
                         align="center"
                     >
-                        {props?.first_name} {props?.last_name}
+                        {author?.first_name} {author?.last_name}
                     </Typography>
                     <Typography
                         className={classes.text}
@@ -95,9 +96,10 @@ function ProfileCard(props) {
                         align="center"
                     >
                         <FollowButton 
-                            isFollowing={props.isFollowing} 
+                            isFollowing={props.isFollowing}
                             setIsFollowing={props.setIsFollowing}
                             isOwner={props.isOwner}
+                            userId={author.user_id}
                         />
                     </Typography>{" "}
                     <Typography

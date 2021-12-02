@@ -7,24 +7,26 @@ import Button from "@mui/material/Button";
 const UserIntro = (props) => {
     return (
             <div className="UserIntro">
-                <div className="header">
-                    <CardHeader className="avatar"
-                        avatar={
-                            <Avatar
-                                alt={props.author}
-                                src={props.image}
-                            />
-                        }
-                    />
-                </div>
-                <div className="descrip">
-                    <Typography variant="subtitle1">
-                        <b>{props.author}</b>
-                    </Typography>
-                    <Typography className="text"
-                                variant="subtitle2">
-                        {props.description}
-                    </Typography>
+                <div className="user">
+                    <div className="header">
+                        <CardHeader className="avatar"
+                                    avatar={
+                                        <Avatar
+                                            alt={props.author}
+                                            src={props.image}
+                                        />
+                                    }
+                        />
+                    </div>
+                    <div className="descrip">
+                        <Typography variant="subtitle1">
+                            <b>{props.author} author</b>
+                        </Typography>
+                        <Typography className="text"
+                                    variant="subtitle2">
+                            {props.description} mo ta
+                        </Typography>
+                    </div>
                 </div>
                 <div className="follow">
                     <Button sx={{

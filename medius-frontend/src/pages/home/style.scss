@@ -185,7 +185,6 @@ code {
         margin-left: 15px;
         height: 100px;
         width: 250px;
-        background: red;
         background-position: center;
         background-size: cover;
     }
@@ -211,10 +210,14 @@ code {
 
 .UserIntro {
     display: flex;
-    max-width: 500px;
+    justify-content: space-between;
+    width: 300px;
+    margin: 15px;
     .avatar {
-        //border: solid 1px red;
         padding: 0px;
+    }
+    .user {
+        display: flex;
     }
     .text {
         //border: solid 1px red;
@@ -223,10 +226,9 @@ code {
     }
     .header {
         //border: solid 1px red;
-        display: inline-block;
+        display: flex;
         cursor: pointer;
         align-self: center;
-        font: bold;
     }
     .descrip {
         padding: 2px;
