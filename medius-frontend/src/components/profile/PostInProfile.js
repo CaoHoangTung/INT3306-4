@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SaveButton from "./SaveButton";
+import DeleteButton from "./DeleteButton";
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 
@@ -85,6 +86,10 @@ export default function PostInProfile(props) {
                         isSaved={isSaved}
                         setIsSaved={setIsSaved}
                     ></SaveButton>
+                    <DeleteButton
+                        post_id={post.post_id}
+                        isOwner={props.isOwner}
+                    ></DeleteButton>
                 </div>
             </div>
             <hr></hr>
