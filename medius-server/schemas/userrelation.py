@@ -3,7 +3,6 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 from sqlalchemy.sql.sqltypes import DateTime
-from schemas.message import Message
 
 
 # Shared properties

@@ -1,10 +1,10 @@
-from datetime import timedelta
+from datetime import date, timedelta, datetime
 from typing import Any, List
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from sqlalchemy.sql.functions import user
+from sqlalchemy.orm import Session, query, relationship
+from sqlalchemy.sql.functions import func, user
 
 import crud, models, schemas
 from api import deps, msg
@@ -167,12 +167,28 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=updating_relation.user_id_1, user_id_2=updating_relation.user_id_2)
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
-        
+
+    notification_creation = updating_relation.is_following and not query_relation.is_following    
+    
     relation = crud.userrelation.update(
         db=db,
         db_obj=query_relation,
         obj_in=updating_relation
     )
+
+    if notification_creation:
+        crud.notification.create(
+            db=db,
+            obj_in=schemas.NotificationCreate(
+                user_id_1=updating_relation.user_id_1,
+                user_id_2=updating_relation.user_id_2,
+                post_id=None,
+                type="FOLLOW",
+                is_seen=False,
+                created_at=datetime.now()
+            )
+        )
+
     return relation
 
     
