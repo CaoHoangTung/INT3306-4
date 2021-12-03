@@ -1,3 +1,4 @@
+from pydantic.types import NonNegativeFloat
 from .crud_user import user
 from .crud_category import category
 from .crud_conversation import conversation
@@ -11,6 +12,7 @@ from .crud_userpostrelation import userpostrelation
 from .crud_usertopic import usertopic
 from .crud_userrelation import userrelation
 from .crud_comment import comment 
+from .crud_notification import notification 
 # For a new basic set of CRUD operations you could just do
 
 # from .base import CRUDBase
