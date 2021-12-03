@@ -8,7 +8,7 @@ from sqlalchemy.sql.operators import is_natural_self_precedent
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
 from models.notification import Notification
-from schemas.notification import Notification, NotificationInDBBase, NotificationDelete, NotificationBase, NotificationCreate, NotificationUpdate
+from schemas.notification import NotificationInDBBase, NotificationDelete, NotificationBase, NotificationCreate, NotificationUpdate
 
 
 class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUpdate]):
@@ -36,9 +36,9 @@ class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUp
             return None
     
     """
-    Get all notifications with user_id 
+    Get all notifications with user_id_1 
     """  
-    def get_by_user_id(self, db: Session, *, user_id: str) -> List[Notification]:
+    def get_by_user_id_1(self, db: Session, *, user_id: str) -> List[Notification]:
         try:
             return db.query(Notification) \
                 .filter(Notification.user_id_1 == user_id) \
@@ -46,8 +46,20 @@ class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUp
         except Exception as e:
             print(e)
             return None
+    
+    """
+    Get all notifications with user_id_2 
+    """  
+    def get_by_user_id_2(self, db: Session, *, user_id: str) -> List[Notification]:
+        try:
+            return db.query(Notification) \
+                .filter(Notification.user_id_2 == user_id) \
+                .all()
+        except Exception as e:
+            print(e)
+            return None
 
-    def create(self, db: Session, *, obj_in: NotificationCreate, user_id: int) -> Notification:
+    def create(self, db: Session, *, obj_in: NotificationCreate) -> Notification:
         db_obj = Notification(
             user_id_1=obj_in.user_id_1,
             user_id_2=obj_in.user_id_2,

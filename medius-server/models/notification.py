@@ -13,5 +13,5 @@ class Notification(Base):
     user_id_2 = Column(Integer, nullable=False)
     post_id = Column(Integer, nullable=True)
     type = Column(String)
-    is_seen = Column(Boolean)
+    is_seen = Column(Boolean, default=False)
     created_at = Column(DateTime)

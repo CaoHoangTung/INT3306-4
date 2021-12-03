@@ -48,20 +48,30 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
 
+        # print(obj_data)
+
+        # print(db_obj.user_id_1)
+        # print(db_obj.user_id_2)
+        # print(db_obj.is_following)
+        # print(db_obj.is_blocking)
+        # print("**************************")
+
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
         for field in obj_data:
+            # print(field)
             if field in update_data:
+                # print("clgt:" + str(update_data[field]))
                 setattr(db_obj, field, update_data[field])
 
-        print("----------------------------")
-        print(obj_data)
-        print(obj_in)
-        print(jsonable_encoder(db_obj))
-        print("----------------------------")
+        # print("----------------------------")
+        # print(obj_data)
+        # print(obj_in)
+        # print(jsonable_encoder(db_obj))
+        # print("----------------------------")
 
         db.add(db_obj)
         db.commit()

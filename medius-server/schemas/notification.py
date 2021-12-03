@@ -10,7 +10,7 @@ class NotificationBase(BaseModel):
     user_id_1: int 
     user_id_2: int 
     post_id: Optional[int] 
-    type: bool
+    type: str
     is_seen: int 
     created_at: datetime
 
@@ -19,8 +19,14 @@ class NotificationCreate(NotificationBase):
     pass 
 
 # Properties to receive via API on update
-class NotificationUpdate(NotificationBase):
-    pass 
+class NotificationUpdate(BaseModel):
+    notification_id: int 
+    user_id_1: Optional[int]
+    user_id_2: Optional[int] 
+    post_id: Optional[int] 
+    type: Optional[str]
+    is_seen: Optional[int]
+    created_at: Optional[datetime]
 
 class NotificationDelete(BaseModel):
     notification_id: int 
