@@ -39,7 +39,7 @@ export async function deletePost(postId) {
     var body = {
         "post_id": postId
     };
-    const response = await API.delete(`posts/delete`, body);
+    const response = await API.delete(`posts/delete`, { data: body });
     return response?.data;
 }
 

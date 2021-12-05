@@ -94,6 +94,7 @@ function Profile(props) {
                                 author_name={author.first_name + " " + author.last_name}
                                 author_avatar="https://picsum.photos/seed/picsum/200/300"
                                 post={post}
+                                isOwner={isOwner}
                             />
                         ))}
                     </Grid>

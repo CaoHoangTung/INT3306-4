@@ -40,6 +40,6 @@ export async function deletePostTopic(postId, topicId) {
         post_id: postId,
         topic_id: topicId
     };
-    const response = await API.post("/posttopic/delete", body);
+    const response = await API.post("/posttopic/delete", { data: body });
     return response?.data;
 }

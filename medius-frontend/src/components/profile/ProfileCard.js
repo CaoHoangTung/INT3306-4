@@ -109,7 +109,7 @@ function ProfileCard(props) {
                         align="center"
                     >
                         <PeopleIcon className={classes.avatar} fontSize="small" />
-                        {props?.numFollowers} Followers
+                        {author.num_followers} Followers
                     </Typography>{" "}
                 </CardContent>
             </Card>
