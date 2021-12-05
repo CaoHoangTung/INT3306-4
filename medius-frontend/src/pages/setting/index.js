@@ -1,56 +1,90 @@
 import MainNavBar from "../../components/main/MainNavBar";
-import {Container} from "@mui/material";
+import {Container, Grid} from "@mui/material";
 import {TextField} from "@material-ui/core";
 import {useState} from "react";
+import Block from "./Block";
 
 function Setting(props) {
     const [lastName, setLastName] = useState("");
     return (
-        <div className={"setting"}>
+        <div className="setting">
             <div>
                 <MainNavBar/>
             </div>
             <div>
                 <div className="aboutYou">
-                    <Container>
-                        <div className="firstname">
+                    <Grid container>
+                        <Grid item xs={2}>First Name</Grid>
+                        <Grid item xs={1}>
                             <input type="text"
                                    placeholder={"oldFirstname"}
+
                             />
-                        </div>
-                        <div className="lastname">
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={2}>Last Name</Grid>
+                        <Grid item xs={1}>
                             <input type="text"
-                                   placeholder={"oldLastname"}
+                                   placeholder={"oldFirstname"}
+
                             />
-                        </div>
-                        <div className="email">
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={2}>Email</Grid>
+                        <Grid item xs={1}>
                             <input type="text"
-                                   placeholder={"oldEmail"}
+                                   placeholder={"oldFirstname"}
+
                             />
-                        </div>
-                        <div className="profileImage">
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={2}>Avatar</Grid>
+                        <Grid item xs={1}>
                             <input type="file" id="myFile" name="filename"/>
-                        </div>
-                        <div>
-                            <button>Save changes</button>
-                        </div>
-                    </Container>
+                        </Grid>
+                    </Grid>
+                    <div>
+                        <button>Save changes</button>
+                    </div>
                 </div>
                 <div className="security">
-                    <div className="password">
-                        <input type="oldPassword"
-                               placeholder={"**********"}
-                        />
-                        <input type="newPassword"
-                               placeholder={"**********"}
-                        />
-                        <input type="newPassword"
-                               placeholder={"**********"}
-                        />
+                    <Grid container>
+                        <Grid item xs={2}>Old pass</Grid>
+                        <Grid item xs={1}>
+                            <input type="password"
+                                   placeholder={"oldFirstname"}
+
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={2}>New pass</Grid>
+                        <Grid item xs={1}>
+                            <input type="password"
+                                   placeholder={"oldFirstname"}
+
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={2}>Retype</Grid>
+                        <Grid item xs={1}>
+                            <input type="password"
+                                   placeholder={"oldFirstname"}
+
+                            />
+                        </Grid>
+                    </Grid>
+                    <div>
+                        <button>Save changes</button>
                     </div>
                 </div>
                 <div className="blocking">
-
+                    <p>List of blocked users</p>
+                    <Block></Block>
                 </div>
             </div>
         </div>

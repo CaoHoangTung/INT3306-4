@@ -1,94 +1,105 @@
 import './style.scss'
 import Button from "@mui/material/Button";
 import EmailIcon from '@mui/icons-material/Email';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import SearchIcon from '@mui/icons-material/Search';
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import React from 'react';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import Search from "../../components/main/Search.js";
+import ProfileMenu from "../../components/main/AccountMenu.js";
+import NotificationsBox from "../../components/main/NotificationsBox.js";
 import ProfileCard from '../../components/profile/ProfileCard';
 import PostInProfile from '../../components/profile/PostInProfile';
 import { useState, useEffect } from 'react';
 import { getUser } from '../../api/users';
 import { getCurrentUser } from '../../utils/auth';
 import { getAllPostsOfUserId } from '../../api/posts';
-// import { followUser, unFollowUser } from '../../api/user_functions';
+import { getUserRelation } from '../../api/users_users';
+import FollowButton from '../../components/profile/FollowButton';
 
 function Profile(props) {
     const [author, setAuthor] = useState({});
-    const [isFollowing, setIsFollowing] = useState(true);
+    const [isOwner, setIsOwner] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(false);
     const [posts, setPosts] = useState([]);
-    
-    useEffect(() => {
-        getUser(getCurrentUser())
-        .then(data => {
-            setAuthor(data);
-        })
-        .catch(err => {
-            console.log(err)
-        });
-    }, []);
 
     useEffect(() => {
-        getAllPostsOfUserId(getCurrentUser())
-        .then(data => {
-            console.log(data);
-            setPosts(data);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }, []);
+        getUser(props.userId)
+            .then(data => {
+                setAuthor(data);
+                if (data.user_id == getCurrentUser()) {
+                    setIsOwner(true);
+                } else {
+                    getUserRelation(getCurrentUser(), data.user_id)
+                        .then(data => {
+                            if (data.is_following === true) {
+                                setIsFollowing(true);
+                            } else {
+                                setIsFollowing(false);
+                            }
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    }, [props.userId]);
 
+    useEffect(() => {
+        getAllPostsOfUserId(props.userId)
+            .then(data => {
+                setPosts(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [props.userId]);
     return (
         <div className="viewPost">
             <div className="header">
                 <div className="leftHeader">
-                    <Button variant="text">author</Button>
-                    <Button variant="text">number of follower</Button>
-                    <Button variant="text">Follow</Button>
+                    <Button variant="text">{author.first_name + " " + author.last_name}</Button>
+                    <Button variant="text">{author.num_followers} Followers</Button>
+                    <FollowButton
+                        key={"Follow" + author.user_id}
+                        isFollowing={isFollowing}
+                        setIsFollowing={setIsFollowing}
+                        isOwner={isOwner}
+                    />
                     <EmailIcon></EmailIcon>
                 </div>
                 <div className="rightHeader">
-                    <MoreHorizIcon></MoreHorizIcon>
-                    <SearchIcon></SearchIcon>
-                    <img
-                        src="https://picsum.photos/1024/1024"
-                        alt="logo"
-                    />
+                    <Search />
+                    <BookmarksIcon />
+                    <NotificationsBox />
+                    <ProfileMenu />
                 </div>
             </div>
+
             <Container>
-            <Grid container spacing={2}>
-                <Grid item xs = {3}>
-                    <ProfileCard
-                        email={author.email}
-                        first_name={author.first_name}
-                        last_name={author.last_name}
-                        avatar="https://picsum.photos/seed/picsum/200/300"
-                        profile="I am a software engineer at UET"
-                        numberOfPost="10"
-                        numFollowers="100"
-                        isFollowing={isFollowing}
-                        setIsFollowing={setIsFollowing}
-                    />
-                </Grid>
-                <Grid item xs = {6}>
-                    {posts.map(post => (
-                        <PostInProfile
-                            title={post.title}
-                            date={post.published_at}
-                            description={post.content}
-                            image={post.preview_image_path}
-                            link={`/post/${post.post_id}`}
-                            key={post.post_id}
-                            upvote={post.upvote}
-                            downvote={post.downvote}
+                <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                        <ProfileCard
+                            key={author.user_id}
+                            author={author}
+                            isFollowing={isFollowing}
+                            setIsFollowing={setIsFollowing}
+                            isOwner={isOwner}
                         />
-                    ))}
+                    </Grid>
+                    <Grid item xs={6}>
+                        {posts.map(post => (
+                            <PostInProfile
+                                key={post.post_id}
+                                author_name={author.first_name + " " + author.last_name}
+                                author_avatar="https://picsum.photos/seed/picsum/200/300"
+                                post={post}
+                                isOwner={isOwner}
+                            />
+                        ))}
+                    </Grid>
+                    <Grid item xs={3}></Grid>
                 </Grid>
-                <Grid item xs = {3}></Grid>
-            </Grid>
             </Container>
             <div className="footer">
             </div>

@@ -67,7 +67,13 @@ def view_posttopic(db: Session = Depends(deps.get_db), post_id:str = Query(...),
         post_id=post_id
     )
     if not posttopic:
-        raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
+        # return default relation 
+        return schemas.PostTopic(
+            post_id=post_id,
+            topic_id=topic_id,
+            score=-1
+        )
+        # raise HTTPException(status_code=404, detail=msg.INVALID_POSTTOPIC_ID)
             
     return posttopic
 

@@ -12,6 +12,8 @@ import Settings from "@mui/icons-material/Settings";
 import {logout} from "../../api/login";
 import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
+import moment from "moment";
+import StarIcon from "@material-ui/icons/Star";
 function NotificationsBox() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -65,14 +67,19 @@ function NotificationsBox() {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                    <MenuItem>
-                        <div className="notificationContent"> 
-            
-                        Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch
-                    
-
+                <div className="notificationContent">
+                    <div className="left">
+                        <div>
+                            <Avatar/>
                         </div>
-                    </MenuItem>
+                        <div>
+                            The user abcdefgheef followed ijfaiioa jdofijasodjooj ioaisdfosdafoi safsf sf at time
+                        </div>
+                    </div>
+                    <div className="time">
+                        {moment(new Date("2:00:00 PM 11/30/2021"), "YYYYMMDD").fromNow()}
+                    </div>
+                </div>
                 </Menu>
             </div>
         </div>

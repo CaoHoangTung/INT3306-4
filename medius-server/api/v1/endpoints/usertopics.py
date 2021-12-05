@@ -67,7 +67,13 @@ def view_usertopic(db: Session = Depends(deps.get_db), user_id:str = Query(...),
         topic_id=topic_id
     )
     if not usertopic:
-        raise HTTPException(status_code=404, detail=msg.INVALID_USERTOPIC_ID)
+        # return default relation 
+        return schemas.UserTopic(
+            user_id=user_id,
+            topic_id=topic_id,
+            score=-1
+        )
+        # raise HTTPException(status_code=404, detail=msg.INVALID_USERTOPIC_ID)
             
     return usertopic
 

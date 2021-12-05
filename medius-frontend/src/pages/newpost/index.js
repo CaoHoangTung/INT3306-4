@@ -4,17 +4,14 @@ import TextEditor from "./TextEditor.js";
 import React from 'react';
 import './newpost.scss';
 import { TextField } from "@mui/material";
-import { styled } from '@mui/material/styles';
-const Input = styled('input')({
-    display: 'none',
-});
+
 function WritePost() {
     return (
         <div>
             {<NewPostNavBar />}
             <Container>
                 <div>
-                   
+
                 </div>
                 <TextField
                     label='Title'
@@ -22,7 +19,7 @@ function WritePost() {
                     fullWidth
                     variant="standard"
                 />
-                 <TextField
+                <TextField
                     label='Add photo cover link'
                     fullWidth
                     variant="standard"

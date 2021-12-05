@@ -37,24 +37,24 @@ API.interceptors.response.use((response) => {
   return response;
 }, (error) => {
   if (error?.response?.status === 403) {
-    alert("You are not authorized. Please login again");
+    // alert("You are not authorized. Please login again");
     removeLocalCredential();
     window.location.href = "/login";
   } else if (error?.response?.status === 401) {
-    alert("Your session has expired. Please login again");
+    // alert("Your session has expired. Please login again");
     removeLocalCredential();
     window.location.href = "/login";
   } else if (error?.response?.status === 500) {
-    alert("Internal server error. Please try again later");
+    // alert("Internal server error. Please try again later");
   } else if (error?.response?.status === 404) {
-    alert("Resource not found. Please try again later");
+    // alert("Resource not found. Please try again later");
   } else if (error?.response?.status === 400) {
-    alert("Bad request. Please try again later");
+    // alert("Bad request. Please try again later");
   } else if (error?.response?.status === 405) {
-    alert("Method not allowed. Please try again later");
+    // alert("Method not allowed. Please try again later");
   }
   if (error.response && error.response.data) {
-      return Promise.reject(error.response.data);
+    return Promise.reject(error.response.data);
   }
   return Promise.reject(error.message);
 });

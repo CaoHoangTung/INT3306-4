@@ -23,3 +23,7 @@ export const getRole = () => {
 export const removeLocalCredential = () => {
     cookies.remove("local_credential")
 }
+
+export const currentUserIsAdmin = () => {
+    return !!getLocalCredential()?.is_admin;
+}

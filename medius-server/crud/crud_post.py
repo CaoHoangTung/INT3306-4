@@ -5,12 +5,13 @@ import sqlalchemy
 from sqlalchemy.orm import Session, session
 from sqlalchemy.sql import expression
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import bindparam, func, null, update
-from sqlalchemy import text, bindparam
+from sqlalchemy.sql.expression import bindparam, func, null, update
+from sqlalchemy import text, bindparam, and_
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
 from models.post import Post
+from models.userpostrelation import UserPostRelation
 from schemas.post import PostBase, PostCreate, PostUpdate
 
 
@@ -37,12 +38,24 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             return None
     
     """
-    Get all posts 
+    Get all posts by user_id 
     """  
     def get_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
         try:
             return db.query(Post) \
                 .filter(Post.user_id == user_id) \
+                .all()
+        except Exception as e:
+            print(e)
+            return None
+
+    """
+    Get saved posts by user_id  
+    """  
+    def get_saved_post_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
+        try:
+            return db.query(Post).outerjoin(UserPostRelation) \
+                .filter(and_(Post.post_id == UserPostRelation.post_id, UserPostRelation.is_saved, UserPostRelation.user_id == user_id)) \
                 .all()
         except Exception as e:
             print(e)

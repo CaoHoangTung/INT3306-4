@@ -8,7 +8,6 @@ export async function followUser(userId, userIdFollow) {
             is_following: true,
             is_blocking: false,
         };
-        console.log(userRelation);
         const response = await createUserRelation(userRelation);
         return response;
     } catch (error) {

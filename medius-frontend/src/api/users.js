@@ -1,6 +1,6 @@
 import API from "./api";
 
-export async function getAllUsers(sort_by_posts_count=null, sort_by_num_followers=null) {
+export async function getAllUsers(sort_by_posts_count = null, sort_by_num_followers = null) {
     var getParams = {};
     if (sort_by_posts_count != null) {
         getParams.sort_by_posts_count = sort_by_posts_count;
@@ -29,19 +29,19 @@ export async function getUserByEmail(email) {
 }
 
 export async function createUser(user) {
-    const response = await API.post("/user/create", user);
+    const response = await API.post("/users/create", user);
     return response?.data;
 }
 
 export async function updateUser(user) {
-    const response = await API.post("/user/update", user);
+    const response = await API.put("/users/update", user);
     return response?.data;
 }
 
-export async function deleteUser(email) {
+export async function deleteUser(user_id) {
     var body = {
-        "email": email
+        "user_id": user_id
     };
-    const response = await API.delete(`/user/delete`, body);
+    const response = await API.delete(`/users/delete`, { data: body });
     return response?.data;
 }
