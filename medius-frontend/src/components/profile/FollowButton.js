@@ -39,7 +39,7 @@ class FollowButton extends React.Component {
 
     render() {
         const { classes } = this.props;
-        if (this.state.isOwner) {
+        if (this.props.isOwner) {
             return null;
         } else {
             return (

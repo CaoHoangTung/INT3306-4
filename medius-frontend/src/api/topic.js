@@ -24,6 +24,6 @@ export async function deleteTopic(topicId) {
     var body = {
         'topic_id': topicId
     };
-    const response = await API.delete(`/topic/delete`, body);
+    const response = await API.delete(`/topic/delete`, { data: body });
     return response?.data;
 }

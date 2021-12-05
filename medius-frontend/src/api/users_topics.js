@@ -40,6 +40,6 @@ export async function deleteUserTopic(userId, topicId) {
         user_id: userId,
         topic_id: topicId
     };
-    const response = await API.topic("/usertopic/delete", body);
+    const response = await API.topic("/usertopic/delete", { data: body });
     return response?.data;
 }
