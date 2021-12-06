@@ -1,42 +1,45 @@
 import NewPostNavBar from "../../components/newpost/NewPostNavBar.js";
-import { Container } from "@material-ui/core";
+import { Button, Container, FormControl } from "@material-ui/core";
 import TextEditor from "./TextEditor.js";
-import React from 'react';
+import React, { useState } from "react"
 import './newpost.scss';
 import { TextField } from "@mui/material";
-
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import { Editor } from "react-draft-wysiwyg";
+import EditorContainer from "./EditorContainer.js";
+import { createPost } from "../../api/posts.js";
 function WritePost() {
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [pushlishedTime, setpushlishedTime] = useState("");
+    const [postPreview, setpostPreview] = useState("");
     return (
         <div>
             {<NewPostNavBar />}
             <Container>
-                <div>
-
-                </div>
                 <TextField
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
                     label='Title'
                     placeholder='Enter Title'
                     fullWidth
                     variant="standard"
-                />
-                <TextField
-                    label='Add photo cover link'
-                    fullWidth
-                    variant="standard"
-                />
+                    required />
                 <TextField
                     label='Post preview'
                     placeholder='Write somethings about your post'
                     fullWidth
                     variant="standard"
+                    onChange={e => setpostPreview(e.target.value)}
                 />
-                <TextField
-                    label='Topics'
-                    placeholder='Add some topics to your post'
-                    variant="standard"
+                <EditorContainer 
+                />
+                <Button
+                    type='submit'
+                    color='primary'
+                    variant="contained"
                     fullWidth
-                />
-                <TextEditor />
+                >Publish</Button>
             </Container>
         </div>
     );

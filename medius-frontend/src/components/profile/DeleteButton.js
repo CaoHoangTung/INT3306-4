@@ -25,8 +25,8 @@ class DeleteButton extends React.Component {
             window.confirm("Are you sure you want to delete this post?");
             deletePost(postId)
             .then(() => {
-                this.props.setIsSaved(false);
-            });
+                window.location.reload();
+            })
         } else {
             return;
         }

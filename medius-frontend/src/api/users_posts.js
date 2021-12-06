@@ -40,6 +40,6 @@ export async function deleteUserPost(userId, postId) {
         user_id: userId,
         post_id: postId
     };
-    const response = await API.post("/userpost/delete", body);
+    const response = await API.post("/userpost/delete", { data: body });
     return response?.data;
 }
