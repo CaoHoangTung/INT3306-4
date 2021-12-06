@@ -14,6 +14,8 @@ import Profile from "./pages/profile";
 import TopicPage from "./pages/topic";
 import ChangeProfile from "./pages/setting";
 import Saved from "./pages/saved";
+import TopicManager from "./pages/admin/TopicManager";
+import PostManager from "./pages/admin/postmanager";
 
 
 function App() {
@@ -38,7 +40,9 @@ function App() {
   ];
 
   const adminRouters = [
-    ["/admin/user", <UserManager />, true]
+    ["/admin/user", <UserManager />, true],
+    ["/admin/topic", <TopicManager />, true],
+    ["/admin/post", <PostManager />, true]
   ];
   return (
     <Router>
