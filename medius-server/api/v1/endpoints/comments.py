@@ -57,6 +57,7 @@ def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, curr
     """
     View comment
     """
+
     comment = crud.comment.get_by_comment_id(
         db=db, 
         comment_id=comment_id
