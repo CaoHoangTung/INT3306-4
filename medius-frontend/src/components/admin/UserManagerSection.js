@@ -1,6 +1,3 @@
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,95 +6,17 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
+import PasswordIcon from '@mui/icons-material/Password';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Avatar, Button, Container, TableHead } from '@material-ui/core';
+import { Avatar, Button, Container, Popover, TableHead } from '@material-ui/core';
 import { createUser, deleteUser, getAllUsers, updateUser } from '../../api/users';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getAllRoles } from '../../api/roles';
 import { CircularProgress, Input, MenuItem, Select } from '@mui/material';
 import SearchBar from 'material-ui-search-bar';
+import { SmallNote, TablePaginationActions } from './Table';
 
-function SmallNote(props) {
-    return (
-        <Box
-            sx={{
-                fontSize: 10,
-                fontWeight: 'italic',
-                color: 'text',
-                mb: 2,
-            }}
-        >
-            {props.children}
-        </Box>
-    );
-}
-
-function TablePaginationActions(props) {
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-
-    const handleFirstPageButtonClick = (event) => {
-        onPageChange(event, 0);
-    };
-
-    const handleBackButtonClick = (event) => {
-        onPageChange(event, page - 1);
-    };
-
-    const handleNextButtonClick = (event) => {
-        onPageChange(event, page + 1);
-    };
-
-    const handleLastPageButtonClick = (event) => {
-        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-
-    return (
-        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-            <IconButton
-                onClick={handleFirstPageButtonClick}
-                disabled={page === 0}
-                aria-label="first page"
-            >
-                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-            </IconButton>
-            <IconButton
-                onClick={handleBackButtonClick}
-                disabled={page === 0}
-                aria-label="previous page"
-            >
-                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            </IconButton>
-            <IconButton
-                onClick={handleNextButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="next page"
-            >
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-            </IconButton>
-            <IconButton
-                onClick={handleLastPageButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="last page"
-            >
-                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-            </IconButton>
-        </Box>
-    );
-}
-
-TablePaginationActions.propTypes = {
-    count: PropTypes.number.isRequired,
-    onPageChange: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    rowsPerPage: PropTypes.number.isRequired,
-};
 
 const columns = [
     { id: 'avatar', label: <Avatar sx={{ width: 14, height: 14 }} />, minWidth: 20 },
@@ -166,26 +85,112 @@ function CreateUserForm({ roles, fetchUsers }) {
     )
 }
 
-export default function CustomPaginationActionsTable() {
+function EditPasswordForm({ user, anchorEl, setAnchorEl, activeUserIdChangePassword, setActiveUserIdChangePassword }) {
+    const [loading, setLoading] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+
+    const handleClick = (event) => {
+        setActiveUserIdChangePassword(user.user_id);
+        setAnchorEl(event.currentTarget);
+        console.log(event.currentTarget);
+        console.log(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setActiveUserIdChangePassword(null)
+        setAnchorEl(null);
+    };
+
+    const handleSubmit = () => {
+        setLoading(true);
+        updateUser({
+            ...user,
+            password_hash: newPassword
+        }).then(response => {
+            alert(`Password updated`)
+            setLoading(false);
+            handleClose();
+        }).catch(error => {
+            console.error(error);
+            alert(`Cannot update password`);
+            setLoading(false);
+            handleClose();
+        });
+    }
+
+    const open = Boolean(anchorEl) && activeUserIdChangePassword === user.user_id;
+    // const id = open ? `changepassword-${user?.user_id}` : undefined;
+    const id = `changepassword-${user?.user_id}`;
+
+    return (
+        <>
+            {loading ? <CircularProgress /> :
+                <>
+                    <Button
+                        aria-describedby={id}
+                        onClick={handleClick}
+                        title="Edit password"
+                    >
+                        <PasswordIcon />
+                    </Button>
+                    <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <Input
+                            autoFocus={true}
+                            style={{ width: 300 }}
+                            type="password"
+                            id={`password-${user.user_id}`}
+                            label="Password"
+                            placeholder={`Change password for ${user?.first_name} ${user?.last_name}`}
+                            value={newPassword}
+                            onChange={e => {
+                                setNewPassword(e.target.value)
+                            }}
+                            onKeyUp={e => {
+                                // if key is enter
+                                if (e.keyCode === 13 && newPassword !== "") {
+                                    handleSubmit();
+                                }
+                            }}
+                        />
+                    </Popover>
+                </>
+
+            }
+        </>
+    )
+}
+
+export default function UserManageTable() {
     const [loading, setLoading] = useState(false);
     const [creatingUser, setCreatingUser] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [users, setUsers] = useState([]);
+    const [displayedUsers, setDisplayedUsers] = useState([]);
     const [roles, setRoles] = useState([])
-    const [emptyRows, setEmptyRows] = useState(0);
 
     const [userSearchString, setUserSearchString] = useState("");
-
     const [userRolesLoading, setUserRolesLoading] = useState([]);
+
+    const [activeUserIdChangePassword, setActiveUserIdChangePassword] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const setUserRole = (rowIdx, roleId) => {
         setUserRolesLoading(userRolesLoading.map((loading, idx) => idx === rowIdx ? true : loading));
 
-        const updatingUser = { ...users[rowIdx], role_id: roleId };
+        const updatingUser = { ...displayedUsers[rowIdx], role_id: roleId };
         updateUser(updatingUser)
             .then(response => {
-                let newUsers = users.map((user, idx) => idx === rowIdx ? { ...user, role_id: roleId } : user);
+                let newUsers = displayedUsers.map((user, idx) => idx === rowIdx ? { ...user, role_id: roleId } : user);
                 setUsers(newUsers);
             })
             .catch(error => {
@@ -229,8 +234,6 @@ export default function CustomPaginationActionsTable() {
     }, []);
 
     useEffect(() => {
-        const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
-        setEmptyRows(emptyRows);
         setUserRolesLoading(users.map(user => false))
     }, [users, page, rowsPerPage]);
 
@@ -245,16 +248,18 @@ export default function CustomPaginationActionsTable() {
     };
 
 
-    const getDisplayedUsers = useCallback(() => {
+    useEffect(() => {
         if (userSearchString === "") {
-            return users;
+            setDisplayedUsers(users);
         } else {
-            return users.filter(user =>
-                user.first_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
-                user.last_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
-                user.email.toLowerCase().includes(userSearchString.toLowerCase())
-            );
+            const filteredUsers = users.filter(user => {
+                return user.first_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
+                    user.last_name.toLowerCase().includes(userSearchString.toLowerCase()) ||
+                    user.email.toLowerCase().includes(userSearchString.toLowerCase());
+            });
+            setDisplayedUsers(filteredUsers);
         }
+        setPage(0);
     }, [userSearchString, users]);
 
 
@@ -263,7 +268,7 @@ export default function CustomPaginationActionsTable() {
             <Container>
                 <h1>User manager</h1>
                 {loading ?
-                    <div>Loading...</div>
+                    <CircularProgress />
                     :
                     <>
                         <Button variant="contained" color={creatingUser ? "default" : "primary"} onClick={() => setCreatingUser(!creatingUser)}>
@@ -299,8 +304,8 @@ export default function CustomPaginationActionsTable() {
                                 </TableHead>
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                        ? getDisplayedUsers(users).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        : getDisplayedUsers(users)
+                                        ? displayedUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : displayedUsers
                                     ).map((row, idx) => (
                                         <TableRow key={row.email}>
                                             <TableCell component="th" scope="row">
@@ -329,39 +334,43 @@ export default function CustomPaginationActionsTable() {
                                                 }
                                             </TableCell>
                                             <TableCell style={{ width: 160 }} align="right">
-                                                <Button onClick={() => {
-                                                    const confirm = window.confirm(`Are you sure you want to delete user ${row.email}?`);
-                                                    if (confirm) {
-                                                        console.log(row.user_id)
-                                                        deleteUser(row.user_id)
-                                                            .then(response => {
-                                                                alert(`User ${row.email} deleted`)
-                                                                fetchUsers();
-                                                            }).catch(error => {
-                                                                console.error(error);
-                                                                alert(`Cannot delete user ${row.email}`);
-                                                                console.error(error);
-                                                            });
-                                                    }
-                                                }} >
+                                                <EditPasswordForm
+                                                    user={row}
+                                                    anchorEl={anchorEl}
+                                                    setAnchorEl={setAnchorEl}
+                                                    activeUserIdChangePassword={activeUserIdChangePassword}
+                                                    setActiveUserIdChangePassword={setActiveUserIdChangePassword}
+                                                />
+                                                <Button
+                                                    title={`Delete user ${row.first_name} ${row.last_name}`}
+                                                    onClick={() => {
+                                                        const confirm = window.confirm(`Are you sure you want to delete user ${row.email}?`);
+                                                        if (confirm) {
+                                                            console.log(row.user_id)
+                                                            deleteUser(row.user_id)
+                                                                .then(response => {
+                                                                    alert(`User ${row.email} deleted`)
+                                                                    fetchUsers();
+                                                                }).catch(error => {
+                                                                    console.error(error);
+                                                                    alert(`Cannot delete user ${row.email}`);
+                                                                    console.error(error);
+                                                                });
+                                                        }
+                                                    }}
+                                                >
                                                     <DeleteIcon />
                                                 </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
-
-                                    {emptyRows > 0 && (
-                                        <TableRow style={{ height: 53 * emptyRows }}>
-                                            <TableCell colSpan={6} />
-                                        </TableRow>
-                                    )}
                                 </TableBody>
                                 <TableFooter>
                                     <TableRow>
                                         <TablePagination
                                             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                             colSpan={3}
-                                            count={users.length}
+                                            count={displayedUsers.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
                                             SelectProps={{

@@ -12,6 +12,9 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
+import ClassIcon from '@mui/icons-material/Class';
+import CreateIcon from '@mui/icons-material/Create';
+
 import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
 import { Link } from "react-router-dom";
 export default function AccountMenu() {
@@ -91,12 +94,28 @@ export default function AccountMenu() {
                 <Divider />
                 {currentUserIsAdmin() && (
                     <div>
-                        <Link to="/admin/user">
+                        <Link to="/admin/user" style={{ textDecoration: "none", color: "inherit" }}>
                             <MenuItem>
                                 <ListItemIcon>
                                     <ManageAccounts fontSize="small" />
                                 </ListItemIcon>
                                 Manage users
+                            </MenuItem>
+                        </Link>
+                        <Link to="/admin/topic" style={{ textDecoration: "none", color: "inherit" }}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <ClassIcon fontSize="small" />
+                                </ListItemIcon>
+                                Manage topics
+                            </MenuItem>
+                        </Link>
+                        <Link to="/admin/post" style={{ textDecoration: "none", color: "inherit" }}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <CreateIcon fontSize="small" />
+                                </ListItemIcon>
+                                Manage posts
                             </MenuItem>
                         </Link>
                         <Divider />
