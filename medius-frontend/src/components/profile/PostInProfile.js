@@ -56,11 +56,9 @@ export default function PostInProfile(props) {
                     />
                     <Typography>
                         {post.content.slice(0, 200)}
-                        <Link href={"post/" + post.post_id}>
-                            <Typography variant="subtitle1" color="primary">
-                                Continue reading...
-                            </Typography>
-                        </Link>
+                    </Typography>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
                     </Typography>
                 </div>
             </Link>
