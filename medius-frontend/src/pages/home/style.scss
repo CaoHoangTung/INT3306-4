@@ -51,10 +51,17 @@ code {
             }
         }
     }
+    #logo {
+        height: 80px;
+        background: #fec016;
+    }
 }
 .Footer {
     background: #fec016;
     border-bottom: 1px solid black;
+    #logo {
+        height: 80px;
+    }
     img {
         max-width: 250px;
     }
@@ -136,6 +143,9 @@ code {
         border-top: 1px solid #eee;
         border-bottom: 1px solid #eee;
     }
+    small {
+        color : red;
+    }
 }
 
 .MediumPosts {
@@ -191,12 +201,6 @@ code {
 
     .MediumPosts_Text {
         width: 100%;
-        h2 {
-            font-weight: 700;
-            font-size: 23px;
-            color: #2a2a2a;
-            font-family: "Open Sans", sans-serif !important;
-        }
 
         p {
             font-weight: 500;
@@ -240,4 +244,12 @@ code {
         display: inline-block;
         align-self: center;
     }
+}
+.SignUp {
+    small {
+        color: red;
+    }
+}
+.hover {
+    cursor: pointer;
 }

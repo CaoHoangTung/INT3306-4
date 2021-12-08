@@ -1,13 +1,8 @@
 import './style.scss'
-import Button from "@mui/material/Button";
-import EmailIcon from '@mui/icons-material/Email';
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import React from 'react';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import Search from "../../components/main/Search.js";
-import ProfileMenu from "../../components/main/AccountMenu.js";
-import NotificationsBox from "../../components/main/NotificationsBox.js";
+import ProfileNavBar from "../../components/profile/ProfileNavBar.js";
 import ProfileCard from '../../components/profile/ProfileCard';
 import PostInProfile from '../../components/profile/PostInProfile';
 import { useState, useEffect } from 'react';
@@ -15,7 +10,6 @@ import { getUser } from '../../api/users';
 import { getCurrentUser } from '../../utils/auth';
 import { getAllPostsOfUserId } from '../../api/posts';
 import { getUserRelation } from '../../api/users_users';
-import FollowButton from '../../components/profile/FollowButton';
 
 function Profile(props) {
     const [author, setAuthor] = useState({});
@@ -56,26 +50,10 @@ function Profile(props) {
     }, [props.userId]);
     return (
         <div className="viewPost">
-            <div className="header">
-                <div className="leftHeader">
-                    <Button variant="text">{author.first_name + " " + author.last_name}</Button>
-                    <Button variant="text">{author.num_followers} Followers</Button>
-                    <FollowButton
-                        key={"Follow" + author.user_id}
-                        isFollowing={isFollowing}
-                        setIsFollowing={setIsFollowing}
-                        isOwner={isOwner}
-                    />
-                    <EmailIcon></EmailIcon>
-                </div>
-                <div className="rightHeader">
-                    <Search />
-                    <BookmarksIcon />
-                    <NotificationsBox />
-                    <ProfileMenu />
-                </div>
-            </div>
-
+            <ProfileNavBar
+                key={"Navbar" + author.user_id}
+                author={author}
+            />
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={3}>

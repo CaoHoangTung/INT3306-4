@@ -1,13 +1,19 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import React from 'react';
+import { useState, useEffect } from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import moment from "moment";
+import StarIcon from "@material-ui/icons/Star";
+import { getNotificationByUserId2 } from "../../api/notifications";
+import { getCurrentUser } from '../../utils/auth';
+import Notification from './Notification';
 
 function NotificationsBox() {
+    const [notifications, setNotifications] = React.useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -16,6 +22,14 @@ function NotificationsBox() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(async () => {
+        getNotificationByUserId2(getCurrentUser())
+        .then(data => {
+            setNotifications(data);
+        }); 
+    }, []);
+    
     return (
         <div className={"NotificationBox"}>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -60,19 +74,14 @@ function NotificationsBox() {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                    <div className="notificationContent">
-                        <div className="left">
-                            <div>
-                                <Avatar />
-                            </div>
-                            <div>
-                                The user abcdefgheef followed ijfaiioa jdofijasodjooj ioaisdfosdafoi safsf sf at time
-                            </div>
-                        </div>
-                        <div className="time">
-                            {moment(new Date("2:00:00 PM 11/30/2021"), "YYYYMMDD").fromNow()}
-                        </div>
-                    </div>
+                {notifications.map(notif => {
+                    return (
+                        <Notification
+                            key={"Notif" + notif.id}
+                            notif={notif}
+                        />
+                    )
+                })}
                 </Menu>
             </div>
         </div>

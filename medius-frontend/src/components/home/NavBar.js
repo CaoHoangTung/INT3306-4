@@ -2,26 +2,34 @@ import {Button, Container, Link} from "@material-ui/core";
 import LoginModal from "./LoginModal";
 import { useState } from 'react';
 import React from 'react';
-const NavBar = () => {
+import logo from "../../mediusLogo.png"
+const   NavBar = () => {
     const [show, setShow] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
     return (
         <div className="NavBar">
             <Container>
                 <div className="NavBar_Container">
-                    <img
-                        src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png"
-                        alt="logo"
-                    />
+                    <Link href="/">
+                        <img
+                            src={logo}
+                            alt="logo"
+                            id={"logo"}
+                        />
+                    </Link>
                     <div className="NavBar_Lists">
                         <ul>
-                            <li><Link> Our Story </Link></li>
-                            <li onClick={() => {setShow(true); setIsLogin(true)}}>Sign in</li>
+                            <li><Link color="inherit" underline="none" className={"hover"}> Our Story </Link></li>
+                            <div className={"hover"}>
+                                <li onClick={() => {setShow(true); setIsLogin(true)}}>Sign in</li>
+                            </div>
                             <li>
-                                <Button id='get_start' onClick={() => {setShow(true); setIsLogin(false)}}>
-                                    Get started
-                                </Button >
-                                <LoginModal onClose={() => {setShow(false)} } show={show} isLogin = {isLogin} setIsLogin = {setIsLogin}/>
+                                <div className={"hover"}>
+                                    <Button id='get_start' onClick={() => {setShow(true); setIsLogin(false)}}>
+                                        Get started
+                                    </Button >
+                                </div>
+                                <LoginModal className={"hover"} onClose={() => {setShow(false)} } show={show} isLogin = {isLogin} setIsLogin = {setIsLogin}/>
                             </li>
                         </ul>
                     </div>

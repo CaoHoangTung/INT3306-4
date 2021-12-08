@@ -7,7 +7,7 @@ const MediumPosts = (props) => {
     return (
         <div className="MediumPosts">
             <div className="MediumPosts_Text">
-                <h2>{props.title}</h2>
+                <h1>{props.title}</h1>
                 <p>{props.author} - {props.title}</p>
                 <p>{props.contentPreview}</p>
                 <div className="MediumPosts_TimeStamps">

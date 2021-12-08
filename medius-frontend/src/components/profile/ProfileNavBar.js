@@ -1,23 +1,20 @@
-import {Container, Link} from "@material-ui/core";
-import Search from "./Search.js";
+import { Container } from "@material-ui/core";
+import Search from "../main/Search.js";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import '../../pages/main/Main.scss'
-import ProfileMenu from "./AccountMenu.js";
-import NotificationsBox from "./NotificationsBox.js";
+import ProfileMenu from "../main/AccountMenu.js";
+import NotificationsBox from "../main/NotificationsBox.js";
 import React from 'react';
-import logo from '../../test.png'
-function MainNavBar() {
+import { Typography } from "@mui/material";
+function MainNavBar(props) {
+    const author = props.author;
     return (
         <div className="MainNavBar">
             <Container>
                 <div className="Main_NavBar_Container">
-                    <Link href="/">
-                        <img
-                            id ="logo"
-                            src={logo}
-                            alt="logo"
-                        />
-                    </Link>
+                    <Typography variant="h5" component={'span'}>
+                        {author.first_name} {author.last_name}
+                    </Typography>
                     <div className="Main_NavBar_List">
                         <ul>
                             <li><Search /></li>

@@ -14,22 +14,26 @@ const Login = (props) => {
                 <Grid align='center'>
                     <h2>Sign In</h2>
                 </Grid>
-                <TextField
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                    label='Username'
-                    placeholder='Enter username'
-                    fullWidth
-                    required />
-                <TextField
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    label='Password'
-                    placeholder='Enter password'
-                    type='password'
-                    fullWidth
-                    required
-                />
+                <div>
+                    <TextField
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        label='Username'
+                        placeholder='Enter username'
+                        fullWidth
+                        required />
+                    <TextField
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        label='Password'
+                        placeholder='Enter password'
+                        type='password'
+                        fullWidth
+                        required
+                    />
+                    <small id = "fail"></small>
+                </div>
+
                 <FormControlLabel
                     control={
                         <Checkbox
@@ -54,6 +58,7 @@ const Login = (props) => {
                         if (loginIsSuccess) {
                             window.location.href = "/";
                         } else {
+                            document.getElementById("fail").innerHTML = "Wrong username or password";
                             setDisabled(false);
                         }
                     }}

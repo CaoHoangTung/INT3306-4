@@ -8,14 +8,13 @@ function Setting(props) {
             <div>
                 <MainNavBar />
             </div>
-            <div>
+            <div className="content">
                 <div className="aboutYou">
                     <Grid container>
                         <Grid item xs={2}>First Name</Grid>
                         <Grid item xs={1}>
                             <input type="text"
                                 placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
@@ -24,7 +23,6 @@ function Setting(props) {
                         <Grid item xs={1}>
                             <input type="text"
                                 placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
@@ -33,7 +31,6 @@ function Setting(props) {
                         <Grid item xs={1}>
                             <input type="text"
                                 placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
@@ -76,7 +73,7 @@ function Setting(props) {
                         </Grid>
                     </Grid>
                     <div>
-                        <button>Save changes</button>
+                        <button>Change password</button>
                     </div>
                 </div>
                 <div className="blocking">
