@@ -72,9 +72,13 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
-                    <Avatar /> My Profile
-                </MenuItem>
+                <Link to="/my-profile" style={{ textDecoration: "none", color: "inherit" }}>
+                    <MenuItem>
+                        <Avatar /> My Profile
+                    </MenuItem>
+                </Link>
+
+
                 <MenuItem onClick={event => window.location.href = '/new-story'}>
                     <Avatar /> Write a story
                 </MenuItem>

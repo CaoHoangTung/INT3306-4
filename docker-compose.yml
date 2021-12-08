@@ -25,6 +25,8 @@ services:
         build:
             context: ./medius-frontend
             dockerfile: Dockerfile
+        environment:
+          - REACT_APP_SC_DISABLE_SPEEDY=true
         depends_on:
             - medius-server
         networks:
