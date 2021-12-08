@@ -9,6 +9,8 @@ version: '3'
 # docker-compose images
 # docker-compose logs --tail 20 $service_name
 
+# Contain web server and frontend
+
 services:
     medius-server:
         build:
