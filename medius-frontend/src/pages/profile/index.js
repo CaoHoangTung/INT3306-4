@@ -80,7 +80,7 @@ function Profile(props) {
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
                         <ProfileCard
-                            key={author.user_id}
+                            key={"ProfileCard" + author.user_id}
                             author={author}
                             isFollowing={isFollowing}
                             setIsFollowing={setIsFollowing}
@@ -90,7 +90,7 @@ function Profile(props) {
                     <Grid item xs={6}>
                         {posts.map(post => (
                             <PostInProfile
-                                key={post.post_id}
+                                key={"PostInProfile" + post.post_id}
                                 author_name={author.first_name + " " + author.last_name}
                                 author_avatar="https://picsum.photos/seed/picsum/200/300"
                                 post={post}
