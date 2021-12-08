@@ -136,6 +136,9 @@ code {
         border-top: 1px solid #eee;
         border-bottom: 1px solid #eee;
     }
+    small {
+        color : red;
+    }
 }
 
 .MediumPosts {
@@ -240,4 +243,12 @@ code {
         display: inline-block;
         align-self: center;
     }
+}
+.SignUp {
+    small {
+        color: red;
+    }
+}
+.hover {
+    cursor: pointer;
 }

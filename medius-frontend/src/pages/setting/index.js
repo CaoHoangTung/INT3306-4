@@ -11,7 +11,7 @@ function Setting(props) {
             <div>
                 <MainNavBar/>
             </div>
-            <div>
+            <div className="content">
                 <div className="aboutYou">
                     <Grid container>
                         <Grid item xs={2}>First Name</Grid>
@@ -79,7 +79,7 @@ function Setting(props) {
                         </Grid>
                     </Grid>
                     <div>
-                        <button>Save changes</button>
+                        <button>Change password</button>
                     </div>
                 </div>
                 <div className="blocking">

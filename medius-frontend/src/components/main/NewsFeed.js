@@ -1,11 +1,13 @@
 import MediumPosts from "../home/PostPreview.js";
-import React from 'react';
+import React, {useState} from 'react';
 import '../../pages/main/Main.scss'
+import CommentModal from "../shared/CommentModal";
 
 function NewsFeed() {
+    const [show, setShow] = useState();
     return (
         <div>
-            {/*<CommentModal onClose={() => {setShow(false)} } show={show}/>*/}
+            <CommentModal onClose={() => {setShow(false)} } show={show}/>
             <MediumPosts
                 author="author"
                 topic="topic"
