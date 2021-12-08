@@ -27,28 +27,28 @@ const theme = createTheme({
 });
 
 const useStyles = makeStyles(() => ({
-    // text: {
-    //     margin: theme.spacing(0, 0, 0.5),
-    //     color: theme.palette.secondary.contrastText,
-    // },
-    // avatar: {
-    //     verticalAlign: "middle",
-    // },
-    // large: {
-    //     width: theme.spacing(12),
-    //     height: theme.spacing(12),
-    //     margin: theme.spacing(2, 2, 0),
-    // },
-    // card: {
-    //     borderRadius: 15,
-    //     maxWidth: "270px",
-    //     minWidth: "270px",
-    //     height: "330px",
-    //     backgroundColor: theme.palette.background.card,
-    // },
-    // cardContent: {
-    //     padding: theme.spacing(2, 0, 0, 0),
-    // },
+    text: {
+        margin: theme.spacing(0, 0, 0.5),
+        color: theme.palette.secondary.contrastText,
+    },
+    avatar: {
+        verticalAlign: "middle",
+    },
+    large: {
+        width: theme.spacing(12),
+        height: theme.spacing(12),
+        margin: theme.spacing(2, 2, 0),
+    },
+    card: {
+        borderRadius: 15,
+        maxWidth: "270px",
+        minWidth: "270px",
+        height: "330px",
+        backgroundColor: theme.palette.background.card,
+    },
+    cardContent: {
+        padding: theme.spacing(2, 0, 0, 0),
+    },
 }));
 
 
