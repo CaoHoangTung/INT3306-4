@@ -2,6 +2,7 @@ import {Button, Container, Link} from "@material-ui/core";
 import LoginModal from "./LoginModal";
 import { useState } from 'react';
 import React from 'react';
+import logo from "../../mediusLogo.png"
 const   NavBar = () => {
     const [show, setShow] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -9,13 +10,16 @@ const   NavBar = () => {
         <div className="NavBar">
             <Container>
                 <div className="NavBar_Container">
-                    <img
-                        src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png"
-                        alt="logo"
-                    />
+                    <Link href="/">
+                        <img
+                            src={logo}
+                            alt="logo"
+                            id={"logo"}
+                        />
+                    </Link>
                     <div className="NavBar_Lists">
                         <ul>
-                            <li><Link className={"hover"}> Our Story </Link></li>
+                            <li><Link color="inherit" underline="none" className={"hover"}> Our Story </Link></li>
                             <div className={"hover"}>
                                 <li onClick={() => {setShow(true); setIsLogin(true)}}>Sign in</li>
                             </div>

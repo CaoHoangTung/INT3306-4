@@ -1,18 +1,23 @@
-import {Container } from "@material-ui/core";
+import {Container, Link} from "@material-ui/core";
 import React from 'react';
+import logo from '../../mediusLogo.png'
 const Footer = () => {
     return(
         <div className="Footer">
             <Container>
                 <div className="Footer_Container">
-                    <img
-                        src="https://miro.medium.com/max/8978/1*s986xIGqhfsN8U--09_AdA.png"
-                        alt="logo"
-                    />
+                    <Link href="/">
+                        <img
+                            id ="logo"
+                            src={logo}
+                            alt="logo"
+                        />
+                    </Link>
+
                     <div className="Footer_Lists">
                         <ul>
-                            <li>About us</li>
-                            <li>Help</li>
+                            <li><Link href="#" color="inherit" underline="none">About us</Link></li>
+                            <li><Link href="#" color="inherit" underline="none">Help</Link></li>
                         </ul>
                     </div>
                 </div>

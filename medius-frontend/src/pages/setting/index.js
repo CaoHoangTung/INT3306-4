@@ -18,7 +18,6 @@ function Setting(props) {
                         <Grid item xs={1}>
                             <input type="text"
                                    placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
@@ -27,7 +26,6 @@ function Setting(props) {
                         <Grid item xs={1}>
                             <input type="text"
                                    placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
@@ -36,7 +34,6 @@ function Setting(props) {
                         <Grid item xs={1}>
                             <input type="text"
                                    placeholder={"oldFirstname"}
-
                             />
                         </Grid>
                     </Grid>
