@@ -21,7 +21,7 @@ function Profile(props) {
         getUser(props.userId)
             .then(data => {
                 setAuthor(data);
-                if (data.user_id === getCurrentUser()) {
+                if (String(data.user_id) === getCurrentUser()) {
                     setIsOwner(true);
                 } else {
                     getUserRelation(getCurrentUser(), data.user_id)
