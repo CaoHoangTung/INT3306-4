@@ -4,16 +4,9 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import {logout} from "../../api/login";
-import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import moment from "moment";
-import StarIcon from "@material-ui/icons/Star";
+
 function NotificationsBox() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -28,7 +21,7 @@ function NotificationsBox() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Notification">
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                        <NotificationsIcon sx={{ width: 32, height: 32 }}/>
+                        <NotificationsIcon sx={{ width: 32, height: 32 }} />
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -67,19 +60,19 @@ function NotificationsBox() {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                <div className="notificationContent">
-                    <div className="left">
-                        <div>
-                            <Avatar/>
+                    <div className="notificationContent">
+                        <div className="left">
+                            <div>
+                                <Avatar />
+                            </div>
+                            <div>
+                                The user abcdefgheef followed ijfaiioa jdofijasodjooj ioaisdfosdafoi safsf sf at time
+                            </div>
                         </div>
-                        <div>
-                            The user abcdefgheef followed ijfaiioa jdofijasodjooj ioaisdfosdafoi safsf sf at time
+                        <div className="time">
+                            {moment(new Date("2:00:00 PM 11/30/2021"), "YYYYMMDD").fromNow()}
                         </div>
                     </div>
-                    <div className="time">
-                        {moment(new Date("2:00:00 PM 11/30/2021"), "YYYYMMDD").fromNow()}
-                    </div>
-                </div>
                 </Menu>
             </div>
         </div>
