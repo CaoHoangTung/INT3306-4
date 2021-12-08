@@ -12,3 +12,4 @@ from .userpostrelation import UserPostRelationBase, UserPostRelationCreate, User
 from .usertopic import UserTopic, UserTopicCreate, UserTopicUpdate, UserTopicInDBBase, UserTopicBase, UserTopicDelete
 from .userrelation import UserRelation, UserRelationCreate, UserRelationInDBBase, UserRelationUpdate, UserRelationDelete, UserRelationBase
 from .comment import Comment, CommentBase, CommentCreate, CommentInDBBase, CommentUpdate, CommentDelete
+from .notification import Notification, NotificationBase, NotificationDelete, NotificationInDBBase, NotificationUpdate, NotificationCreate

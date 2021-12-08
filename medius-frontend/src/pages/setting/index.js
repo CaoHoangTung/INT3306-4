@@ -1,15 +1,12 @@
 import MainNavBar from "../../components/main/MainNavBar";
-import {Grid} from "@mui/material";
-import {TextField} from "@material-ui/core";
-import {useState} from "react";
+import { Grid } from "@mui/material";
 import Block from "./Block";
 
 function Setting(props) {
-    const [lastName, setLastName] = useState("");
     return (
         <div className="setting">
             <div>
-                <MainNavBar/>
+                <MainNavBar />
             </div>
             <div className="content">
                 <div className="aboutYou">
@@ -17,7 +14,7 @@ function Setting(props) {
                         <Grid item xs={2}>First Name</Grid>
                         <Grid item xs={1}>
                             <input type="text"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
                             />
                         </Grid>
                     </Grid>
@@ -25,7 +22,7 @@ function Setting(props) {
                         <Grid item xs={2}>Last Name</Grid>
                         <Grid item xs={1}>
                             <input type="text"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
                             />
                         </Grid>
                     </Grid>
@@ -33,14 +30,14 @@ function Setting(props) {
                         <Grid item xs={2}>Email</Grid>
                         <Grid item xs={1}>
                             <input type="text"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
                             />
                         </Grid>
                     </Grid>
                     <Grid container>
                         <Grid item xs={2}>Avatar</Grid>
                         <Grid item xs={1}>
-                            <input type="file" id="myFile" name="filename"/>
+                            <input type="file" id="myFile" name="filename" />
                         </Grid>
                     </Grid>
                     <div>
@@ -52,7 +49,7 @@ function Setting(props) {
                         <Grid item xs={2}>Old pass</Grid>
                         <Grid item xs={1}>
                             <input type="password"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
 
                             />
                         </Grid>
@@ -61,7 +58,7 @@ function Setting(props) {
                         <Grid item xs={2}>New pass</Grid>
                         <Grid item xs={1}>
                             <input type="password"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
 
                             />
                         </Grid>
@@ -70,7 +67,7 @@ function Setting(props) {
                         <Grid item xs={2}>Retype</Grid>
                         <Grid item xs={1}>
                             <input type="password"
-                                   placeholder={"oldFirstname"}
+                                placeholder={"oldFirstname"}
 
                             />
                         </Grid>

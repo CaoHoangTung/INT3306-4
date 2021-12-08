@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api.v1.endpoints import login, users, posts, topics, posttopics, userpostrelations, usertopics, userrelations, comments, roles
+from api.v1.endpoints import login, users, posts, topics, posttopics, userpostrelations, usertopics, userrelations, comments, roles, notifications
 
 api_router = APIRouter()
 api_router.include_router(login.router, tags=["login"])
@@ -14,3 +14,4 @@ api_router.include_router(usertopics.router, prefix="/usertopic", tags=["users-t
 api_router.include_router(userrelations.router, prefix="/userrelation", tags=["users-users"])
 api_router.include_router(comments.router, prefix="/comment", tags=["comments"])
 api_router.include_router(roles.router, prefix="/role", tags=["role"])
+api_router.include_router(notifications.router, prefix="/notification", tags=["notification"])

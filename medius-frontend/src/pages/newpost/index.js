@@ -32,7 +32,7 @@ function WritePost() {
                     variant="standard"
                     onChange={e => setpostPreview(e.target.value)}
                 />
-                <EditorContainer 
+                <EditorContainer
                 />
                 <Button
                     type='submit'

@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 import json
 from typing import Any, List
 from fastapi.encoders import jsonable_encoder
@@ -6,7 +6,7 @@ import requests
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, query
 from sqlalchemy.sql.expression import update
 from sqlalchemy.sql.functions import user
 from starlette.responses import RedirectResponse
@@ -120,7 +120,11 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     Update relation
     """
 
-    query_relation = crud.userpostrelation.get_by_id(db=db, user_id=updating_relation.user_id, post_id=updating_relation.post_id)
+    query_relation = crud.userpostrelation.get_by_id(
+        db=db, 
+        user_id=updating_relation.user_id, 
+        post_id=updating_relation.post_id
+    )
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
 
@@ -150,12 +154,40 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     # print(query_relation.post_id)
     # print(query_relation.user_id)
     # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+    notification_creation = "NO_CREATE" 
+    if not query_relation.is_upvote and updating_relation.is_upvote:
+        notification_creation = "UPVOTE"
+    elif not query_relation.is_downvote and updating_relation.is_downvote:
+        notification_creation = "DOWNVOTE"
         
     relation = crud.userpostrelation.update(
         db=db,
         db_obj=query_relation,
         obj_in=updating_relation
     )
+
+    print(notification_creation)
+
+    if notification_creation != "NO_CREATE":
+        post_author = crud.post.get_by_post_id(
+            db=db,
+            post_id=updating_relation.post_id
+        )
+
+        crud.notification.create(
+            db=db,
+            obj_in=schemas.NotificationCreate(
+                user_id_1=updating_relation.user_id,
+                user_id_2=post_author.user_id,
+                post_id=updating_relation.post_id,
+                type=notification_creation,
+                is_seen=False,
+                created_at=datetime.now()
+            )
+        )
+
+        print("FAWEFWFE")
     
     return relation
 

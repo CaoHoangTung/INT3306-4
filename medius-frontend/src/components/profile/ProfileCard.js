@@ -9,47 +9,46 @@ import FollowButton from './FollowButton';
 
 // A custom theme for this app
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#556cd6",
+    palette: {
+        primary: {
+            main: "#556cd6",
+        },
+        secondary: {
+            main: "#19857b",
+        },
+        error: {
+            main: red.A400,
+        },
+        background: {
+            default: "#fff",
+            card: "#fff",
+        },
     },
-    secondary: {
-      main: "#19857b",
-    },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: "#fff",
-      card: "#fff",
-    },
-  },
 });
 
 const useStyles = makeStyles(() => ({
-    text: {
-        margin: theme.spacing(0, 0, 0.5),
-        //color: theme.palette.secondary.contrastText,
-    },
-    avatar: {
-        verticalAlign: "middle",
-        marginRight: theme.spacing(0.5),
-    },
-    large: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
-        margin: theme.spacing(2, 2, 0),
-    },
-    card: {
-        borderRadius: 15,
-        maxWidth: "270px",
-        minWidth: "270px",
-        height: "330px",
-        backgroundColor: theme.palette.background.card,
-    },
-    cardContent: {
-        padding: theme.spacing(2, 0, 0, 0),
-    },
+    // text: {
+    //     margin: theme.spacing(0, 0, 0.5),
+    //     color: theme.palette.secondary.contrastText,
+    // },
+    // avatar: {
+    //     verticalAlign: "middle",
+    // },
+    // large: {
+    //     width: theme.spacing(12),
+    //     height: theme.spacing(12),
+    //     margin: theme.spacing(2, 2, 0),
+    // },
+    // card: {
+    //     borderRadius: 15,
+    //     maxWidth: "270px",
+    //     minWidth: "270px",
+    //     height: "330px",
+    //     backgroundColor: theme.palette.background.card,
+    // },
+    // cardContent: {
+    //     padding: theme.spacing(2, 0, 0, 0),
+    // },
 }));
 
 
@@ -58,7 +57,7 @@ function ProfileCard(props) {
     const classes = useStyles();
     return (
 
-        <Grid item xs = {12}>
+        <Grid item xs={12}>
             <Card
                 variant="outlined"
                 className={classes.card}
@@ -66,9 +65,9 @@ function ProfileCard(props) {
             >
                 <CardMedia align="center">
                     <Avatar
-                    alt={author?.first_name}
-                    src={author?.avatar}
-                    className={classes.large}
+                        alt={author?.first_name}
+                        src={author?.avatar}
+                        className={classes.large}
                     />
                 </CardMedia>
                 <CardContent className={classes.cardContent}>
@@ -95,7 +94,7 @@ function ProfileCard(props) {
                         variant="subtitle1"
                         align="center"
                     >
-                        <FollowButton 
+                        <FollowButton
                             isFollowing={props.isFollowing}
                             setIsFollowing={props.setIsFollowing}
                             isOwner={props.isOwner}

@@ -5,13 +5,6 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import {logout} from "../../api/login";
-import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import moment from "moment";
 import StarIcon from "@material-ui/icons/Star";
@@ -42,7 +35,7 @@ function NotificationsBox() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Notification">
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                        <NotificationsIcon sx={{ width: 32, height: 32 }}/>
+                        <NotificationsIcon sx={{ width: 32, height: 32 }} />
                     </IconButton>
                 </Tooltip>
             </Box>

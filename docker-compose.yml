@@ -9,6 +9,8 @@ version: '3'
 # docker-compose images
 # docker-compose logs --tail 20 $service_name
 
+# Contain web server and frontend
+
 services:
     medius-server:
         build:
@@ -25,6 +27,8 @@ services:
         build:
             context: ./medius-frontend
             dockerfile: Dockerfile
+        environment:
+          - REACT_APP_SC_DISABLE_SPEEDY=true
         depends_on:
             - medius-server
         networks:
