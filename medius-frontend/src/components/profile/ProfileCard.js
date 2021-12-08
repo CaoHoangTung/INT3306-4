@@ -27,26 +27,26 @@ const theme = createTheme({
 });
 
 const useStyles = makeStyles(() => ({
-    text: {
+    ptext: {
         margin: theme.spacing(0, 0, 0.5),
         color: theme.palette.secondary.contrastText,
     },
-    avatar: {
+    pavatar: {
         verticalAlign: "middle",
     },
-    large: {
+    plarge: {
         width: theme.spacing(12),
         height: theme.spacing(12),
         margin: theme.spacing(2, 2, 0),
     },
-    card: {
+    pcard: {
         borderRadius: 15,
         maxWidth: "270px",
         minWidth: "270px",
         height: "330px",
         backgroundColor: theme.palette.background.card,
     },
-    cardContent: {
+    pcardContent: {
         padding: theme.spacing(2, 0, 0, 0),
     },
 }));
@@ -60,19 +60,19 @@ function ProfileCard(props) {
         <Grid item xs={12}>
             <Card
                 variant="outlined"
-                className={classes.card}
+                className={classes.pcard}
                 style={{ display: "inline-block" }}
             >
                 <CardMedia align="center">
                     <Avatar
                         alt={author?.first_name}
                         src={author?.avatar}
-                        className={classes.large}
+                        className={classes.plarge}
                     />
                 </CardMedia>
-                <CardContent className={classes.cardContent}>
+                <CardContent className={classes.pcardContent}>
                     <Typography
-                        className={classes.text}
+                        className={classes.ptext}
                         color="textSecondary"
                         variant="h6"
                         align="center"
@@ -80,16 +80,16 @@ function ProfileCard(props) {
                         {author?.first_name} {author?.last_name}
                     </Typography>
                     <Typography
-                        className={classes.text}
+                        className={classes.ptext}
                         color="textSecondary"
                         variant="subtitle1"
                         align="center"
                     >
-                        <LocalPostOfficeIcon className={classes.avatar} fontSize="small" />
+                        <LocalPostOfficeIcon className={classes.pavatar} fontSize="small" />
                         {props?.email}
                     </Typography>{" "}
                     <Typography
-                        className={classes.text}
+                        className={classes.ptext}
                         color="textSecondary"
                         variant="subtitle1"
                         align="center"
@@ -102,12 +102,12 @@ function ProfileCard(props) {
                         />
                     </Typography>{" "}
                     <Typography
-                        className={classes.text}
+                        className={classes.ptext}
                         color="textSecondary"
                         variant="subtitle1"
                         align="center"
                     >
-                        <PeopleIcon className={classes.avatar} fontSize="small" />
+                        <PeopleIcon className={classes.pavatar} fontSize="small" />
                         {author.num_followers} Followers
                     </Typography>{" "}
                 </CardContent>
