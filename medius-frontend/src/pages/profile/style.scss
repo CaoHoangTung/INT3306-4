@@ -1,32 +1,32 @@
 .Profile {
-    img {
-      width: 30px;
-      height: 30px;
-    }
-    .user {
-      display: flex;
-    }
-    .author {
-      display: flex;
-      justify-content: space-between;
-    }
-    .first {
-      display: flex;
-      align-items: center;
-    }
-    .relatedTopic {
-      margin: 2px;
-    }
-    .react {
-        display: flex;
-      justify-content: space-between;
-    }
-    .vote {
-      display: flex;
-    }
-    .upvote, .downvote {
-      display: flex;
-      align-items: center;
-      margin: 3px;
-    }
+  img {
+    width: 100%;
   }
+  .user {
+    display: flex;
+  }
+  .author {
+    display: flex;
+    justify-content: space-between;
+  }
+  .first {
+    display: flex;
+    align-items: center;
+  }
+  .relatedTopic {
+    margin: 2px;
+  }
+  .react {
+      display: flex;
+    justify-content: space-between;
+  }
+  .vote {
+    display: flex;
+  }
+  .upvote, .downvote {
+    display: flex;
+    align-items: center;
+    margin: 3px;
+    cursor: pointer;
+  }
+}

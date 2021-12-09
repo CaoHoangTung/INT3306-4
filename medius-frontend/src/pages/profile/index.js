@@ -51,7 +51,7 @@ function Profile(props) {
     return (
         <div>
             <MainNavBar/>
-            <div className="viewPost">
+            <div className="Profile">
                 <Container>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
