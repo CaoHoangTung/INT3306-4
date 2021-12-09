@@ -30,21 +30,21 @@ const styles = theme => ({
     //     margin: theme.spacing(0, 0, 0.5),
     //     color: theme.palette.secondary.contrastText,
     // },
-    avatar: {
-        verticalAlign: "middle",
-    },
+    // avatar: {
+    //     verticalAlign: "middle",
+    // },
     // large: {
     //     width: theme.spacing(12),
     //     height: theme.spacing(12),
     //     margin: theme.spacing(2, 2, 0),
     // },
-    card: {
-        borderRadius: 15,
-        maxWidth: "270px",
-        minWidth: "270px",
-        height: "330px",
-        // backgroundColor: theme.palette.background.card,
-    },
+    // pcard: {
+    //     borderRadius: 15,
+    //     maxWidth: "270px",
+    //     minWidth: "270px",
+    //     height: "330px",
+    //     backgroundColor: theme.palette.background.card,
+    // },
     // cardContent: {
     //     padding: theme.spacing(2, 0, 0, 0),
     // },
@@ -62,8 +62,13 @@ class ProfileCard extends React.Component {
             <Grid item xs={12}>
                 <Card
                     variant="outlined"
-                    className={classes.card}
-                    style={{ display: "inline-block" }}
+                    style={{ 
+                        display: "inline-block",
+                        borderRadius: 15,
+                        maxWidth: "270px",
+                        minWidth: "270px",
+                        height: "330px"
+                    }}
                 >
                     <CardMedia align="center">
                         <Avatar
