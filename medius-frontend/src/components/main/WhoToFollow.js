@@ -21,9 +21,10 @@ function WhoToFollow() {
                 Who to follow
             </p>
             <div className="WhoToFollow_Container">
-                {users.map(user => {
+                {users.map((user, idx) => {
                     return (
                         <UserIntro
+                            key={idx}
                             author={`${user.first_name} ${user.last_name}`}
                             image={user.avatar_path}
                             description={`${user.num_followers} followers`}

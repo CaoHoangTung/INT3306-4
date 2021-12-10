@@ -3,9 +3,10 @@ import LoginModal from "./LoginModal";
 import { useState } from 'react';
 import React from 'react';
 import logo from "../../mediusLogo.png"
-const NavBar = () => {
-    const [show, setShow] = useState(false);
+const NavBar = ({ isLoggingIn }) => {
+    const [show, setShow] = useState(isLoggingIn || false);
     const [isLogin, setIsLogin] = useState(true);
+
     return (
         <div className="NavBar">
             <Container>

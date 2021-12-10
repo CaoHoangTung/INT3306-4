@@ -7,18 +7,18 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import React, { useEffect } from 'react';
 import { getPosts } from '../../api/posts';
 
-function Home() {
+function Home({ isLoggingIn }) {
   const [posts, setPosts] = React.useState([]);
 
   useEffect(() => {
-    getPosts().then(posts => {
+    getPosts(null, [], true, 0, 100).then(posts => {
       setPosts(posts);
     })
   }, []);
 
   return (
     <div>
-      <NavBar />
+      <NavBar isLoggingIn={isLoggingIn || false} />
       <div className="App_MainSection">
         <Container>
           <Grid container justify="center" alignItems="center">
@@ -49,6 +49,7 @@ function Home() {
               contentPreview={post.contentPreview}
               postTime={post.published_at}
               previewImagePath={post.preview_image_path}
+              mustLoginFirst={true}
             />
           ))}
         </Container>
