@@ -33,7 +33,7 @@ function App() {
     ["/profile/:userId", <ViewProfile />, true],
     ["/", <Main />, true],
     ["/topic/:topic_id", <p>Topic</p>, true],
-    ["/viewpost", <ViewPost />, true],
+    ["/viewpost", <ViewPost postId={70}/>, true],
     ["/new-story", <WritePost />, true],
     ["/topicPage", <TopicPage />, true],
     ["/setting", <ChangeProfile />, true],
