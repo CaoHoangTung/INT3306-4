@@ -4,14 +4,15 @@ import '../../pages/main/Main.scss'
 import CommentModal from "../shared/CommentModal";
 import { getPosts } from "../../api/posts.js";
 
-function NewsFeed() {
+function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page = 0, limit = 100 }) {
     const [show, setShow] = useState();
     const [posts, setPosts] = React.useState([]);
 
     useEffect(() => {
-        getPosts().then(posts => {
+        getPosts(
+            user_id, topic_ids, sort_by_upvote, page, limit
+        ).then(posts => {
             setPosts(posts);
-            console.log(posts);
         })
     }, []);
 

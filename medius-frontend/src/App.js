@@ -25,15 +25,16 @@ function App() {
    * Consist of 3 item: route string, component, exact
    */
   const commonRouters = [
-    ["/", <Home />, true]
+    ["/", <Home />, true],
+    ["/login", <Home isLoggingIn={true} />, true],
   ];
 
   const userRouters = [
     ["/my-profile", <Profile userId={getCurrentUser()} />, true],
     ["/profile/:userId", <ViewProfile />, true],
     ["/", <Main />, true],
-    ["/topic/:topic_id", <p>Topic</p>, true],
-    ["/viewpost", <ViewPost />, true],
+    ["/topic/:topicId", <TopicPage />, true],
+    ["/post/:postId", <ViewPost />, true],
     ["/new-story", <WritePost />, true],
     ["/topicPage", <TopicPage />, true],
     ["/setting", <ChangeProfile />, true],

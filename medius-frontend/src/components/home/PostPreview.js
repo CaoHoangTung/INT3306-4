@@ -3,10 +3,14 @@ import StarIcon from "@material-ui/icons/Star";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import moment from "moment";
 import { Link } from "react-router-dom";
-
+import { Redirect } from "react-router";
 const MediumPosts = (props) => {
+    const mustLoginFirst = !!props?.mustLoginFirst;
+    const postUrl = mustLoginFirst ? "/login" : `/post/${props.post_id}`;
+    const target = mustLoginFirst ? "_blank" : "";
+
     return (
-        <Link style={{ textDecoration: "none", color: "inherit" }} to={`/post/${props.post_id}`}>
+        <Link style={{ textDecoration: "none", color: "inherit" }} push to={postUrl} target={target}>
             <div className="MediumPosts">
                 <div className="MediumPosts_Text">
                     <h1>{props.title}</h1>

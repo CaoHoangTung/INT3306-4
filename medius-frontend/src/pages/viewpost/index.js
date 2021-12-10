@@ -18,11 +18,15 @@ import Search from "../../components/main/Search";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
+import { useParams } from 'react-router';
 
 function ViewPost(props) {
     const [author, setAuthors] = useState([]);
+
+    const { postId } = useParams();
+
     useEffect(() => {
-        getUser(1).then(author => {
+        getUser(3).then(author => {
             console.log(author);
             setAuthors(author);
         }
@@ -32,7 +36,7 @@ function ViewPost(props) {
 
     const [post, setPost] = useState([]);
     useEffect(() => {
-        getPost(1).then(post => {
+        getPost(postId).then(post => {
             console.log(post);
             setPost(post);
         }).catch(err => console.error(err));
@@ -41,7 +45,7 @@ function ViewPost(props) {
 
     const [postTopics, setPostTopics] = useState([]);
     useEffect(() => {
-        getPostTopicByPostId(1).then(postTopics => {
+        getPostTopicByPostId(postId).then(postTopics => {
             console.log(postTopics);
             setPostTopics(postTopics);
         }).catch(err => console.error(err));

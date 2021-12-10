@@ -20,11 +20,11 @@ from schemas.posttopic import PostTopicCreate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None)) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None)) -> Any:
     """
     Get all posts with user_id 
     """
-
+    print("TOPCI", topic_ids)
     if topic_ids:
         if not user_id: 
             posts = db.query(models.Post).outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids)).\
