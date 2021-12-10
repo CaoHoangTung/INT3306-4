@@ -12,35 +12,35 @@ import { getPost } from '../../api/posts';
 import { getUserRelation } from '../../api/users_users';
 
 function ViewPost(props) {
+    const [post, setPost] = useState({});
     const [author, setAuthor] = useState({});
     const [isOwner, setIsOwner] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
-    const [post, setPost] = useState({});
 
     useEffect(() => {
         getPost(props.postId)
+        .then(postData => {
+            setPost(postData)
+            getUser(postData.user_id)
             .then(data => {
-                setPost(data)
-                getUser(post.user_id)
-                .then(data => {
-                    setAuthor(data);
-                    if (String(data.user_id) === getCurrentUser()) {
-                        setIsOwner(true);
-                    } else {
-                        getUserRelation(getCurrentUser(), data.user_id)
-                            .then(data => {
-                                if (data.is_following === true) {
-                                    setIsFollowing(true);
-                                } else {
-                                    setIsFollowing(false);
-                                }
-                            })
-                    }
-                });
-            })
-            .catch(err => {
-                console.log(err);
+                setAuthor(data);
+                if (String(data.user_id) === getCurrentUser()) {
+                    setIsOwner(true);
+                } else {
+                    getUserRelation(getCurrentUser(), data.user_id)
+                        .then(data => {
+                            if (data.is_following === true) {
+                                setIsFollowing(true);
+                            } else {
+                                setIsFollowing(false);
+                            }
+                        })
+                }
             });
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }, []);
 
     return (
