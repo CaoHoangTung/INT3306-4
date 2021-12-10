@@ -131,7 +131,9 @@ def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = 
     Delete post
     """
     query_post = crud.post.get_by_post_id(db=db, post_id=deleting_post.post_id)
-    if not query_post or query_post.user_id != current_user.user_id:
+    if not query_post:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+    if query_post.user_id != current_user.user_id and not crud.user.is_admin(current_user):
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
 
     post = crud.post.delete(
@@ -179,6 +181,9 @@ def get_topic_title(db: Session = Depends(deps.get_db), *, post_id, current_user
         db=db,
         post_id=post_id
     )
+
+    if not post:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
 
     topics = []
     for relationtopic in post.topics:
