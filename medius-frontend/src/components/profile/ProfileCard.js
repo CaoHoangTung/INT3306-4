@@ -73,8 +73,11 @@ class ProfileCard extends React.Component {
                     <CardMedia align="center">
                         <Avatar
                             alt={author?.first_name}
-                            src={author?.avatar}
-                            className={classes.large}
+                            src={author?.avatar_path}
+                            style={{
+                                width: "100px",
+                                height: "100px",
+                            }}
                         />
                     </CardMedia>
                     <CardContent className={classes.cardContent}>
