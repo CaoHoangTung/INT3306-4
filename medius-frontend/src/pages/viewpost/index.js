@@ -13,37 +13,35 @@ import { getUserRelation } from '../../api/users_users';
 import { useParams } from 'react-router';
 
 function ViewPost(props) {
+    const [post, setPost] = useState({});
     const [author, setAuthor] = useState({});
     const [isOwner, setIsOwner] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
-    const [post, setPost] = useState(null);
-
-    const { postId } = useParams();
 
     useEffect(() => {
-        getPost(postId)
+        getPost(props.postId)
+        .then(postData => {
+            setPost(postData)
+            getUser(postData.user_id)
             .then(data => {
-                setPost(data)
-                getUser(data.user_id)
-                    .then(data => {
-                        setAuthor(data);
-                        if (String(data.user_id) === getCurrentUser()) {
-                            setIsOwner(true);
-                        } else {
-                            getUserRelation(getCurrentUser(), data.user_id)
-                                .then(data => {
-                                    if (data.is_following === true) {
-                                        setIsFollowing(true);
-                                    } else {
-                                        setIsFollowing(false);
-                                    }
-                                })
-                        }
-                    });
-            })
-            .catch(err => {
-                console.log(err);
+                setAuthor(data);
+                if (String(data.user_id) === getCurrentUser()) {
+                    setIsOwner(true);
+                } else {
+                    getUserRelation(getCurrentUser(), data.user_id)
+                        .then(data => {
+                            if (data.is_following === true) {
+                                setIsFollowing(true);
+                            } else {
+                                setIsFollowing(false);
+                            }
+                        })
+                }
             });
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }, []);
 
     return (
