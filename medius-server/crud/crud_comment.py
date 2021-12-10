@@ -61,7 +61,7 @@ class CRUDComment(CRUDBase[Comment, CommentCreate, CommentUpdate]):
     def create(self, db: Session, *, obj_in: CommentCreate, user_id: int) -> Comment:
         db_obj = Comment(
             post_id=obj_in.post_id,
-            user_id=obj_in.user_id,
+            user_id=user_id,
             content=obj_in.content,
             created_at=func.now(),
             upvote=0,

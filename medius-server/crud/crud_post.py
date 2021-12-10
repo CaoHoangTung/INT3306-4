@@ -13,6 +13,8 @@ from crud.base import CRUDBase
 from models.post import Post
 from models.userpostrelation import UserPostRelation
 from schemas.post import PostBase, PostCreate, PostUpdate
+import crud 
+import schemas
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
@@ -75,10 +77,21 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             updated_at = func.now(),
             user_id = user_id
         )
-
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
+
+        if obj_in.topic_ids:
+            for topic_id in obj_in.topic_ids:
+                crud.posttopic.create(
+                    db=db,
+                    obj_in=schemas.PostTopicCreate(
+                        post_id=db_obj.post_id,
+                        topic_id=int(topic_id),
+                        score=1
+                    )
+                )
+
         return db_obj
 
     def update(

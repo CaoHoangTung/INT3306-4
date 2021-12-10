@@ -13,14 +13,14 @@ class CommentBase(BaseModel):
 # Properties to receive via API on creation
 class CommentCreate(CommentBase):
     post_id: int 
-    user_id: int 
+    # user_id: int 
     content: str 
 
 # Properties to receive via API on update
 class CommentUpdate(CommentBase):
     comment_id: int 
-    post_id: Optional[int]
-    user_id: Optional[int]
+    # post_id: Optional[int]
+    # user_id: Optional[int]
     content: Optional[str]
     upvote: Optional[int] 
     downvote: Optional[int]
