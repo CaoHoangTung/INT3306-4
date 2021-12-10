@@ -1,32 +1,31 @@
+import React from 'react';
+import '../../pages/profile/style.scss'
 import { Card, CardContent, CardMedia, Avatar, Typography, Grid } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import PeopleIcon from '@mui/icons-material/People';
-import React from 'react';
-import { red } from "@material-ui/core/colors";
-import { createTheme } from "@material-ui/core/styles";
 import FollowButton from './FollowButton';
+import { withStyles } from '@mui/styles';
 
 // A custom theme for this app
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#556cd6",
-        },
-        secondary: {
-            main: "#19857b",
-        },
-        error: {
-            main: red.A400,
-        },
-        background: {
-            default: "#fff",
-            card: "#fff",
-        },
-    },
-});
+// const theme = createTheme({
+//     palette: {
+//         primary: {
+//             main: "#556cd6",
+//         },
+//         secondary: {
+//             main: "#19857b",
+//         },
+//         error: {
+//             main: red.A400,
+//         },
+//         background: {
+//             default: "#fff",
+//             card: "#fff",
+//         },
+//     },
+// });
 
-const useStyles = makeStyles(() => ({
+const styles = theme => ({
     // text: {
     //     margin: theme.spacing(0, 0, 0.5),
     //     color: theme.palette.secondary.contrastText,
@@ -39,7 +38,7 @@ const useStyles = makeStyles(() => ({
     //     height: theme.spacing(12),
     //     margin: theme.spacing(2, 2, 0),
     // },
-    // card: {
+    // pcard: {
     //     borderRadius: 15,
     //     maxWidth: "270px",
     //     minWidth: "270px",
@@ -49,71 +48,83 @@ const useStyles = makeStyles(() => ({
     // cardContent: {
     //     padding: theme.spacing(2, 0, 0, 0),
     // },
-}));
+});
 
+class ProfileCard extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-function ProfileCard(props) {
-    const author = props.author;
-    const classes = useStyles();
-    return (
-
-        <Grid item xs={12}>
-            <Card
-                variant="outlined"
-                className={classes.card}
-                style={{ display: "inline-block" }}
-            >
-                <CardMedia align="center">
-                    <Avatar
-                        alt={author?.first_name}
-                        src={author?.avatar}
-                        className={classes.large}
-                    />
-                </CardMedia>
-                <CardContent className={classes.cardContent}>
-                    <Typography
-                        className={classes.text}
-                        color="textSecondary"
-                        variant="h6"
-                        align="center"
-                    >
-                        {author?.first_name} {author?.last_name}
-                    </Typography>
-                    <Typography
-                        className={classes.text}
-                        color="textSecondary"
-                        variant="subtitle1"
-                        align="center"
-                    >
-                        <LocalPostOfficeIcon className={classes.avatar} fontSize="small" />
-                        {props?.email}
-                    </Typography>{" "}
-                    <Typography
-                        className={classes.text}
-                        color="textSecondary"
-                        variant="subtitle1"
-                        align="center"
-                    >
-                        <FollowButton
-                            isFollowing={props.isFollowing}
-                            setIsFollowing={props.setIsFollowing}
-                            isOwner={props.isOwner}
-                            userId={author.user_id}
+    render() {
+        const { author, classes } = this.props;
+        return (
+    
+            <Grid item xs={12}>
+                <Card
+                    variant="outlined"
+                    style={{ 
+                        display: "inline-block",
+                        borderRadius: 15,
+                        maxWidth: "270px",
+                        minWidth: "270px",
+                        height: "330px"
+                    }}
+                >
+                    <CardMedia align="center">
+                        <Avatar
+                            alt={author?.first_name}
+                            src={author?.avatar_path}
+                            style={{
+                                width: "100px",
+                                height: "100px",
+                            }}
                         />
-                    </Typography>{" "}
-                    <Typography
-                        className={classes.text}
-                        color="textSecondary"
-                        variant="subtitle1"
-                        align="center"
-                    >
-                        <PeopleIcon className={classes.avatar} fontSize="small" />
-                        {author.num_followers} Followers
-                    </Typography>{" "}
-                </CardContent>
-            </Card>
-        </Grid>
-    );
+                    </CardMedia>
+                    <CardContent className={classes.cardContent}>
+                        <Typography
+                            className={classes.text}
+                            color="textSecondary"
+                            variant="h6"
+                            align="center"
+                        >
+                            {author?.first_name} {author?.last_name}
+                        </Typography>
+                        <Typography
+                            className={classes.text}
+                            color="textSecondary"
+                            variant="subtitle1"
+                            align="center"
+                        >
+                            <LocalPostOfficeIcon className={classes.avatar} fontSize="small" />
+                            {author.email}
+                        </Typography>{" "}
+                        <Typography
+                            className={classes.text}
+                            color="textSecondary"
+                            variant="subtitle1"
+                            align="center"
+                        >
+                            <FollowButton
+                                isFollowing={this.props.isFollowing}
+                                setIsFollowing={this.props.setIsFollowing}
+                                isOwner={this.props.isOwner}
+                                userId={author.user_id}
+                            />
+                        </Typography>{" "}
+                        <Typography
+                            className={classes.text}
+                            color="textSecondary"
+                            variant="subtitle1"
+                            align="center"
+                        >
+                            <PeopleIcon className={classes.avatar} fontSize="small" />
+                            {author.num_followers} Followers
+                        </Typography>{" "}
+                    </CardContent>
+                </Card>
+            </Grid>
+        );
+    }
 }
 
-export default ProfileCard;
+export default withStyles(styles)(ProfileCard);

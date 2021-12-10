@@ -55,7 +55,7 @@ export default function PostInProfile(props) {
                         alt="preview"
                     />
                     <Typography>
-                        {post.content.slice(0, 200)}
+                        {post.content.slice(0, 200)}...
                     </Typography>
                     <Typography variant="subtitle1" color="primary">
                         Continue reading...

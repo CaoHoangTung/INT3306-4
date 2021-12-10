@@ -8,13 +8,13 @@ import models
 
 # Shared properties
 class UserBase(BaseModel):
-    user_id: Optional[int]
     profile: Optional[str]
     avatar_path: Optional[str]
     cover_image_path: Optional[str]
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
+    user_id: Optional[int]
     role_id: int 
     first_name: str 
     last_name: str
@@ -30,6 +30,7 @@ class UserUpdate(UserBase):
     password_hash: Optional[str]
 
 class UserInDBBase(UserBase):
+    user_id: Optional[int]
     role_id: int 
     first_name: str 
     last_name: str 

@@ -2,7 +2,7 @@ import './style.scss'
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import React from 'react';
-import ProfileNavBar from "../../components/profile/ProfileNavBar.js";
+import MainNavBar from "../../components/main/MainNavBar.js";
 import ProfileCard from '../../components/profile/ProfileCard';
 import PostInProfile from '../../components/profile/PostInProfile';
 import { useState, useEffect } from 'react';
@@ -50,37 +50,36 @@ function Profile(props) {
     }, [props.userId]);
 
     return (
-        <div className="viewPost">
-            <ProfileNavBar
-                key={"Navbar" + author.user_id}
-                author={author}
-            />
-            <Container>
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <ProfileCard
-                            key={"ProfileCard" + author.user_id}
-                            author={author}
-                            isFollowing={isFollowing}
-                            setIsFollowing={setIsFollowing}
-                            isOwner={isOwner}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        {posts.map(post => (
-                            <PostInProfile
-                                key={"PostInProfile" + post.post_id}
-                                author_name={author.first_name + " " + author.last_name}
-                                author_avatar="https://picsum.photos/seed/picsum/200/300"
-                                post={post}
+        <div>
+            <MainNavBar/>
+            <div className="Profile">
+                <Container>
+                    <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                            <ProfileCard
+                                key={"ProfileCard" + author.user_id}
+                                author={author}
+                                isFollowing={isFollowing}
+                                setIsFollowing={setIsFollowing}
                                 isOwner={isOwner}
-                            />
-                        ))}
+                                />
+                        </Grid>
+                        <Grid item xs={6}>
+                            {posts.map(post => (
+                                <PostInProfile
+                                    key={"PostInProfile" + post.post_id}
+                                    author_name={author.first_name + " " + author.last_name}
+                                    author_avatar="https://picsum.photos/seed/picsum/200/300"
+                                    post={post}
+                                    isOwner={isOwner}
+                                    />
+                                    ))}
+                        </Grid>
+                        <Grid item xs={3}></Grid>
                     </Grid>
-                    <Grid item xs={3}></Grid>
-                </Grid>
-            </Container>
-            <div className="footer">
+                </Container>
+                <div className="footer">
+                </div>
             </div>
         </div>
     );

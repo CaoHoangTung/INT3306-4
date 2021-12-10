@@ -3,7 +3,11 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 from sqlalchemy.sql.sqltypes import DateTime
+from fastapi import HTTPException
+from api import msg 
 
+from schemas import User 
+import crud
 
 # Shared properties
 class NotificationBase(BaseModel):
@@ -40,5 +44,10 @@ class NotificationInDBBase(NotificationBase):
 
 # Additional properties to return via API
 class Notification(NotificationInDBBase):
-    pass
+    # pass
+    user_1_detail: Optional[User]
 
+    def get_user_1_detail(self, db):
+        self.user_1_detail = crud.user.get_by_id(db=db, user_id=self.user_id_1)  
+        if not self.user_1_detail: 
+            raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)

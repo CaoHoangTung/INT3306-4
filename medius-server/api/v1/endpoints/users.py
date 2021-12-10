@@ -109,13 +109,13 @@ def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate
         raise HTTPException(status_code=500, detail=msg.INVALID_USER_ID)
         
 @router.put("/update", response_model=schemas.User)
-def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
 # def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None) -> Any:
     """
     Update user
-    """
+    """    
+    query_user = crud.user.get_by_id(db=db, user_id=current_user.user_id)
 
-    query_user = crud.user.get_by_email(db=db, email=updating_user.email)
     if not query_user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
