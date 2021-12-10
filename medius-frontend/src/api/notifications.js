@@ -1,22 +1,42 @@
 import API from "./api";
+import qs from "qs";
 
-export async function getNotificationAll() {
-    const response = await API.get("/notification/all");
+export async function getNotificationAll(unseen_filter = true, user_detail = true) {
+    const query = qs.stringify({
+        unseen_filter,
+        user_detail
+    });
+    
+    const response = await API.get(`/notification/all?${query}`);
     return response?.data;
 }
 
-export async function getNotificationByUserId1(userId1) {
-    const response = await API.get(`/notification/view-by-user-id-1/${userId1}`);
+export async function getNotificationByUserId1(userId1, unseen_filter = true, user_detail = true) {
+    const query = qs.stringify({
+        unseen_filter,
+        user_detail
+    });
+
+    const response = await API.get(`/notification/view-by-user-id-1/${userId1}?${query}`);
     return response?.data;
 }
 
-export async function getNotificationByUserId2(userId2) {
-    const response = await API.get(`/notification/view-by-user-id-2/${userId2}`);
+export async function getNotificationByUserId2(unseen_filter = false, user_detail = true) {
+    const query = qs.stringify({
+        unseen_filter,
+        user_detail
+    });
+
+    const response = await API.get(`/notification/view-by-user-id-2?${query}`);
     return response?.data;
 }
 
-export async function getNotification(notificationId) {
-    const response = await API.get(`/notification/view/${notificationId}`);
+export async function getNotification(notificationId, user_detail = true) {
+    const query = qs.stringify({
+        user_detail
+    });
+
+    const response = await API.get(`/notification/view/${notificationId}?${query}`);
     return response?.data;
 }
 

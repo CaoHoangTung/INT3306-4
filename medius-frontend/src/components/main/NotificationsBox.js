@@ -24,7 +24,7 @@ function NotificationsBox() {
     };
 
     useEffect(async () => {
-        getNotificationByUserId2(getCurrentUser())
+        getNotificationByUserId2()
         .then(data => {
             setNotifications(data);
         }); 
