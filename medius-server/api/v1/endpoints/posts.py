@@ -20,11 +20,11 @@ from schemas.posttopic import PostTopicCreate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None)) -> Any:
     """
     Get all posts with user_id 
     """
-
+    print("TOPCI", topic_ids)
     if topic_ids:
         if not user_id: 
             posts = db.query(models.Post).outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids)).\
@@ -105,13 +105,16 @@ def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = 
     
     
 @router.put("/update", response_model=schemas.Post)
-def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update post
     """
 
     query_post = crud.post.get_by_post_id(db=db, post_id=updating_post.post_id)
     if not query_post:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+
+    if query_post.user_id != current_user.user_id:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
         
     post = crud.post.update(
@@ -123,10 +126,14 @@ def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = 
 
     
 @router.delete("/delete", response_model=schemas.Post)
-def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete post
     """
+    query_post = crud.post.get_by_post_id(db=db, post_id=deleting_post.post_id)
+    if not query_post or query_post.user_id != current_user.user_id:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+
     post = crud.post.delete(
         db=db,
         post_id=deleting_post.post_id

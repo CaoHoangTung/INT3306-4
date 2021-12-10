@@ -8,7 +8,7 @@ import axios from "axios";
 /**
  * API endpoint
 */
-export const BASE_API_PATH = process.env.BASE_API_PATH || "http://165.22.106.61:8000/api";
+export const BASE_API_PATH = process.env.BASE_API_PATH || "http://localhost:8000/api";
 console.log("API PATH", BASE_API_PATH)
 
 /**

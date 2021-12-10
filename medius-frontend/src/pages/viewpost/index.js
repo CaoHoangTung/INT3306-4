@@ -10,6 +10,7 @@ import { getUser } from '../../api/users';
 import { getCurrentUser } from '../../utils/auth';
 import { getPost } from '../../api/posts';
 import { getUserRelation } from '../../api/users_users';
+import { useParams } from 'react-router';
 
 function ViewPost(props) {
     const [post, setPost] = useState({});
@@ -45,7 +46,7 @@ function ViewPost(props) {
 
     return (
         <div>
-            <MainNavBar/>
+            <MainNavBar />
             <div className="viewPost">
                 <Container>
                     <Grid container spacing={2}>
@@ -56,16 +57,18 @@ function ViewPost(props) {
                                 isFollowing={isFollowing}
                                 setIsFollowing={setIsFollowing}
                                 isOwner={isOwner}
-                                />
+                            />
                         </Grid>
                         <Grid item xs={6}>
-                            <PostDetail
-                                key={"PostDetail" + post.post_id}
-                                author_name={author.first_name + " " + author.last_name}
-                                author_avatar="https://picsum.photos/seed/picsum/200/300"
-                                post={post}
-                                isOwner={isOwner}
+                            {!!post ?
+                                <PostDetail
+                                    key={"PostDetail" + post.post_id}
+                                    author_name={author.first_name + " " + author.last_name}
+                                    author_avatar="https://picsum.photos/seed/picsum/200/300"
+                                    post={post}
+                                    isOwner={isOwner}
                                 />
+                                : null}
                         </Grid>
                         <Grid item xs={3}></Grid>
                     </Grid>

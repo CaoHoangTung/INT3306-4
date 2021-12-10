@@ -11,13 +11,14 @@ import DownvoteButton from './DownvoteButton';
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 
-export default function PostInProfile(props) {
+export default function PostDetail(props) {
     const post = props.post;
     const [isSaved, setIsSaved] = useState(false);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [isDownvoted, setIsDownvoted] = useState(false);
 
     useEffect(() => {
+        console.log("PostDetail: ", post.post_id, getCurrentUser());
         getUserPost(getCurrentUser(), post.post_id)
         .then(data => {
             if (data.is_saved === true) {

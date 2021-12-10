@@ -5,8 +5,11 @@ import Container from "@mui/material/Container";
 import RightSection from "../../components/main/RightSection";
 import NewsFeed from "../../components/main/NewsFeed";
 import React from "react";
+import { useParams } from 'react-router';
 
 function TopicPage(props) {
+    const { topicId } = useParams();
+
     return (
         <div className="TopicPage">
             <div className="header">
@@ -18,14 +21,14 @@ function TopicPage(props) {
                         <div className="topicName">
                             <Container>
                                 <p>
-                                    Name Of Topic
+                                    Posts with topic {topicId}
                                 </p>
                             </Container>
                         </div>
                         <div className="left">
                             <div className="LeftSection">
                                 <Container>
-                                    <NewsFeed />
+                                    <NewsFeed topic_ids={[topicId]} />
                                 </Container>
                             </div>
                         </div>
