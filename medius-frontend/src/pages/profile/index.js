@@ -48,6 +48,7 @@ function Profile(props) {
                 console.log(err);
             });
     }, [props.userId]);
+
     return (
         <div className="viewPost">
             <ProfileNavBar

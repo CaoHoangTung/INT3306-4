@@ -1,12 +1,21 @@
-import {Container, Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import './style.scss';
 import NavBar from '../../components/home/NavBar'
 import Footer from '../../components/home/Footer';
 import MediumPosts from '../../components/home/PostPreview'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { getPosts } from '../../api/posts';
+
 function Home() {
-  
+  const [posts, setPosts] = React.useState([]);
+
+  useEffect(() => {
+    getPosts().then(posts => {
+      setPosts(posts);
+    })
+  }, []);
+
   return (
     <div>
       <NavBar />
@@ -19,7 +28,7 @@ function Home() {
                 Read and share new perspective on just about any topic.
                 Everyone's welcome.
               </p>
-              
+
             </Grid>
             <Grid item lg={6}>
               <img src="Illustrations-Dimensional.png" alt="" />
@@ -27,38 +36,21 @@ function Home() {
           </Grid>
         </Container>
       </div>
-      
+
       <div className="Trending">
         <Container>
           <h2><span><TrendingUpIcon /></span>Trending on Medius</h2>
-          <MediumPosts
-            author="author"
-            topic="topic"
-            title="title"
-            contentPreview="contentPreview"
-            postTime="2:00:00 PM 10/29/2021"
-          />
-          <MediumPosts
-            author="author"
-            topic="topic"
-            title="title"
-            contentPreview="contentPreview"
-            postTime="2:00:00 PM 10/29/2021"
-          />
-          <MediumPosts
-            author="author"
-            topic="topic"
-            title="title"
-            contentPreview="contentPreview"
-            postTime="2:00:00 PM 10/29/2021"
-          />
-          <MediumPosts
-            author="author"
-            topic="topic"
-            title="title"
-            contentPreview="contentPreview"
-            postTime="2:00:00 PM 10/29/2021"
-          />
+          {posts.map(post => (
+            <MediumPosts
+              key={post.post_id}
+              post={post.post_id}
+              author={post.author}
+              title={post.title}
+              contentPreview={post.contentPreview}
+              postTime={post.published_at}
+              previewImagePath={post.preview_image_path}
+            />
+          ))}
         </Container>
       </div>
       <Footer />

@@ -8,7 +8,7 @@ import axios from "axios";
 /**
  * API endpoint
 */
-export const BASE_API_PATH = process.env.BASE_API_PATH || "http://165.22.106.61:8000/api";
+export const BASE_API_PATH = process.env.BASE_API_PATH || "http://localhost:8000/api";
 console.log("API PATH", BASE_API_PATH)
 
 /**
@@ -39,11 +39,9 @@ API.interceptors.response.use((response) => {
   if (error?.response?.status === 403) {
     // alert("You are not authorized. Please login again");
     removeLocalCredential();
-    window.location.href = "/login";
   } else if (error?.response?.status === 401) {
     // alert("Your session has expired. Please login again");
     removeLocalCredential();
-    window.location.href = "/login";
   } else if (error?.response?.status === 500) {
     // alert("Internal server error. Please try again later");
   } else if (error?.response?.status === 404) {

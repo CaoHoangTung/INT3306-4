@@ -2,33 +2,36 @@ import React from "react";
 import StarIcon from "@material-ui/icons/Star";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const MediumPosts = (props) => {
     return (
-        <div className="MediumPosts">
-            <div className="MediumPosts_Text">
-                <h1>{props.title}</h1>
-                <p>{props.author} - {props.title}</p>
-                <p>{props.contentPreview}</p>
-                <div className="MediumPosts_TimeStamps">
-                    <div className="MediumPosts_TimeStamp_Paragraph">
-                        <span>
-                            {moment(new Date(props.postTime), "YYYYMMDD").format("LL")}
-                        </span>
-                        &nbsp;-&nbsp;
-                        <span style={{ display: "flex", alignItems: "center" }}>
-                            {moment(new Date(props.postTime), "YYYYMMDD").fromNow()}
-                            <StarIcon />
-                        </span>
+        <Link style={{ textDecoration: "none", color: "inherit" }} to={`/post/${props.post_id}`}>
+            <div className="MediumPosts">
+                <div className="MediumPosts_Text">
+                    <h1>{props.title}</h1>
+                    <p>{props.author} - {props.title}</p>
+                    <p>{props.contentPreview}</p>
+                    <div className="MediumPosts_TimeStamps">
+                        <div className="MediumPosts_TimeStamp_Paragraph">
+                            <span>
+                                {moment(new Date(props.postTime), "YYYYMMDD").format("LL")}
+                            </span>
+                            &nbsp;-&nbsp;
+                            <span style={{ display: "flex", alignItems: "center" }}>
+                                {moment(new Date(props.postTime), "YYYYMMDD").fromNow()}
+                                <StarIcon />
+                            </span>
+                        </div>
+                        <BookmarkBorderIcon className="MediumPosts_Bookmark" />
                     </div>
-                    <BookmarkBorderIcon className="MediumPosts_Bookmark" />
                 </div>
+                <div
+                    className="MediumPosts_image"
+                    style={{ backgroundImage: `url(${props?.previewImagePath})` }}
+                />
             </div>
-            <div
-                className="MediumPosts_image"
-                style={{ backgroundImage: `url(logo512.png)` }}
-            />
-        </div>
+        </Link>
     );
 };
 
