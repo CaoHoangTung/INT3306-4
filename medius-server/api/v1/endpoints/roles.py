@@ -13,11 +13,12 @@ from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.role import RoleCreate, RoleDelete, RoleUpdate
+from models import User 
 
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Role])
-def view_all_roles(db: Session = Depends(deps.get_db)) -> Any:
+def view_all_roles(db: Session = Depends(deps.get_db), current_user: User = Depends(deps.get_current_admin)) -> Any:
     """
     Get all roles
     """
@@ -29,7 +30,7 @@ def view_all_roles(db: Session = Depends(deps.get_db)) -> Any:
     return roles
 
 @router.get("/view/{role_id}", response_model=schemas.Role)
-def view_role(db: Session = Depends(deps.get_db), role_id:str = None) -> Any:
+def view_role(db: Session = Depends(deps.get_db), role_id:str = None, current_user: User = Depends(deps.get_current_admin)) -> Any:
     """
     View role
     """
@@ -43,7 +44,7 @@ def view_role(db: Session = Depends(deps.get_db), role_id:str = None) -> Any:
     return role
 
 @router.post("/create", response_model=schemas.Role)
-def create_role(db: Session = Depends(deps.get_db), *, creating_role: RoleCreate) -> Any:
+def create_role(db: Session = Depends(deps.get_db), *, creating_role: RoleCreate, current_user: User = Depends(deps.get_current_admin)) -> Any:
     """
     Create new role
     """
@@ -59,7 +60,7 @@ def create_role(db: Session = Depends(deps.get_db), *, creating_role: RoleCreate
         raise HTTPException(status_code=500, detail=msg.INVALID_ROLE_ID)
     
 @router.put("/update", response_model=schemas.Role)
-def update_role(db: Session = Depends(deps.get_db), *, updating_role: RoleUpdate) -> Any:
+def update_role(db: Session = Depends(deps.get_db), *, updating_role: RoleUpdate, current_user: User = Depends(deps.get_current_admin)) -> Any:
     """
     Update role
     """
@@ -77,7 +78,7 @@ def update_role(db: Session = Depends(deps.get_db), *, updating_role: RoleUpdate
 
     
 @router.delete("/delete", response_model=schemas.Role)
-def delete_role(db: Session = Depends(deps.get_db), deleting_role: RoleDelete = None) -> Any:
+def delete_role(db: Session = Depends(deps.get_db), deleting_role: RoleDelete = None, current_user: User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete role
     """

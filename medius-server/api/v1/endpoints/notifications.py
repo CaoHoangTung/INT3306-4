@@ -37,6 +37,7 @@ def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depe
             
     return schemas_notifications
 
+
 @router.get("/view-by-user-id-1/{user_id}", response_model=List[schemas.Notification])
 def view_by_user_id_1(db: Session = Depends(deps.get_db), user_id: str = None, unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
@@ -56,6 +57,7 @@ def view_by_user_id_1(db: Session = Depends(deps.get_db), user_id: str = None, u
             
     return schemas_notifications
 
+
 @router.get("/view-by-user-id-2", response_model=List[schemas.Notification])
 def view_by_user_id_2(db: Session = Depends(deps.get_db), unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
@@ -74,6 +76,7 @@ def view_by_user_id_2(db: Session = Depends(deps.get_db), unseen_filter: bool = 
         schemas_notifications.append(schemas_notification)
             
     return schemas_notifications
+
 
 @router.get("/view/{notification_id}", response_model=schemas.Notification)
 def view_notification(db: Session = Depends(deps.get_db), notification_id: str = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -95,6 +98,7 @@ def view_notification(db: Session = Depends(deps.get_db), notification_id: str =
     return_notification.get_user_1_detail(db=db)
 
     return return_notification
+
 
 @router.post("/create", response_model=schemas.Notification)
 def create_notification(db: Session = Depends(deps.get_db), creating_notification: NotificationCreate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
