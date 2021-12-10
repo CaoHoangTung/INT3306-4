@@ -21,7 +21,7 @@ export async function getNotificationByUserId1(userId1, unseen_filter = true, us
     return response?.data;
 }
 
-export async function getNotificationByUserId2(unseen_filter = false, user_detail = true) {
+export async function getNotificationByUserId2(unseen_filter = true, user_detail = true) {
     const query = qs.stringify({
         unseen_filter,
         user_detail
