@@ -52,7 +52,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
-        if update_data["password_hash"]:
+        if "password_hash" in update_data:
             hashed_password = get_password_hash(update_data["password_hash"])
             del update_data["password_hash"]
             update_data["password_hash"] = hashed_password
@@ -93,10 +93,10 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
     def is_admin(self, db: Session, user: User) -> bool:
         matched_role = role.get_by_role_id(db=db, role_id=user.role_id)
-        
         role_name = "not_admin"
         if matched_role:
             role_name = matched_role.role_name
+        
         return role_name == "admin"
         
 
