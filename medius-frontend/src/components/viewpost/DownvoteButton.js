@@ -16,7 +16,8 @@ class DownvoteButton extends React.Component {
         super(props);
         this.state = {
             post: this.props.post,
-            userId: getCurrentUser()
+            userId: getCurrentUser(),
+            numDownvotes: this.props.post.downvote
         };
     }
 
@@ -26,22 +27,27 @@ class DownvoteButton extends React.Component {
             downvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsDownvoted(false);
+                this.setState({
+                    numDownvotes: this.state.numDownvotes - 1
+                });
             });
         } else {
             undownvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsDownvoted(true);
+                this.setState({
+                    numDownvotes: this.state.numDownvotes + 1
+                });
             });
         }
     };
 
     render() {
-        const { post } = this.state;
         const { classes } = this.props;
         return(
             <Badge
                 color="primary"
-                badgeContent={ post.downvote }
+                badgeContent={ this.state.numDownvotes }
                 showZero
             >
                 <ThumbDownIcon

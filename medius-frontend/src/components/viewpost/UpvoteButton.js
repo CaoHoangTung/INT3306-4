@@ -16,7 +16,8 @@ class UpvoteButton extends React.Component {
         super(props);
         this.state = {
             post: this.props.post,
-            userId: getCurrentUser()
+            userId: getCurrentUser(),
+            numUpvotes: this.props.post.upvote
         };
     }
 
@@ -26,22 +27,27 @@ class UpvoteButton extends React.Component {
             upvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsUpvoted(false);
+                this.setState({
+                    numUpvotes: this.state.numUpvotes - 1
+                });
             });
         } else {
             unupvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsUpvoted(true);
+                this.setState({
+                    numUpvotes: this.state.numUpvotes + 1
+                });
             });
         }
     };
 
     render() {
-        const { post } = this.state;
         const { classes } = this.props;
         return(
             <Badge
                 color="primary"
-                badgeContent={ post.upvote }
+                badgeContent={ this.state.numUpvotes }
                 showZero
             >
                 <ThumbUpIcon
