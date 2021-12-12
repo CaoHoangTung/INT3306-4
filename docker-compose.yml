@@ -29,7 +29,7 @@ services:
             dockerfile: Dockerfile
         environment:
           - REACT_APP_SC_DISABLE_SPEEDY=true
-          - BASE_API_PATH=http://165.22.106.61:8000/api
+          - BASE_API_PATH_BASE_API_PATH=http://165.22.106.61:8000/api
         depends_on:
             - medius-server
         networks:
