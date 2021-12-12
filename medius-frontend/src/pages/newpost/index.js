@@ -21,7 +21,8 @@ function WritePost() {
         () => EditorState.createEmpty(),
     );
 
-
+    
+      
     const publish = (event) => {
         event.preventDefault();
         const post = {
@@ -39,6 +40,21 @@ function WritePost() {
         //   });
         createPost(post);
     }
+
+    function getBase64(file, callback) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => callback(reader.result);
+        reader.onerror = error => {};
+      }
+    
+    function  uploadFile(file) {
+        return new Promise((resolve, reject) => {
+          this.getBase64(file, data => resolve({ data: { link: data } }));
+        });
+    }
+
+    
     return (
         <div>
             {<NewPostNavBar />}
@@ -65,7 +81,16 @@ function WritePost() {
                     editorClassName="editor-class"
                     toolbarClassName="toolbar-class"
                     onEditorStateChange={setEditorState}
+                    toolbar={{
+                        inline: { inDropdown: false },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
+                      }}
                 />
+                {/* <EditorContainer/> */}
                 <textarea
                     disabled
                     value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
