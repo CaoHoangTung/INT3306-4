@@ -80,8 +80,6 @@ def view_user_by_email(db: Session = Depends(deps.get_db), email:str = Query(...
 
 @router.post("/create", response_model=schemas.User)
 def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate = None, token: str = Depends(deps.auto_error_reusable_oauth2)) -> Any:
-# def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
-# def create_user(db: Session = Depends(deps.get_db), creating_user: UserCreate = None) -> Any:
     """
     Create new user
     """
@@ -110,13 +108,15 @@ def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate
         
 @router.put("/update", response_model=schemas.User)
 def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
-# def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = None) -> Any:
     """
     Update user
     """    
     query_user = crud.user.get_by_id(db=db, user_id=current_user.user_id)
 
     if not query_user:
+        raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
+
+    if not crud.user.is_admin(query_user) and query_user.user_id != current_user.user_id:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
     user = crud.user.update(

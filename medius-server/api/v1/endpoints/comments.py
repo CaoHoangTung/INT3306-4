@@ -28,6 +28,7 @@ def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depe
             
     return comments
 
+
 @router.get("/view-by-post-id/{post_id}", response_model=List[schemas.Comment])
 def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
@@ -40,6 +41,7 @@ def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, cur
             
     return comments
 
+
 @router.get("/view-by-user-id/{user_id}", response_model=List[schemas.Comment])
 def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
@@ -51,6 +53,7 @@ def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, cur
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
             
     return comments
+
 
 @router.get("/view/{comment_id}", response_model=schemas.Comment)
 def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -66,6 +69,7 @@ def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, curr
         raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
             
     return comment
+
 
 @router.post("/create", response_model=schemas.Comment)
 def create_comment(db: Session = Depends(deps.get_db), creating_comment: CommentCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:

@@ -17,7 +17,7 @@ from schemas.topic import TopicCreate, TopicDelete, TopicUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Topic])
-def view_all_topics(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_all_topics(db: Session = Depends(deps.get_db)) -> Any:
     """
     Get all topics
     """
@@ -29,7 +29,7 @@ def view_all_topics(db: Session = Depends(deps.get_db), current_user: models.Use
     return topics
 
 @router.get("/view/{topic_id}", response_model=schemas.Topic)
-def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None) -> Any:
     """
     View topic
     """
@@ -43,7 +43,7 @@ def view_topic(db: Session = Depends(deps.get_db), topic_id:str = None, current_
     return topic
 
 @router.post("/create", response_model=schemas.Topic)
-def create_topic(db: Session = Depends(deps.get_db), *, creating_topic: TopicCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def create_topic(db: Session = Depends(deps.get_db), *, creating_topic: TopicCreate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Create new topic
     """
@@ -59,7 +59,7 @@ def create_topic(db: Session = Depends(deps.get_db), *, creating_topic: TopicCre
         raise HTTPException(status_code=500, detail=msg.INVALID_TOPIC_ID)
     
 @router.put("/update", response_model=schemas.Topic)
-def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpdate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Update topic
     """
@@ -77,7 +77,7 @@ def update_topic(db: Session = Depends(deps.get_db), *, updating_topic: TopicUpd
 
     
 @router.delete("/delete", response_model=schemas.Topic)
-def delete_topic(db: Session = Depends(deps.get_db), deleting_topic: TopicDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def delete_topic(db: Session = Depends(deps.get_db), deleting_topic: TopicDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
     Delete topic
     """
