@@ -1,22 +1,6 @@
 .viewPost {
-  .header {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    border-bottom: solid 1px gray;
-  }
-  .leftHeader {
-    display: flex;
-    align-items: center;
-  }
-  .rightHeader {
-    display: flex;
-    align-items: center;
-  }
   img {
-    width: 30px;
-    height: 30px;
+    width: 100%;
   }
   .user {
     display: flex;

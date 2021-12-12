@@ -61,6 +61,38 @@ export async function downvotePost(postId, userId) {
     }
 }
 
+export async function unupvotePost(postId, userId) {
+    try {
+        const upvote = {
+            post_id: postId,
+            user_id: userId,
+            is_upvote: false,
+        };
+        const response = await createUserPost(upvote);
+        return response;
+    } catch (error) {
+        alert("Cannot un-upvote now. Try again later");
+        console.log(error);
+        return false;
+    }
+}
+
+export async function undownvotePost(postId, userId) {
+    try {
+        const downvote = {
+            post_id: postId,
+            user_id: userId,
+            is_downvote: false,
+        };
+        const response = await createUserPost(downvote);
+        return response;
+    } catch (error) {
+        alert("Cannot un-downvote now. Try again later");
+        console.log(error);
+        return false;
+    }
+}
+
 export async function savePost(postId, userId) {
     try {
         const save = {

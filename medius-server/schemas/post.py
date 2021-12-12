@@ -16,6 +16,7 @@ class PostBase(BaseModel):
 # Properties to receive via API on creation
 class PostCreate(PostBase):
     published_at: Optional[datetime] 
+    topic_ids: Optional[List[str]]
     pass
 
 # Properties to receive via API on update

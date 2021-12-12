@@ -3,13 +3,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Menu from "@mui/material/Menu";
-import moment from "moment";
-import StarIcon from "@material-ui/icons/Star";
+import { Box, Menu, Badge } from "@mui/material";
 import { getNotificationByUserId2 } from "../../api/notifications";
-import { getCurrentUser } from '../../utils/auth';
 import Notification from './Notification';
 
 function NotificationsBox() {
@@ -24,7 +19,7 @@ function NotificationsBox() {
     };
 
     useEffect(async () => {
-        getNotificationByUserId2(getCurrentUser())
+        getNotificationByUserId2()
         .then(data => {
             setNotifications(data);
         }); 
@@ -35,7 +30,12 @@ function NotificationsBox() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Notification">
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                        <NotificationsIcon sx={{ width: 32, height: 32 }} />
+                        <Badge
+                            color="primary"
+                            badgeContent={ notifications.length }
+                        >
+                            <NotificationsIcon sx={{ width: 32, height: 32 }} />
+                        </Badge>
                     </IconButton>
                 </Tooltip>
             </Box>

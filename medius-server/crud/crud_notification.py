@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional, Union, List
 
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import func, update
+from sqlalchemy.sql.expression import and_, func, update
 from sqlalchemy.sql.operators import is_natural_self_precedent
 
 from core.security import get_password_hash, verify_password
@@ -26,23 +26,33 @@ class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUp
     """
     Get all notifications  
     """  
-    def get_all(self, db: Session) -> List[Notification]:
+    def get_all(self, db: Session, unseen_filter: bool) -> List[Notification]:
         try:
-            return db.query(Notification) \
-                .filter() \
-                .all()
+            if unseen_filter:
+                return db.query(Notification) \
+                    .filter(Notification.is_seen == 0) \
+                    .all()
+            else: 
+                return db.query(Notification) \
+                    .filter() \
+                    .all()
         except Exception as e:
             print(e)
             return None
-    
+
     """
     Get all notifications with user_id_1 
     """  
-    def get_by_user_id_1(self, db: Session, *, user_id: str) -> List[Notification]:
+    def get_by_user_id_1(self, db: Session, *, user_id: str, unseen_filter: bool) -> List[Notification]:
         try:
-            return db.query(Notification) \
-                .filter(Notification.user_id_1 == user_id) \
-                .all()
+            if unseen_filter: 
+                return db.query(Notification) \
+                    .filter(and_(Notification.user_id_1 == user_id, Notification.is_seen == 0)) \
+                    .all()
+            else: 
+                return db.query(Notification) \
+                    .filter(Notification.user_id_1 == user_id) \
+                    .all()
         except Exception as e:
             print(e)
             return None
@@ -50,11 +60,16 @@ class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUp
     """
     Get all notifications with user_id_2 
     """  
-    def get_by_user_id_2(self, db: Session, *, user_id: str) -> List[Notification]:
+    def get_by_user_id_2(self, db: Session, *, user_id: str, unseen_filter: bool) -> List[Notification]:
         try:
-            return db.query(Notification) \
-                .filter(Notification.user_id_2 == user_id) \
-                .all()
+            if unseen_filter:
+                return db.query(Notification) \
+                    .filter(and_(Notification.user_id_2 == user_id, Notification.is_seen == 0)) \
+                    .all()
+            else: 
+                return db.query(Notification) \
+                    .filter(Notification.user_id_2 == user_id) \
+                    .all()
         except Exception as e:
             print(e)
             return None
