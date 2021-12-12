@@ -62,11 +62,8 @@ class EditorContainer extends Component {
           history: { inDropdown: true },
           image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
         }}
-      />
-
+      /> 
     </div>
-
-
   }
 }
 

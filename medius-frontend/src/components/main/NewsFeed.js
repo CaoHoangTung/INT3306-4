@@ -29,6 +29,48 @@ function NewsFeed() {
                 contentPreview="contentPreview"
                 postTime="2:00:00 PM 10/29/2021"
             />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
 
         </div>
     )
