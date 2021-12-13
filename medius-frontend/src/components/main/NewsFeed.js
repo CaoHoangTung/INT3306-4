@@ -12,76 +12,25 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
         getPosts(
             user_id, topic_ids, sort_by_upvote, page, limit
         ).then(posts => {
+            console.log(posts)
             setPosts(posts);
         })
     }, []);
 
     return (
         <div>
-            <CommentModal onClose={() => {setShow(false)} } show={show}/>
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
-            <MediumPosts
-                author="author"
-                topic="topic"
-                title="title"
-                contentPreview="contentPreview"
-                postTime="2:00:00 PM 10/29/2021"
-            />
+            <CommentModal onClose={() => { setShow(false) }} show={show} />
+            {posts.map(post => {
+                return (
+                    <MediumPosts
+                        author={post.author}
+                        // topic="topic"
+                        title={post.title}
+                        // contentPreview="contentPreview"
+                        postTime={post.published_at}
+                    />
+                )
+            })}
 
         </div>
     )

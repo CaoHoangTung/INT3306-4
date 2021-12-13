@@ -47,49 +47,53 @@ function App() {
     ["/admin/topic", <TopicManager />, true],
     ["/admin/post", <PostManager />, true]
   ];
-  return (
-    <Router>
-      <div>
-        <Switch>
-          <Route path="/api" component={() => {
-            window.location.href = BASE_API_PATH;
-            return null;
-          }} />
-          {getLocalCredential()?.is_admin &&
-            /**
-            Admin router
-            */
-            adminRouters.map(item => (
+
+  const api_regex = /^\/api\/.*/
+  // if using "/api/" in the pathname, don't use React Router
+  if (api_regex.test(window.location.pathname)) {
+    return <div /> // must return at least an empty div
+  } else {
+
+    return (
+      <Router>
+        <div>
+          <Switch>
+            {getLocalCredential()?.is_admin &&
+              /**
+              Admin router
+              */
+              adminRouters.map(item => (
+                <Route path={item[0]} exact={item[2]}>
+                  {item[1]}
+                </Route>
+              )
+              )}
+
+            {!!getLocalCredential() &&
+              /**
+              User router
+              */
+              userRouters.map(item => (
+                <Route path={item[0]} exact={item[2]}>
+                  {item[1]}
+                </Route>
+              )
+              )}
+
+            {commonRouters.map(item => (
+              /**
+              Normal router
+              */
               <Route path={item[0]} exact={item[2]}>
                 {item[1]}
               </Route>
             )
             )}
-
-          {!!getLocalCredential() &&
-            /**
-            User router
-            */
-            userRouters.map(item => (
-              <Route path={item[0]} exact={item[2]}>
-                {item[1]}
-              </Route>
-            )
-            )}
-
-          {commonRouters.map(item => (
-            /**
-            Normal router
-            */
-            <Route path={item[0]} exact={item[2]}>
-              {item[1]}
-            </Route>
-          )
-          )}
-        </Switch>
-      </div>
-    </Router>
-  );
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
