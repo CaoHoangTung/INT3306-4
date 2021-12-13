@@ -1,11 +1,11 @@
 import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
-import {createUser} from "../../api/users"
+import { login } from "../../api/login";
+import { createUser } from "../../api/users"
 const SignUp = (props) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRePassword] = useState("");
     const [disabled, setDisabled] = useState(false);
@@ -49,16 +49,6 @@ const SignUp = (props) => {
                 </div>
                 <div>
                     <TextField
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        label='Username'
-                        placeholder="Let's choose a cool username"
-                        fullWidth
-                        required />
-                    <small id="username"></small>
-                </div>
-                <div>
-                    <TextField
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         label='Password'
@@ -90,10 +80,6 @@ const SignUp = (props) => {
                     disabled={disabled}
                     onClick={async () => {
                         setDisabled(true);
-                        if (false) {
-                            document.getElementById("username").innerHTML = "Username existed";
-                            setDisabled(false)
-                        }
                         if (email.search("@") == -1) {
                             document.getElementById("email").innerHTML = "Invalid email";
                             setDisabled(false)
@@ -107,20 +93,21 @@ const SignUp = (props) => {
                             setDisabled(false)
                         }
                         const newUser = {
-                            "user_id": 0,
-                            "profile": "string",
-                            "avatar_path": "string",
-                            "cover_image_path": "string",
-                            "role_id": 0,
-                            "first_name": {firstName},
-                            "last_name": {lastName},
-                            "email": {email},
-                            "password": {password}
+                            "first_name": firstName,
+                            "last_name": lastName,
+                            "email": email,
+                            "password": password
                         }
                         const signUpIsSuccess = await createUser(newUser);
                         console.log(signUpIsSuccess);
                         if (signUpIsSuccess) {
-                            window.location.href = "/";
+                            login(email, password)
+                                .then(() => {
+                                    window.location.href = "/";
+                                }).catch(err => {
+                                    console.log(err);
+                                    alert("Something went wrong, please try again later");
+                                });
                         } else {
                             setDisabled(false);
                         }

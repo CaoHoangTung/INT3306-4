@@ -27,14 +27,14 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
 
-    console.log(getLocalCredential())
+    console.log(getLocalCredential());
 
     return (
         <div>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                        <Avatar sx={{ width: 32, height: 32 }}>LP</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}>{getLocalCredential().first_name[0]}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
