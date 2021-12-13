@@ -14,7 +14,6 @@ function NewPostNavBar() {
                     />
                     <div className="NewPost_NavBar_List">
                         <ul>
-                            <li id="publish_button"><Button>Publish</Button></li>
                             <li><BookmarksIcon /></li>
                             <li><ProfileMenu /></li>
                         </ul>

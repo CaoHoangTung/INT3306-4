@@ -18,18 +18,70 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
 
     return (
         <div>
-            <CommentModal onClose={() => { setShow(false) }} show={show} />
-            {posts.map(post => (
-                <MediumPosts
-                    key={post.post_id}
-                    post_id={post.post_id}
-                    author={post.author}
-                    title={post.title}
-                    contentPreview={post.contentPreview}
-                    postTime={post.published_at}
-                    previewImagePath={post.preview_image_path}
-                />
-            ))}
+            <CommentModal onClose={() => {setShow(false)} } show={show}/>
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
+            <MediumPosts
+                author="author"
+                topic="topic"
+                title="title"
+                contentPreview="contentPreview"
+                postTime="2:00:00 PM 10/29/2021"
+            />
 
         </div>
     )
