@@ -54,8 +54,11 @@ export default function PostInProfile(props) {
                         src={post.preview_image_path}
                         alt="preview"
                     />
-                    <Typography>
-                        {post.content.slice(0, 200)}...
+                    <Typography
+                        overflow="hidden"
+                        maxHeight="200px"
+                    >
+                        <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </Typography>
                     <Typography variant="subtitle1" color="primary">
                         Continue reading...

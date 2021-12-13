@@ -83,7 +83,7 @@ export default function PostDetail(props) {
                     alt="preview"
                 />
                 <Typography>
-                    {post.content}
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
                 </Typography>
             </div>
             <div className="relatedTopic">
