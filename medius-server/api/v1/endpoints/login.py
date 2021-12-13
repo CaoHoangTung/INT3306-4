@@ -35,7 +35,9 @@ def login_access_token(
         "token_type": "bearer",
         "user_id": user.user_id,
         "email": user.email,
-        "is_admin": crud.user.is_admin(db, user)
+        "is_admin": crud.user.is_admin(db, user),
+        "first_name": user.first_name,
+        "last_name": user.last_name
     }
 
 

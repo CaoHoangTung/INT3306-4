@@ -15,7 +15,7 @@ class UserBase(BaseModel):
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     user_id: Optional[int]
-    role_id: int 
+    role_id: Optional[int] 
     first_name: str 
     last_name: str
     email: str 
