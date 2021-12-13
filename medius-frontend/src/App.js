@@ -53,7 +53,6 @@ function App() {
   if (api_regex.test(window.location.pathname)) {
     return <div /> // must return at least an empty div
   } else {
-
     return (
       <Router>
         <div>
