@@ -8,8 +8,10 @@ import SaveButton from "../profile/SaveButton";
 import DeleteButton from "../profile/DeleteButton";
 import UpvoteButton from './UpvoteButton';
 import DownvoteButton from './DownvoteButton';
+import Topic from "../../components/shared/Topic";
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
+import { getPostTopicByPostId } from "../../api/posts_topic";
 
 export default function PostDetail(props) {
     const post = props.post;
@@ -18,8 +20,7 @@ export default function PostDetail(props) {
     const [isDownvoted, setIsDownvoted] = useState(false);
 
     useEffect(() => {
-        console.log("PostDetail: ", post.post_id, getCurrentUser());
-        getUserPost(getCurrentUser(), post.post_id)
+        getUserPost(getCurrentUser(), props.postId)
         .then(data => {
             if (data.is_saved === true) {
                 setIsSaved(true);
@@ -42,7 +43,15 @@ export default function PostDetail(props) {
         .catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [post]);
+
+    const [postTopics, setPostTopics] = useState([]);
+    useEffect(() => {
+        getPostTopicByPostId(props.postId).then(postTopics => {
+            console.log(postTopics);
+            setPostTopics(postTopics);
+        }).catch(err => console.error(err));
+    }, [props.postId]);
 
     return (
         <Grid item xs={12}>
@@ -58,12 +67,12 @@ export default function PostDetail(props) {
                 </div>
                 <div className="second">
                     <SaveButton
-                        post_id={post.post_id}
+                        post_id={"Save" + post.post_id}
                         isSaved={isSaved}
                         setIsSaved={setIsSaved}
                     ></SaveButton>
                     <DeleteButton
-                        post_id={post.post_id}
+                        post_id={"Delete" + post.post_id}
                         isOwner={props.isOwner}
                     ></DeleteButton>
                 </div>
@@ -78,9 +87,14 @@ export default function PostDetail(props) {
                 </Typography>
             </div>
             <div className="relatedTopic">
-                <Button>topic1</Button>
-                <Button>topic2</Button>
-                <Button>topic3</Button>
+                {postTopics.map(postTopic => (
+                    <Topic
+                        key={"Topic" + postTopic.topic_id}
+                        topic={postTopic.topic_id}
+                        link={`/topic/${postTopic.topic_id}`}
+                    />
+                )
+                )}
             </div>
             <div className="react">
                 <div className="vote">

@@ -5,6 +5,7 @@ import React from 'react';
 import MainNavBar from "../../components/main/MainNavBar.js";
 import ProfileCard from '../../components/profile/ProfileCard';
 import PostDetail from '../../components/viewpost/PostDetail';
+import CommentSection from '../../components/viewpost/CommentSection';
 import { useState, useEffect } from 'react';
 import { getUser } from '../../api/users';
 import { getCurrentUser } from '../../utils/auth';
@@ -18,8 +19,9 @@ function ViewPost(props) {
     const [isOwner, setIsOwner] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
 
+    const { postId } = useParams();
     useEffect(() => {
-        getPost(props.postId)
+        getPost(postId)
         .then(postData => {
             setPost(postData)
             getUser(postData.user_id)
@@ -67,14 +69,14 @@ function ViewPost(props) {
                                     author_avatar="https://picsum.photos/seed/picsum/200/300"
                                     post={post}
                                     isOwner={isOwner}
+                                    postId={postId}
                                 />
                                 : null}
+                            
                         </Grid>
                         <Grid item xs={3}></Grid>
                     </Grid>
                 </Container>
-                <div className="footer">
-                </div>
             </div>
         </div>
     );
