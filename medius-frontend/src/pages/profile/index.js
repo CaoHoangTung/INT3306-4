@@ -37,7 +37,7 @@ function Profile(props) {
             .catch(err => {
                 console.log(err)
             });
-    }, [props.userId]);
+    }, [isFollowing]);
 
     useEffect(() => {
         getAllPostsOfUserId(props.userId)
@@ -73,7 +73,7 @@ function Profile(props) {
                                     post={post}
                                     isOwner={isOwner}
                                     />
-                                    ))}
+                            ))}
                         </Grid>
                         <Grid item xs={3}></Grid>
                     </Grid>
