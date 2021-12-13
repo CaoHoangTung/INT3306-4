@@ -2,13 +2,6 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { followUser, unFollowUser } from '../../api/user_functions';
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
-
-const styles = theme => ({
-    followingButton : {
-        color: "inherit",
-    }
-});
 
 class FollowButton extends React.Component {
     constructor(props) {
@@ -38,7 +31,6 @@ class FollowButton extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
         if (this.props.isOwner) {
             return null;
         } else {
@@ -47,7 +39,6 @@ class FollowButton extends React.Component {
                     variant="contained"
                     color="primary"
                     onClick={this.handleFollow}
-                    className={this.props.isFollowing ? classes.followingButton : null}
                 >
                     {this.props.isFollowing ? "Following" : "Follow"}
                 </Button>
@@ -56,4 +47,4 @@ class FollowButton extends React.Component {
     }
 }
 
-export default withStyles(styles)(FollowButton);
+export default FollowButton;

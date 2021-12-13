@@ -9,8 +9,10 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
+import Topic from "../../components/shared/Topic";
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
+import { getPostTopicByPostId } from "../../api/posts_topic";
 
 export default function PostInProfile(props) {
     const post = props.post;
@@ -30,9 +32,17 @@ export default function PostInProfile(props) {
         });
     }, []);
 
+    const [postTopics, setPostTopics] = useState([]);
+    useEffect(() => {
+        getPostTopicByPostId(props.postId).then(postTopics => {
+            console.log(postTopics);
+            setPostTopics(postTopics);
+        }).catch(err => console.error(err));
+    }, [props.postId]);
+
     return (
         <Grid item xs={12}>
-            <Link href={"post/" + post.post_id} underline="none">
+            <Link href={`/post/${post.post_id}`} underline="none">
                 <div className="title">
                     <Typography variant="h2" gutterBottom component="div">
                         {post.title}
@@ -48,14 +58,17 @@ export default function PostInProfile(props) {
                     <MoreHorizIcon></MoreHorizIcon>
                 </div>
             </div>
-            <Link href={"post/" + post.post_id} underline="none">
+            <Link href={`/post/${post.post_id}`} underline="none">
                 <div className="content">
                     <img
                         src={post.preview_image_path}
                         alt="preview"
                     />
-                    <Typography>
-                        {post.content.slice(0, 200)}...
+                    <Typography
+                        overflow="hidden"
+                        maxHeight="200px"
+                    >
+                        <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </Typography>
                     <Typography variant="subtitle1" color="primary">
                         Continue reading...
@@ -63,9 +76,14 @@ export default function PostInProfile(props) {
                 </div>
             </Link>
             <div className="relatedTopic">
-                <Button>topic1</Button>
-                <Button>topic2</Button>
-                <Button>topic3</Button>
+                {postTopics.map(postTopic => (
+                    <Topic
+                        key={"Topic" + postTopic.topic_id}
+                        topic={postTopic.topic_id}
+                        link={`/topic/${postTopic.topic_id}`}
+                    />
+                )
+                )}
             </div>
             <div className="react">
                 <div className="vote">
