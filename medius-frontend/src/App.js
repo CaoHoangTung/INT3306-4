@@ -17,6 +17,7 @@ import Saved from "./pages/saved";
 import TopicManager from "./pages/admin/TopicManager";
 import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
+import { BASE_API_PATH } from "./api/api";
 
 
 function App() {
@@ -50,6 +51,10 @@ function App() {
     <Router>
       <div>
         <Switch>
+          <Route path="/api" component={() => {
+            window.location.href = BASE_API_PATH;
+            return null;
+          }} />
           {getLocalCredential()?.is_admin &&
             /**
             Admin router
