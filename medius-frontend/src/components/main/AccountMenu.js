@@ -120,8 +120,10 @@ export default function AccountMenu() {
                     </div>
                 )}
                 <MenuItem onClick={() => {
-                    logout();
-                    window.location.href = "/";
+                    logout()
+                        .then(() => {
+                            window.location.href = "/";
+                        });
                 }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

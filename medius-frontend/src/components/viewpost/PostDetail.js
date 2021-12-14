@@ -23,28 +23,28 @@ export default function PostDetail(props) {
 
     useEffect(() => {
         getUserPost(getCurrentUser(), props.postId)
-        .then(data => {
-            if (data.is_saved === true) {
-                setIsSaved(true);
-            } else {
-                setIsSaved(false);
-            }
+            .then(data => {
+                if (data.is_saved === true) {
+                    setIsSaved(true);
+                } else {
+                    setIsSaved(false);
+                }
 
-            if (data.is_upvoted === true) {
-                setIsUpvoted(true);
-            } else {
-                setIsUpvoted(false);
-            }
+                if (data.is_upvoted === true) {
+                    setIsUpvoted(true);
+                } else {
+                    setIsUpvoted(false);
+                }
 
-            if (data.is_downvoted === true) {
-                setIsDownvoted(true);
-            } else {
-                setIsDownvoted(false);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+                if (data.is_downvoted === true) {
+                    setIsDownvoted(true);
+                } else {
+                    setIsDownvoted(false);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }, [post]);
 
     const [postTopics, setPostTopics] = useState([]);
@@ -69,7 +69,7 @@ export default function PostDetail(props) {
                 </div>
                 <div className="second">
                     <SaveButton
-                        post_id={"Save" + post.post_id}
+                        post_id={post.post_id}
                         isSaved={isSaved}
                         setIsSaved={setIsSaved}
                     ></SaveButton>
