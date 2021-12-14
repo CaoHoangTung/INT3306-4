@@ -41,7 +41,9 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         posts = crud.post.get_all(db=db)
 
     if sort_by_upvote: 
-        posts = sorted(posts, key = lambda post: post.upvote, reverse=True)
+        posts = sorted(posts, key = lambda post: post.upvote, reverse=False)
+
+    posts.reverse()
 
     if limit:
         posts = posts[offset:offset+limit]
@@ -96,6 +98,7 @@ def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = 
         post = crud.post.create(
             db=db, 
             obj_in=creating_post,
+            # user_id =  creating_post.user_id
             user_id=current_user.user_id
         )
         return post
@@ -130,10 +133,11 @@ def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = 
     """
     Delete post
     """
+
     query_post = crud.post.get_by_post_id(db=db, post_id=deleting_post.post_id)
     if not query_post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
-    if query_post.user_id != current_user.user_id and not crud.user.is_admin(current_user):
+    if query_post.user_id != current_user.user_id and not crud.user.is_admin(db=db, user=current_user):
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
 
     post = crud.post.delete(
@@ -191,3 +195,12 @@ def get_topic_title(db: Session = Depends(deps.get_db), *, post_id, current_user
         topics.append(topic)
 
     return topics 
+
+@router.delete("/truncate", response_model=schemas.Post)
+def delete_post(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+    """
+    Delete all posts
+    """
+
+    crud.post.truncate(db=db)
+    return None
