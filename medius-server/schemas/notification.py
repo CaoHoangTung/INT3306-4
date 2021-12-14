@@ -44,7 +44,6 @@ class NotificationInDBBase(NotificationBase):
 
 # Additional properties to return via API
 class Notification(NotificationInDBBase):
-    # pass
     user_1_detail: Optional[User]
 
     def get_user_1_detail(self, db):
