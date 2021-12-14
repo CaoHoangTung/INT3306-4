@@ -1,12 +1,17 @@
 import API from "./api";
+import qs from "qs";
 
 export async function getCommentAll() {
     const response = await API.get("/comment/all");
     return response?.data;
 }
 
-export async function getCommentByPostId(postId) {
-    const response = await API.get(`/comment/view-by-post-id/${postId}`);
+export async function getCommentByPostId(postId, user_detail = true) {
+    const query = qs.stringify({
+        user_detail
+    });
+
+    const response = await API.get(`/comment/view-by-post-id/${postId}?${query}`);
     return response?.data;
 }
 

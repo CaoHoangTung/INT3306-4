@@ -4,13 +4,12 @@ import { Avatar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
-import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import SaveButton from "../profile/SaveButton";
 import DeleteButton from "../profile/DeleteButton";
 import UpvoteButton from './UpvoteButton';
 import DownvoteButton from './DownvoteButton';
 import Topic from "../../components/shared/Topic";
-import CommentModal from '../shared/CommentModal';
+import CommentBox from '../shared/CommentBox';
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 import { getPostTopicByPostId } from "../../api/posts_topic";
@@ -101,29 +100,34 @@ export default function PostDetail(props) {
             </div>
             <div className="react">
                 <div className="vote">
-                    <UpvoteButton
-                        key={"Upvote" + post.post_id}
-                        post={post}
-                        isUpvoted={isUpvoted}
-                        setIsUpvoted={setIsUpvoted}
-                        className="upvote"
-                    ></UpvoteButton>
-                    <DownvoteButton
-                        key={"Downvote" + post.post_id}
-                        post={post}
-                        isDownvoted={isDownvoted}
-                        setIsDownvoted={setIsDownvoted}
-                        className="downvote"
-                    >
-                        {post.downvote}
-                    </DownvoteButton>
-                    <CommentModal isShow={isShow} setIsShow={setIsShow} postId={post.post_id}></CommentModal>
-                    <AddCommentOutlinedIcon
-                        key={"Comment" + post.post_id}
-                        onClick={() => setIsShow(true)}
-                    />
+                    <div style={{
+                        marginRight: "30px",
+                    }}>
+                        <UpvoteButton
+                            key={"Upvote" + post.post_id}
+                            post={post}
+                            isUpvoted={isUpvoted}
+                            setIsUpvoted={setIsUpvoted}
+                            className="upvote"
+                            fontSize="large"
+                            ></UpvoteButton>
+                    </div>
+                    <div style={{
+                        marginRight: "30px",
+                    }}>
+                        <DownvoteButton
+                            key={"Downvote" + post.post_id}
+                            post={post}
+                            isDownvoted={isDownvoted}
+                            setIsDownvoted={setIsDownvoted}
+                            className="downvote"
+                            fontSize="large"
+                            ></DownvoteButton>
+                    </div>
                 </div>
             </div>
+            <hr></hr>
+            <CommentBox postId={post.post_id}></CommentBox>
         </Grid>
     );
 }
