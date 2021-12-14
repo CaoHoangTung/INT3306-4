@@ -10,6 +10,7 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
     const [posts, setPosts] = React.useState([]);
 
     useEffect(() => {
+        console.log("TOPICS", topic_ids)
         getPosts(
             user_id, topic_ids, sort_by_upvote, page, limit
         ).then(posts => {
