@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import '../../pages/main/Main.scss'
 import CommentModal from "../shared/CommentModal";
 import { getPosts } from "../../api/posts.js";
+import { getUser } from "../../api/users.js";
 
 function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page = 0, limit = 100 }) {
     const [show, setShow] = useState();
@@ -12,9 +13,19 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
         getPosts(
             user_id, topic_ids, sort_by_upvote, page, limit
         ).then(posts => {
-            console.log(posts)
-            setPosts(posts);
-        })
+            console.log(posts);
+            const promises = [];
+            for (let i = 0; i < posts.length; i++) {
+                promises.push(getUser(posts[i].user_id));
+            }
+            Promise.all(promises).then(users => {
+                console.log("USERS", users);
+                for (let i = 0; i < posts.length; i++) {
+                    posts[i].author = users[i].first_name + " " + users[i].last_name;
+                }
+                setPosts(posts);
+            });
+        });
     }, []);
 
     return (
@@ -23,11 +34,14 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
             {posts.map(post => {
                 return (
                     <MediumPosts
+                        key={post.post_id}
+                        postId={post.post_id}
                         author={post.author}
                         // topic="topic"
                         title={post.title}
                         // contentPreview="contentPreview"
                         postTime={post.published_at}
+                        previewImagePath={post.preview_image_path}
                     />
                 )
             })}

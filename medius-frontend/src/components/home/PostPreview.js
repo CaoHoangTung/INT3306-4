@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
 const MediumPosts = (props) => {
     const mustLoginFirst = !!props?.mustLoginFirst;
-    const postUrl = mustLoginFirst ? "/login" : `/post/${props.post_id}`;
+    const postUrl = mustLoginFirst ? "/" : `/post/${props.postId}`;
     const target = mustLoginFirst ? "_blank" : "";
 
     return (
