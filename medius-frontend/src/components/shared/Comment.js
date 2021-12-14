@@ -1,8 +1,6 @@
 import { Avatar } from "@mui/material";
 import { Link } from "@material-ui/core";
 import * as React from "react";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 const Comment = props => {
     return (
         <div className="Comment">
@@ -14,11 +12,7 @@ const Comment = props => {
                 </div>
             </div>
             <div>
-                Content
-            </div>
-            <div>
-                <ThumbUpIcon></ThumbUpIcon>
-                <ThumbDownIcon></ThumbDownIcon>
+                {props.comment.content}
             </div>
         </div>
     );

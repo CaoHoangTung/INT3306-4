@@ -4,11 +4,13 @@ import { Avatar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
+import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import SaveButton from "../profile/SaveButton";
 import DeleteButton from "../profile/DeleteButton";
 import UpvoteButton from './UpvoteButton';
 import DownvoteButton from './DownvoteButton';
 import Topic from "../../components/shared/Topic";
+import CommentModal from '../shared/CommentModal';
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 import { getPostTopicByPostId } from "../../api/posts_topic";
@@ -18,6 +20,7 @@ export default function PostDetail(props) {
     const [isSaved, setIsSaved] = useState(false);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [isDownvoted, setIsDownvoted] = useState(false);
+    const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
         getUserPost(getCurrentUser(), props.postId)
@@ -56,7 +59,7 @@ export default function PostDetail(props) {
     return (
         <Grid item xs={12}>
             <div className="title">
-                <Typography variant="h2" gutterBottom component="div">
+                <Typography variant="h3" gutterBottom component="div">
                     {post.title}
                 </Typography>
             </div>
@@ -103,15 +106,22 @@ export default function PostDetail(props) {
                         post={post}
                         isUpvoted={isUpvoted}
                         setIsUpvoted={setIsUpvoted}
+                        className="upvote"
                     ></UpvoteButton>
                     <DownvoteButton
                         key={"Downvote" + post.post_id}
                         post={post}
                         isDownvoted={isDownvoted}
                         setIsDownvoted={setIsDownvoted}
+                        className="downvote"
                     >
                         {post.downvote}
                     </DownvoteButton>
+                    <CommentModal isShow={isShow} setIsShow={setIsShow} postId={post.post_id}></CommentModal>
+                    <AddCommentOutlinedIcon
+                        key={"Comment" + post.post_id}
+                        onClick={() => setIsShow(true)}
+                    />
                 </div>
             </div>
         </Grid>
