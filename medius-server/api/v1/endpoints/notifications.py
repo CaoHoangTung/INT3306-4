@@ -118,7 +118,7 @@ def create_notification(db: Session = Depends(deps.get_db), creating_notificatio
     
     
 @router.put("/update", response_model=schemas.Notification)
-def update_notification(db: Session = Depends(deps.get_db), updating_notification: NotificationUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_notification(db: Session = Depends(deps.get_db), updating_notification: NotificationUpdate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update notification
     """
