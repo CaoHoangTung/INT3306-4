@@ -3,8 +3,11 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 from sqlalchemy.sql.sqltypes import DateTime
-from schemas.message import Message
+from schemas.user import User
+from fastapi import HTTPException
 
+import crud
+from api import msg
 
 # Shared properties
 class CommentBase(BaseModel):
@@ -43,5 +46,10 @@ class CommentInDBBase(CommentBase):
 
 # Additional properties to return via API
 class Comment(CommentInDBBase):
-    pass
+    user_detail: Optional[User]
+
+    def get_user_detail(self, db):
+        self.user_detail = crud.user.get_by_id(db=db, user_id=self.user_id)  
+        if not self.user_detail: 
+            raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
