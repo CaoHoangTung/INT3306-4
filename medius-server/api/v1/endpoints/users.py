@@ -116,7 +116,7 @@ def update_user(db: Session = Depends(deps.get_db), updating_user: UserUpdate = 
     if not query_user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
-    if not crud.user.is_admin(query_user) and query_user.user_id != current_user.user_id:
+    if not crud.user.is_admin(db=db, user=query_user) and query_user.user_id != current_user.user_id:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
 
     user = crud.user.update(
