@@ -44,7 +44,7 @@ function ViewPost(props) {
         .catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [isFollowing]);
 
     return (
         <div>

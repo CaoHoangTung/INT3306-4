@@ -3,13 +3,6 @@ import { Badge } from '@mui/material';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { downvotePost, undownvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
-
-const styles = theme => ({
-    downvotedIcon : {
-        color: "#ff6d00"
-    }
-});
 
 class DownvoteButton extends React.Component {
     constructor(props) {
@@ -17,33 +10,35 @@ class DownvoteButton extends React.Component {
         this.state = {
             post: this.props.post,
             userId: getCurrentUser(),
-            numDownvotes: this.props.post.downvote
+            numDownvotes: this.props.post.downvote,
+            color: this.props.isDownvoted ? "primary" : "inherit"
         };
     }
 
     handleDownvote = () => {
         const { post, userId } = this.state;
         if (this.props.isDownvoted) {
-            downvotePost(post.post_id, userId)
+            undownvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsDownvoted(false);
                 this.setState({
-                    numDownvotes: this.state.numDownvotes - 1
+                    numDownvotes: this.state.numDownvotes - 1,
+                    color: "inherit"
                 });
             });
         } else {
-            undownvotePost(post.post_id, userId)
+            downvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsDownvoted(true);
                 this.setState({
-                    numDownvotes: this.state.numDownvotes + 1
+                    numDownvotes: this.state.numDownvotes + 1,
+                    color: "primary"
                 });
             });
         }
     };
 
     render() {
-        const { classes } = this.props;
         return(
             <Badge
                 color="primary"
@@ -51,7 +46,7 @@ class DownvoteButton extends React.Component {
                 showZero
             >
                 <ThumbDownIcon
-                className={this.props.isDownvoted ? classes.downvotedIcon : ""}
+                color={this.state.color}
                 onClick={this.handleDownvote}
                 />
             </Badge>
@@ -59,4 +54,4 @@ class DownvoteButton extends React.Component {
     }
 }
 
-export default withStyles(styles)(DownvoteButton);
+export default DownvoteButton;

@@ -19,7 +19,6 @@ export default function PostDetail(props) {
     const [isSaved, setIsSaved] = useState(false);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [isDownvoted, setIsDownvoted] = useState(false);
-    const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
         getUserPost(getCurrentUser(), props.postId)
@@ -30,13 +29,13 @@ export default function PostDetail(props) {
                     setIsSaved(false);
                 }
 
-                if (data.is_upvoted === true) {
+                if (data.is_upvote === true) {
                     setIsUpvoted(true);
                 } else {
                     setIsUpvoted(false);
                 }
 
-                if (data.is_downvoted === true) {
+                if (data.is_downvote === true) {
                     setIsDownvoted(true);
                 } else {
                     setIsDownvoted(false);
