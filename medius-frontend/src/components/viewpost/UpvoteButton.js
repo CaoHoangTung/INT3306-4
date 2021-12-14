@@ -5,45 +5,41 @@ import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { withStyles } from '@mui/styles';
 
-const styles = theme => ({
-    upvotedIcon : {
-        color: "#ff6d00"
-    }
-});
-
 class UpvoteButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             post: this.props.post,
             userId: getCurrentUser(),
-            numUpvotes: this.props.post.upvote
+            numUpvotes: this.props.post.upvote,
+            color: this.props.isUpvoted ? "primary" : "inherit"
         };
     }
 
     handleUpvote = () => {
         const { post, userId } = this.state;
         if (this.props.isUpvoted) {
-            upvotePost(post.post_id, userId)
+            unupvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsUpvoted(false);
                 this.setState({
-                    numUpvotes: this.state.numUpvotes - 1
+                    numUpvotes: this.state.numUpvotes - 1,
+                    color: "inherit"
                 });
             });
         } else {
-            unupvotePost(post.post_id, userId)
+            upvotePost(post.post_id, userId)
             .then(() => {
                 this.props.setIsUpvoted(true);
                 this.setState({
-                    numUpvotes: this.state.numUpvotes + 1
+                    numUpvotes: this.state.numUpvotes + 1,
+                    color: "primary"
                 });
             });
         }
     };
 
     render() {
-        const { classes } = this.props;
         return(
             <Badge
                 color="primary"
@@ -51,7 +47,7 @@ class UpvoteButton extends React.Component {
                 showZero
             >
                 <FavoriteIcon
-                    className={this.props.isUpvoted ? classes.upvotedIcon : ""}
+                    color={this.state.color}
                     onClick={this.handleUpvote}
                 />
             </Badge>
@@ -59,4 +55,4 @@ class UpvoteButton extends React.Component {
     }
 }
 
-export default withStyles(styles)(UpvoteButton);
+export default UpvoteButton;
