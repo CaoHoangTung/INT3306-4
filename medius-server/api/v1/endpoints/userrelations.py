@@ -4,6 +4,7 @@ from typing import Any, List
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session, query, relationship
+from sqlalchemy.sql.expression import and_
 from sqlalchemy.sql.functions import func, user
 
 import crud, models, schemas
@@ -13,6 +14,7 @@ from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.userrelation import UserRelation, UserRelationCreate, UserRelationDelete, UserRelationUpdate
+from models.notification import Notification
 
 router = APIRouter()
 
@@ -175,19 +177,40 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         db_obj=query_relation,
         obj_in=updating_relation
     )
-
+    
     if notification_creation:
-        crud.notification.create(
-            db=db,
-            obj_in=schemas.NotificationCreate(
-                user_id_1=updating_relation.user_id_1,
-                user_id_2=updating_relation.user_id_2,
-                post_id=None,
-                type="FOLLOW",
-                is_seen=False,
-                created_at=datetime.now()
-            )
-        )
+        # delete if exists 
+        notification = db.query(Notification) \
+                .filter(and_(Notification.user_id_1==updating_relation.user_id_1,\
+                            Notification.user_id_2==updating_relation.user_id_2,\
+                            Notification.type == "FOLLOW")).first()
+        
+        if notification:
+            crud.notification.delete(db=db, notification_id=notification.notification_id)
+
+        # crud.notification.create(
+        #     db=db,
+        #     obj_in=schemas.NotificationCreate(
+        #         user_id_1=updating_relation.user_id_1,
+        #         user_id_2=updating_relation.user_id_2,
+        #         post_id=None,
+        #         type="FOLLOW",
+        #         is_seen=False,
+        #         created_at=datetime.now()
+        #     )
+        # )
+
+    # this step is used to execute trigger 
+    relation = crud.userrelation.delete(
+        db=db,
+        user_id_1=relation.user_id_1,
+        user_id_2=relation.user_id_2
+    )
+
+    relation = crud.userrelation.create(
+        db=db,
+        obj_in=relation
+    )
 
     return relation
 

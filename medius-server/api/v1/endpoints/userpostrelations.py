@@ -7,7 +7,7 @@ import requests
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session, query
-from sqlalchemy.sql.expression import update
+from sqlalchemy.sql.expression import and_, update
 from sqlalchemy.sql.functions import user
 from starlette.responses import RedirectResponse
 from starlette.requests import Request
@@ -20,6 +20,7 @@ from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.userpostrelation import UserPostRelationCreate, UserPostRelationDelete, UserPostRelationUpdate
 from schemas.post import PostUpdate 
+from models.notification import Notification
 
 router = APIRouter()
 
@@ -128,70 +129,46 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
 
-    # # update post upvote and downvote 
-    # if updating_relation.is_upvote != query_relation.is_upvote:
-    #     query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
-    #     updating_post = query_post
-    #     updating_post.upvote += 1 if updating_relation.is_upvote else -1 
-    #     crud.post.update(
-    #         db=db,
-    #         db_obj=query_post,
-    #         obj_in=updating_post.__dict__
-    #     )
-
-    # if updating_relation.is_downvote != query_relation.is_downvote:
-    #     query_post = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id)
-    #     updating_post = query_post 
-    #     updating_post.downvote += 1 if updating_relation.is_downvote else -1
-    #     crud.post.update(
-    #         db=db,
-    #         db_obj=query_post,
-    #         obj_in=updating_post.__dict__
-    #     )
-
-    # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    # print(updating_relation.is_downvote)
-    # print(query_relation.post_id)
-    # print(query_relation.user_id)
-    # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-
-    notification_creation = "NO_CREATE" 
-    if not query_relation.is_upvote and updating_relation.is_upvote:
-        notification_creation = "UPVOTE"
-    elif not query_relation.is_downvote and updating_relation.is_downvote:
-        notification_creation = "DOWNVOTE"
-        
+    # update relation here 
     relation = crud.userpostrelation.update(
         db=db,
         db_obj=query_relation,
         obj_in=updating_relation
     )
 
-    print(notification_creation)
+    notification_type = "NOT_EXIST"
+    if query_relation.is_downvote:
+        notification_type = "DOWNVOTE"
+    elif query_relation.is_upvote:
+        notification_type = "UPVOTE"
 
-    if notification_creation != "NO_CREATE":
-        post_author = crud.post.get_by_post_id(
-            db=db,
-            post_id=updating_relation.post_id
-        )
+    # delete correspond notification if exists 
+    if notification_type != "NOT_EXIST":
+        user_id_2 = crud.post.get_by_post_id(db=db, post_id=updating_relation.post_id).user_id
+        notification = db.query(Notification) \
+                .filter(and_(Notification.post_id==updating_relation.post_id,\
+                            Notification.user_id_1==updating_relation.user_id,\
+                            Notification.user_id_2==user_id_2,\
+                            Notification.type == notification_type)).first()
+        
+        if notification:
+            crud.notification.delete(db=db, notification_id=notification.notification_id)
 
-        crud.notification.create(
-            db=db,
-            obj_in=schemas.NotificationCreate(
-                user_id_1=updating_relation.user_id,
-                user_id_2=post_author.user_id,
-                post_id=updating_relation.post_id,
-                type=notification_creation,
-                is_seen=False,
-                created_at=datetime.now()
-            )
-        )
+    # this step is used to execute trigger 
+    relation = crud.userpostrelation.delete(
+        db=db,
+        user_id=relation.user_id,
+        post_id=relation.post_id
+    )
 
-        print("FAWEFWFE")
-    
-    return relation
+    relation = crud.userpostrelation.create(
+        db=db,
+        obj_in=relation
+    )
 
-    
+    return relation 
+
+
 @router.delete("/delete", response_model=schemas.UserPostRelation)
 def delete_relation(db: Session = Depends(deps.get_db), deleting_relation: UserPostRelationDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
