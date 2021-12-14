@@ -85,12 +85,6 @@ export default function AccountMenu() {
                 <Divider />
                 <MenuItem>
                     <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Add another account
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
