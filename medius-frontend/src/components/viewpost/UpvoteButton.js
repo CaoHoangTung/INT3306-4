@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '@mui/material';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { withStyles } from '@mui/styles';
@@ -50,7 +50,7 @@ class UpvoteButton extends React.Component {
                 badgeContent={ this.state.numUpvotes }
                 showZero
             >
-                <ThumbUpIcon
+                <FavoriteIcon
                     className={this.props.isUpvoted ? classes.upvotedIcon : ""}
                     onClick={this.handleUpvote}
                 />

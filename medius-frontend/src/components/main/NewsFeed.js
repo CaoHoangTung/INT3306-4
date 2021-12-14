@@ -1,7 +1,7 @@
 import MediumPosts from "../home/PostPreview.js";
 import React, { useEffect, useState } from 'react';
 import '../../pages/main/Main.scss'
-import CommentModal from "../shared/CommentModal";
+import CommentBox from "../shared/CommentBox";
 import { getPosts } from "../../api/posts.js";
 import { getUser } from "../../api/users.js";
 
@@ -31,7 +31,7 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
 
     return (
         <div>
-            <CommentModal onClose={() => { setShow(false) }} show={show} />
+            {/* <CommentBox onClose={() => { setShow(false) }} show={show} /> */}
             {posts.map(post => {
                 return (
                     <MediumPosts
