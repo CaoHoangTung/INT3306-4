@@ -5,7 +5,7 @@ import React from 'react';
 import MainNavBar from "../../components/main/MainNavBar.js";
 import ProfileCard from '../../components/profile/ProfileCard';
 import PostDetail from '../../components/viewpost/PostDetail';
-import CommentSection from '../../components/viewpost/CommentSection';
+import Footer from "../../components/home/Footer";
 import { useState, useEffect } from 'react';
 import { getUser } from '../../api/users';
 import { getCurrentUser } from '../../utils/auth';
@@ -52,6 +52,7 @@ function ViewPost(props) {
             <div className="viewPost">
                 <Container>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}></Grid>
                         <Grid item xs={3}>
                             <ProfileCard
                                 key={"ProfileCard" + author.user_id}
@@ -75,8 +76,11 @@ function ViewPost(props) {
                             
                         </Grid>
                         <Grid item xs={3}></Grid>
+                        <Grid item xs={12}></Grid>
+                        <Grid item xs={12}></Grid>
                     </Grid>
                 </Container>
+                <Footer />
             </div>
         </div>
     );

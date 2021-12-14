@@ -44,7 +44,7 @@ export default function PostInProfile(props) {
         <Grid item xs={12}>
             <Link href={`/post/${post.post_id}`} underline="none">
                 <div className="title">
-                    <Typography variant="h2" gutterBottom component="div">
+                    <Typography variant="h4" gutterBottom component="div">
                         {post.title}
                     </Typography>
                 </div>
