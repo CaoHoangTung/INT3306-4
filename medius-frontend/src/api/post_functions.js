@@ -101,6 +101,7 @@ export async function savePost(postId, userId) {
             is_saved: true,
             is_blocked: false,
         };
+        console.log(save);
         const response = await createUserPost(save);
         return response;
     } catch (error) {

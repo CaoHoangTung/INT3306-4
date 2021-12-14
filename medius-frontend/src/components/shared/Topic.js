@@ -1,7 +1,9 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 
-const Topic = ({ topic, link }) => {
+const Topic = ({ topicId, topicName }) => {
+    const link = `/topic/${topicId}`;
+
     return (
         <Button sx={{
             ":hover": {
@@ -15,7 +17,7 @@ const Topic = ({ topic, link }) => {
             outline: 'none',
         }}
             variant="contained" href={link}>
-            {topic}
+            {topicName}
         </Button>
 
     );

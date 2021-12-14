@@ -24,9 +24,8 @@ function RecommendedTopics() {
                 {topics.map(topic => (
                     <Topic
                         key={topic.topic_id}
-                        topic={topic.topic_name}
-                        // link={`/topic/${topic.topic_id}`}
-                        link={`/topic/${topic.topic_name}`}
+                        topicId={topic.topic_id}
+                        topicName={topic.topic_name}
                     />
                 )
                 )}

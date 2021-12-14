@@ -4,11 +4,21 @@ import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
 import RightSection from "../../components/main/RightSection";
 import NewsFeed from "../../components/main/NewsFeed";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from 'react-router';
+import { getTopic } from '../../api/topic';
 
 function TopicPage(props) {
     const { topicId } = useParams();
+    const [topicName, setTopicName] = React.useState("");
+
+    useEffect(() => {
+        getTopic(topicId)
+            .then(topic => {
+                console.log(topic);
+                setTopicName(topic.topic_name);
+            });
+    }, []);
 
     return (
         <div className="TopicPage">
@@ -21,7 +31,7 @@ function TopicPage(props) {
                         <div className="topicName">
                             <Container>
                                 <p>
-                                    Posts with topic {topicId}
+                                    Posts with topic {topicName}
                                 </p>
                             </Container>
                         </div>
