@@ -51,8 +51,8 @@ function NotificationsBox() {
                     PaperProps={{
                         elevation: 0,
                         sx: {
-                            height: '70%',
-                            overflow: 'scroll',
+                            maxHeight: '70%',
+                            overflow: 'auto',
                             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                             mt: 1.5,
                             '& .MuiAvatar-root': {

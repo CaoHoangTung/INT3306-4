@@ -1,16 +1,12 @@
 import NewPostNavBar from "../../components/newpost/NewPostNavBar.js";
 import { Button, Container } from "@material-ui/core";
-import TextEditor from "./TextEditor.js";
 import React, { useState } from "react"
 import './newpost.scss';
 import { TextField } from "@mui/material";
 import { EditorState, ContentState, convertToRaw } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
-import EditorContainer from "./EditorContainer.js";
 import { createPost } from "../../api/posts.js";
-import { convertToHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
 function WritePost() {
