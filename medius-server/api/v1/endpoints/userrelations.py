@@ -142,12 +142,7 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
     """
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=creating_relation.user_id_1, user_id_2=creating_relation.user_id_2)
     if query_relation:
-        updating_relation = creating_relation 
-        relation = crud.userrelation.update(
-            db=db,
-            db_obj=query_relation,
-            obj_in=updating_relation
-        )
+        relation = update_relation(db=db, updating_relation=creating_relation)
         return relation 
     else: 
         try:
