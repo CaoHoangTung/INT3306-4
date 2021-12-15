@@ -63,8 +63,14 @@ export default function PostDetail(props) {
             </div>
             <div className="author">
                 <div className="first">
-                    <Avatar alt="username" src={props.author_avatar} />
-                    <Link>{props.author_name}</Link>
+                    <Avatar
+                        alt="username"
+                        src={props.author_avatar}
+                        sx = {{marginRight:2, marginBottom:1}}
+                    />
+                    <Link href={"/profile/" + props.author_id}>
+                        {props.author_name}
+                    </Link>
                 </div>
                 <div className="second">
                     <SaveButton

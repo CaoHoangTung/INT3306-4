@@ -27,7 +27,6 @@ function MainNavBar() {
                         </ul>
                     </div>
                 </div>
-
             </Container>
         </div>
     );

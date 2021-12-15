@@ -58,7 +58,6 @@ class ProfileCard extends React.Component {
     render() {
         const { author, classes } = this.props;
         return (
-    
             <Grid item xs={12}>
                 <Card
                     variant="outlined"
@@ -109,6 +108,7 @@ class ProfileCard extends React.Component {
                                 setIsFollowing={this.props.setIsFollowing}
                                 isOwner={this.props.isOwner}
                                 userId={author.user_id}
+
                             />
                         </Typography>{" "}
                         <Typography
@@ -117,7 +117,9 @@ class ProfileCard extends React.Component {
                             variant="subtitle1"
                             align="center"
                         >
-                            <PeopleIcon className={classes.avatar} fontSize="small" />
+                            <PeopleIcon className={classes.avatar} fontSize="small"
+                                        sx = {{marginTop:1}}
+                            />
                             {author.num_followers} Followers
                         </Typography>{" "}
                     </CardContent>
