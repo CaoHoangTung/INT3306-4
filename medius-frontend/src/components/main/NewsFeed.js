@@ -40,7 +40,6 @@ function NewsFeed({ user_id = null, topic_ids = [], sort_by_upvote = false, page
                         author={post.author}
                         // topic="topic"
                         title={post.title}
-                        // contentPreview="contentPreview"
                         postTime={post.published_at}
                         previewImagePath={post.preview_image_path}
                     />
