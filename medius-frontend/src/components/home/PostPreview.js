@@ -9,6 +9,8 @@ const MediumPosts = (props) => {
     const postUrl = mustLoginFirst ? "/" : `/post/${props.postId}`;
     const target = mustLoginFirst ? "_blank" : "";
 
+    console.log(props.previewImagePath)
+
     return (
         <Link style={{ textDecoration: "none", color: "inherit" }} push to={postUrl} target={target}>
             <div className="MediumPosts">
@@ -32,7 +34,7 @@ const MediumPosts = (props) => {
                 </div>
                 <div
                     className="MediumPosts_image"
-                    style={{ backgroundImage: `url(${props?.previewImagePath})` }}
+                    style={{ backgroundImage: `url("${props?.previewImagePath}")` }}
                 />
             </div>
         </Link>

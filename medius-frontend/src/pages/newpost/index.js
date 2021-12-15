@@ -1,5 +1,6 @@
 import NewPostNavBar from "../../components/newpost/NewPostNavBar.js";
-import { Button, Container } from "@material-ui/core";
+import { Button, Container, FormLabel } from "@material-ui/core";
+import TextEditor from "./TextEditor.js";
 import React, { useState } from "react"
 import './newpost.scss';
 import { TextField } from "@mui/material";
@@ -9,52 +10,62 @@ import { createPost } from "../../api/posts.js";
 import draftToHtml from 'draftjs-to-html';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
+import MainNavBar from "../../components/main/MainNavBar.js";
+import { uploadFile } from "../../api/file.js";
 function WritePost() {
+
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [pushlishedTime, setpushlishedTime] = useState("");
+    const [previewImagePath, setPreviewImagePath] = useState("");
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
+    const [creatingPost, setCreatingPost] = useState(false);
 
-    
-      
     const publish = (event) => {
+        setCreatingPost(true);
         event.preventDefault();
         const post = {
             title: title,
             content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-            preview_image_path: "test",
-            cover_image_path: "test"
+            preview_image_path: previewImagePath,
+            cover_image_path: previewImagePath
         }
-        // createPost({
-        //     "title": "lamtest123",
-        //     "content": "stringdsad",
-        //     "preview_image_path": "string",
-        //     "cover_image_path": "string",
-        //     "published_at": "2021-12-10T08:17:14.270Z"
-        //   });
-        createPost(post);
+        createPost(post)
+            .then(data => {
+                window.location.href = "/post/" + data.post_id;
+            }).error(err => {
+                alert("Error creating post");
+                console.error(err);
+            });
     }
 
-    function getBase64(file, callback) {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => callback(reader.result);
-        reader.onerror = error => {};
-      }
-    
-    function  uploadFile(file) {
-        return new Promise((resolve, reject) => {
-          this.getBase64(file, data => resolve({ data: { link: data } }));
-        });
+    const uploadImageCallBack = (file) => {
+        return uploadFile(file)
+            .then(response => {
+                return {
+                    data: {
+                        link: response.url
+                    }
+                };
+            }).catch(error => {
+                console.error(error);
+            });
     }
 
-    
+    const handleSelectImage = (e) => {
+        return uploadFile(e.target.files[0])
+            .then(response => {
+                setPreviewImagePath(response.url);
+            }).catch(err => {
+                console.error(err);
+            });
+    }
+
     return (
         <div>
-            {<NewPostNavBar />}
+            <MainNavBar />
             <Container>
+                <h1>Create new post</h1>
                 <TextField
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -63,14 +74,24 @@ function WritePost() {
                     fullWidth
                     variant="standard"
                     required />
-                <input accept="image/*" id="icon-button-file"
-                    type="file" style={{ display: 'none' }} />
+                <br />
+                <FormLabel>Cover image</FormLabel>
+                <input
+                    accept="image/*"
+                    id="icon-button-file"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={handleSelectImage}
+                />
                 <label htmlFor="icon-button-file">
                     <IconButton color="primary" aria-label="upload picture"
                         component="span">
                         <PhotoCamera />
                     </IconButton>
                 </label>
+                <br />
+                {!!previewImagePath && <img style={{ maxWidth: "100%" }} src={previewImagePath} alt="preview" />}
+
                 <Editor
                     editorState={editorState}
                     wrapperClassName="wrapper-class"
@@ -83,8 +104,8 @@ function WritePost() {
                         textAlign: { inDropdown: true },
                         link: { inDropdown: true },
                         history: { inDropdown: true },
-                        // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
-                      }}
+                        image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
+                    }}
                 />
                 {/* <EditorContainer/> */}
                 <textarea
@@ -98,6 +119,7 @@ function WritePost() {
                     variant="contained"
                     fullWidth
                     onClick={publish}
+                    disabled={creatingPost || !title}
                 >Publish</Button>
             </Container>
         </div>
