@@ -3,6 +3,7 @@ import { Badge } from '@mui/material';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { downvotePost, undownvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
+import { updatePost } from "../../api/posts";
 
 class DownvoteButton extends React.Component {
     constructor(props) {
@@ -23,6 +24,11 @@ class DownvoteButton extends React.Component {
                 this.setState({
                     numDownvotes: this.state.numDownvotes - 1,
                 });
+                const newPost = {
+                    post_id: post.post_id,
+                    downvote: this.state.numDownvotes
+                }
+                updatePost(newPost);
             });
         } else {
             downvotePost(post.post_id, userId)
@@ -31,6 +37,11 @@ class DownvoteButton extends React.Component {
                 this.setState({
                     numDownvotes: this.state.numDownvotes + 1,
                 });
+                const newPost = {
+                    post_id: post.post_id,
+                    downvote: this.state.numDownvotes
+                }
+                updatePost(newPost);
             });
         }
     };

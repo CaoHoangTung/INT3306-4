@@ -54,7 +54,7 @@ export async function createPost(post) {
 }
 
 export async function updatePost(post) {
-    const response = await API.post("posts/update", post);
+    const response = await API.put("posts/update", post);
     return response?.data;
 }
 

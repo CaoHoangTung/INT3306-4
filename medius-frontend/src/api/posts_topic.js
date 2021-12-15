@@ -31,7 +31,7 @@ export async function createPostTopic(posttopic) {
 }
 
 export async function updatePostTopic(posttopic) {
-    const response = await API.post("/posttopic/update", posttopic);
+    const response = await API.put("/posttopic/update", posttopic);
     return response?.data;
 }
 

@@ -3,7 +3,7 @@ import { Badge } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
+import { updatePost } from "../../api/posts";
 
 class UpvoteButton extends React.Component {
     constructor(props) {
@@ -24,6 +24,11 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes - 1,
                 });
+                const newPost = {
+                    post_id: post.post_id,
+                    upvote: this.state.numUpvotes
+                }
+                updatePost(newPost);
             });
         } else {
             upvotePost(post.post_id, userId)
@@ -32,6 +37,11 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes + 1,
                 });
+                const newPost = {
+                    post_id: post.post_id,
+                    upvote: this.state.numUpvotes
+                }
+                updatePost(newPost);
             });
         }
     };
