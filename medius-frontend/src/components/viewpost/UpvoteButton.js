@@ -11,8 +11,7 @@ class UpvoteButton extends React.Component {
         this.state = {
             post: this.props.post,
             userId: getCurrentUser(),
-            numUpvotes: this.props.post.upvote,
-            color: this.props.isUpvoted ? "primary" : "inherit"
+            numUpvotes: this.props.post.upvote
         };
     }
 
@@ -24,7 +23,6 @@ class UpvoteButton extends React.Component {
                 this.props.setIsUpvoted(false);
                 this.setState({
                     numUpvotes: this.state.numUpvotes - 1,
-                    color: "inherit"
                 });
             });
         } else {
@@ -33,7 +31,6 @@ class UpvoteButton extends React.Component {
                 this.props.setIsUpvoted(true);
                 this.setState({
                     numUpvotes: this.state.numUpvotes + 1,
-                    color: "primary"
                 });
             });
         }
@@ -47,7 +44,7 @@ class UpvoteButton extends React.Component {
                 showZero
             >
                 <FavoriteIcon
-                    color={this.state.color}
+                    color={this.props.isUpvoted ? "primary" : "inherit"}
                     onClick={this.handleUpvote}
                 />
             </Badge>

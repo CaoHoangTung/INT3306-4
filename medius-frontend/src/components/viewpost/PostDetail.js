@@ -44,7 +44,7 @@ export default function PostDetail(props) {
             .catch(err => {
                 console.log(err);
             });
-    }, [post]);
+    }, []);
 
     const [postTopics, setPostTopics] = useState([]);
     useEffect(() => {
