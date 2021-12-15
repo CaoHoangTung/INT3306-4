@@ -31,7 +31,10 @@ function Home({ isLoggingIn }) {
 
             </Grid>
             <Grid item lg={6}>
-              <img src="Illustrations-Dimensional.png" alt="" />
+              <img
+                  id = "illus"
+                  src="Illustrations-Dimensional.png"
+                  alt="" />
             </Grid>
           </Grid>
         </Container>

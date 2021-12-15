@@ -111,24 +111,6 @@ const SignUp = (props) => {
                         } else {
                             setDisabled(false);
                         }
-                        // const signUpIsSuccess =
-                        //     await createUser(
-                        //         0,
-                        //         "bio",
-                        //         "avatar",
-                        //         "cover",
-                        //         0,
-                        //         firstName,
-                        //         lastName,
-                        //         email,
-                        //         password
-                        //     );
-                        // if (signUpIsSuccess) {
-                        //     window.location.href = "/";
-                        //     console.log("Ok");
-                        // } else {
-                        //     setDisabled(false);
-                        // }
                     }}
                 >
                     Sign up

@@ -12,7 +12,6 @@ class Search extends React.Component {
                     border: "none",                 
                 }}
                 placeholder = 'Search medius'
-               
             />
         );
     }
