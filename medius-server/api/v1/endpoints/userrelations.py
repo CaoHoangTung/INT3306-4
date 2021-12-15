@@ -171,14 +171,15 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
 
     notification_creation = updating_relation.is_following and not query_relation.is_following    
+    notification_deletion = not updating_relation.is_following and query_relation.is_following
     
     relation = crud.userrelation.update(
         db=db,
         db_obj=query_relation,
         obj_in=updating_relation
     )
-    
-    if notification_creation:
+
+    if notification_creation or notification_deletion:
         # delete if exists 
         notification = db.query(Notification) \
                 .filter(and_(Notification.user_id_1==updating_relation.user_id_1,\
@@ -187,18 +188,6 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         
         if notification:
             crud.notification.delete(db=db, notification_id=notification.notification_id)
-
-        # crud.notification.create(
-        #     db=db,
-        #     obj_in=schemas.NotificationCreate(
-        #         user_id_1=updating_relation.user_id_1,
-        #         user_id_2=updating_relation.user_id_2,
-        #         post_id=None,
-        #         type="FOLLOW",
-        #         is_seen=False,
-        #         created_at=datetime.now()
-        #     )
-        # )
 
     # this step is used to execute trigger 
     relation = crud.userrelation.delete(
