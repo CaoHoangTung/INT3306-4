@@ -3,7 +3,7 @@ import { Badge } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
+import { updatePost } from "../../api/posts";
 
 class UpvoteButton extends React.Component {
     constructor(props) {

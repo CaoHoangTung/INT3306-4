@@ -31,7 +31,7 @@ export async function createUserPost(userpost) {
 }
 
 export async function updateUserPost(userpost) {
-    const response = await API.post("/userpost/update", userpost);
+    const response = await API.put("/userpost/update", userpost);
     return response?.data;
 }
 
