@@ -24,11 +24,6 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes - 1,
                 });
-                const newPost = {
-                    post_id: post.post_id,
-                    upvote: this.state.numUpvotes
-                }
-                updatePost(newPost);
             });
         } else {
             upvotePost(post.post_id, userId)
@@ -37,11 +32,6 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes + 1,
                 });
-                const newPost = {
-                    post_id: post.post_id,
-                    upvote: this.state.numUpvotes
-                }
-                updatePost(newPost);
             });
         }
     };
