@@ -97,12 +97,13 @@ def create_relation(request: Request, db: Session = Depends(deps.get_db), *, cre
         post_id=creating_relation.post_id      
     )
     if query_relation: 
-        updating_relation = creating_relation 
-        relation = crud.userpostrelation.update(
-            db=db,
-            db_obj=query_relation,
-            obj_in=updating_relation
-        )
+        relation = update_relation(db=db, updating_relation=creating_relation)
+        # updating_relation = creating_relation 
+        # relation = crud.userpostrelation.update(
+        #     db=db,
+        #     db_obj=query_relation,
+        #     obj_in=updating_relation
+        # )
         return relation
     else: 
         try:
