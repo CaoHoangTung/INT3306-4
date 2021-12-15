@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Input from "@mui/material/Input";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getCommentByPostId } from "../../api/comments";
+import { getCommentByPostId, getComment } from "../../api/comments";
 import { commentPost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 
@@ -15,7 +15,7 @@ const CommentBox = props => {
         getCommentByPostId(props.postId).then(comments => {
             setComments(comments);
         }).catch(err => console.error(err));
-    }, [props.postId, comments]);
+    }, []);
     
     return(
         <div className="CommentModal">
@@ -35,7 +35,9 @@ const CommentBox = props => {
                     />
                     <Input type="submit" onClick={() => {
                         commentPost(props.postId, getCurrentUser(), comment).then(data => {
-                            setComments(comments.concat(data));
+                            getComment(data.comment_id).then(data => {
+                                setComments(comments.concat(data));
+                            });
                         }).catch(err => console.error(err));
                     }}/>
                 </div>
