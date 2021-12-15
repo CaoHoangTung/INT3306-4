@@ -18,11 +18,14 @@ function NotificationsBox() {
         setAnchorEl(null);
     };
 
-    useEffect(async () => {
-        getNotificationByUserId2()
-        .then(data => {
-            setNotifications(data);
-        }); 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            getNotificationByUserId2()
+            .then(data => {
+                setNotifications(data.reverse());
+            }); 
+        }, 2000);
+        return () => clearInterval(intervalId);
     }, []);
     
     return (
@@ -48,7 +51,8 @@ function NotificationsBox() {
                     PaperProps={{
                         elevation: 0,
                         sx: {
-                            overflow: 'visible',
+                            height: '70%',
+                            overflow: 'scroll',
                             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                             mt: 1.5,
                             '& .MuiAvatar-root': {
