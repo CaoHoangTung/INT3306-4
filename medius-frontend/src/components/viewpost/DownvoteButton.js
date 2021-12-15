@@ -10,8 +10,7 @@ class DownvoteButton extends React.Component {
         this.state = {
             post: this.props.post,
             userId: getCurrentUser(),
-            numDownvotes: this.props.post.downvote,
-            color: this.props.isDownvoted ? "primary" : "inherit"
+            numDownvotes: this.props.post.downvote
         };
     }
 
@@ -23,7 +22,6 @@ class DownvoteButton extends React.Component {
                 this.props.setIsDownvoted(false);
                 this.setState({
                     numDownvotes: this.state.numDownvotes - 1,
-                    color: "inherit"
                 });
             });
         } else {
@@ -32,7 +30,6 @@ class DownvoteButton extends React.Component {
                 this.props.setIsDownvoted(true);
                 this.setState({
                     numDownvotes: this.state.numDownvotes + 1,
-                    color: "primary"
                 });
             });
         }
@@ -46,7 +43,7 @@ class DownvoteButton extends React.Component {
                 showZero
             >
                 <ThumbDownIcon
-                color={this.state.color}
+                color={this.props.isDownvoted ? "primary" : "inherit"}
                 onClick={this.handleDownvote}
                 />
             </Badge>
