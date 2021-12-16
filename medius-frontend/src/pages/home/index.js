@@ -11,7 +11,7 @@ function Home({ isLoggingIn }) {
   const [posts, setPosts] = React.useState([]);
 
   useEffect(() => {
-    getPosts(null, [], true, 0, 100).then(posts => {
+    getPosts(null, [], true, 0, 10).then(posts => {
       setPosts(posts);
     })
   }, []);
@@ -32,9 +32,9 @@ function Home({ isLoggingIn }) {
             </Grid>
             <Grid item lg={6}>
               <img
-                  id = "illus"
-                  src="Illustrations-Dimensional.png"
-                  alt="" />
+                id="illus"
+                src="Illustrations-Dimensional.png"
+                alt="" />
             </Grid>
           </Grid>
         </Container>

@@ -17,6 +17,7 @@ import CreateIcon from '@mui/icons-material/Create';
 
 import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
 import { Link } from "react-router-dom";
+
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -26,8 +27,6 @@ export default function AccountMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    console.log(getLocalCredential());
 
     return (
         <div>

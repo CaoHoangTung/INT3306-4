@@ -129,7 +129,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
 
     def truncate(self, db: Session) -> bool:
         result = db.execute("""
-            DELETE FROM conversation WHERE 1;
+            DELETE FROM Post WHERE 1;
         """)
         db.commit()
         return result

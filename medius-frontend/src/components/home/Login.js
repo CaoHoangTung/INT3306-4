@@ -31,20 +31,9 @@ const Login = (props) => {
                         fullWidth
                         required
                     />
-                    <small id = "fail"></small>
+                    <small id="fail"></small>
                 </div>
 
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            name="checkedB"
-                            color="primary"
-                            checked={remember}
-                            onChange={e => setRemember(e.target.checked)}
-                        />
-                    }
-                    label="Remember me"
-                />
                 <Button
                     type='submit'
                     color='primary'
