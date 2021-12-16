@@ -140,12 +140,11 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         notification_type = "UPVOTE"
 
     # update relation here 
-    # relation = crud.userpostrelation.update(
-    #     db=db,
-    #     db_obj=query_relation,
-    #     obj_in=updating_relation
-    # )
-    relation = updating_relation
+    relation = crud.userpostrelation.update(
+        db=db,
+        db_obj=query_relation,
+        obj_in=updating_relation
+    )
 
     # print(notification_type)
 
