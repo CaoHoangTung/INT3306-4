@@ -1,4 +1,5 @@
 import './style.scss'
+import { Typography } from '@material-ui/core';
 import MainNavBar from "../../components/main/MainNavBar";
 import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -30,9 +31,9 @@ function TopicPage(props) {
                     <Grid item xs={8}>
                         <div className="topicName">
                             <Container>
-                                <p>
+                                <Typography variant="h4" gutterBottom>
                                     Posts with topic {topicName}
-                                </p>
+                                </Typography>
                             </Container>
                         </div>
                         <div className="left">

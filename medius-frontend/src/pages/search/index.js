@@ -10,11 +10,11 @@ function Search(props) {
     // const [users, setUsers] = React.useState([]);
     // const [topics, setTopics] = React.useState([]);
 
-    console.log(queryString);
+    // console.log(queryString);
     useEffect(() => {
         searchPosts(queryString)
         .then(data => {
-            console.log(data);
+            // console.log(data);
             setPosts(data);
         });
     }, [queryString]);

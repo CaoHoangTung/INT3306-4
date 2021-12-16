@@ -21,7 +21,11 @@ function MainNavBar() {
                     <div className="Main_NavBar_List">
                         <ul>
                             <li><Search /></li>
-                            <li><BookmarksIcon /></li>
+                            <li>
+                                <BookmarksIcon 
+                                    onClick={() => window.location.href = "/saved"}
+                                />
+                            </li>
                             <li><NotificationsBox/></li>
                             <li><ProfileMenu/></li>
                         </ul>
