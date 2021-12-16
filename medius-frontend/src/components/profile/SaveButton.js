@@ -1,14 +1,7 @@
 import React from 'react';
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { savePost, unsavePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
-
-const styles = theme => ({
-    savedIcon : {
-        color: "#ff6d00"
-    }
-});
 
 class SaveButton extends React.Component {
     constructor(props) {
@@ -35,15 +28,14 @@ class SaveButton extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
         return(
-            <BookmarkBorderIcon
-            className={this.props.isSaved ? classes.savedIcon : ""}
+            <BookmarkIcon
+            color={this.props.isSaved ? "primary" : "inherit"}
             onClick={this.handleSave}
             >
-            </BookmarkBorderIcon>
+            </BookmarkIcon>
         )
     }
 }
 
-export default withStyles(styles)(SaveButton);
+export default SaveButton;
