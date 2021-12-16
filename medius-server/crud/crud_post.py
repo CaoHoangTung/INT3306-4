@@ -5,13 +5,16 @@ import sqlalchemy
 from sqlalchemy.orm import Session, session
 from sqlalchemy.sql import expression
 from sqlalchemy.sql.elements import conv
-from  sqlalchemy.sql.expression import bindparam, func, null, update
-from sqlalchemy import text, bindparam
+from sqlalchemy.sql.expression import bindparam, func, null, update
+from sqlalchemy import text, bindparam, and_
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
 from models.post import Post
+from models.userpostrelation import UserPostRelation
 from schemas.post import PostBase, PostCreate, PostUpdate
+import crud 
+import schemas
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
@@ -37,12 +40,24 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             return None
     
     """
-    Get all posts 
+    Get all posts by user_id 
     """  
     def get_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
         try:
             return db.query(Post) \
                 .filter(Post.user_id == user_id) \
+                .all()
+        except Exception as e:
+            print(e)
+            return None
+
+    """
+    Get saved posts by user_id  
+    """  
+    def get_saved_post_by_user_id(self, db: Session, *, user_id: str) -> List[Post]:
+        try:
+            return db.query(Post).outerjoin(UserPostRelation) \
+                .filter(and_(Post.post_id == UserPostRelation.post_id, UserPostRelation.is_saved, UserPostRelation.user_id == user_id)) \
                 .all()
         except Exception as e:
             print(e)
@@ -62,10 +77,21 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
             updated_at = func.now(),
             user_id = user_id
         )
-
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
+
+        if obj_in.topic_ids:
+            for topic_id in obj_in.topic_ids:
+                crud.posttopic.create(
+                    db=db,
+                    obj_in=schemas.PostTopicCreate(
+                        post_id=db_obj.post_id,
+                        topic_id=int(topic_id),
+                        score=1
+                    )
+                )
+
         return db_obj
 
     def update(
@@ -76,7 +102,24 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
-        return super().update(db, db_obj=db_obj, obj_in=update_data)
+        post = super().update(db, db_obj=db_obj, obj_in=update_data)
+
+        if obj_in.topic_ids:
+            relations = crud.posttopic.get_by_post_id(db=db, post_id=obj_in.post_id)
+            for relation in relations: 
+                crud.posttopic.delete(db=db, post_id=relation.post_id, topic_id=relation.topic_id)
+
+            for topic_id in obj_in.topic_ids:
+                crud.posttopic.create(
+                    db=db,
+                    obj_in=schemas.PostTopicCreate(
+                        post_id=db_obj.post_id,
+                        topic_id=int(topic_id),
+                        score=1
+                    )
+                )
+
+        return post
     
     def delete(self, db: Session, *, post_id: str) -> Any:
         query = db.query(Post).filter(Post.post_id == post_id)
@@ -103,7 +146,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
 
     def truncate(self, db: Session) -> bool:
         result = db.execute("""
-            DELETE FROM conversation WHERE 1;
+            DELETE FROM Post WHERE 1;
         """)
         db.commit()
         return result

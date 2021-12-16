@@ -17,7 +17,7 @@ from schemas.comment import CommentCreate, CommentDelete, CommentUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Comment])
-def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments 
     """
@@ -25,11 +25,19 @@ def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depe
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
             
-    return comments
+    return schemas_comments
+
 
 @router.get("/view-by-post-id/{post_id}", response_model=List[schemas.Comment])
-def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments with post_id 
     """
@@ -37,11 +45,19 @@ def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, cur
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-            
-    return comments
+
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
+
+    return schemas_comments
+
 
 @router.get("/view-by-user-id/{user_id}", response_model=List[schemas.Comment])
-def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments with user_id 
     """
@@ -49,22 +65,35 @@ def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, cur
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-            
-    return comments
+
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
+
+    return schemas_comments
 
 @router.get("/view/{comment_id}", response_model=schemas.Comment)
-def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     View comment
     """
+
     comment = crud.comment.get_by_comment_id(
         db=db, 
         comment_id=comment_id
     )
     if not comment:
         raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
+
+    schemas_comment = schemas.Comment.from_orm(comment)
+    if user_detail:
+        schemas_comment.get_user_detail(db=db)
             
-    return comment
+    return schemas_comment
+
 
 @router.post("/create", response_model=schemas.Comment)
 def create_comment(db: Session = Depends(deps.get_db), creating_comment: CommentCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -84,7 +113,7 @@ def create_comment(db: Session = Depends(deps.get_db), creating_comment: Comment
     
     
 @router.put("/update", response_model=schemas.Comment)
-def update_comment(db: Session = Depends(deps.get_db), updating_comment: CommentUpdate = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_comment(db: Session = Depends(deps.get_db), updating_comment: CommentUpdate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update comment
     """
@@ -92,7 +121,10 @@ def update_comment(db: Session = Depends(deps.get_db), updating_comment: Comment
     query_comment = crud.comment.get_by_comment_id(db=db, comment_id=updating_comment.comment_id)
     if not query_comment:
         raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
-        
+
+    if query_comment.user_id != current_user.user_id:
+        raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
+
     comment = crud.comment.update(
         db=db,
         db_obj=query_comment,
@@ -102,10 +134,14 @@ def update_comment(db: Session = Depends(deps.get_db), updating_comment: Comment
 
     
 @router.delete("/delete", response_model=schemas.Comment)
-def delete_comment(db: Session = Depends(deps.get_db), deleting_comment: CommentDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_comment(db: Session = Depends(deps.get_db), deleting_comment: CommentDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete comment
     """
+    comment = crud.comment.get_by_comment_id(db=db, comment_id=deleting_comment.comment_id)
+    if not comment or comment.user_id != current_user.user_id:
+        raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
+
     comment = crud.comment.delete(
         db=db,
         comment_id=deleting_comment.comment_id 

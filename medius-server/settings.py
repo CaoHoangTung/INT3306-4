@@ -12,5 +12,7 @@ class Settings():
     FIRST_SUPERUSER_PASSWORD: str = "Vinbdi@2021"
     # SQLALCHEMY_DATABASE_URI: str = "mysql://vinbdi:Vinbdi@2021@dg-db:3306/dialog-generation-db" if os.environ.get('PRODUCTION') == "1" else "mysql://vinbdi:Vinbdi@2021@127.0.0.1:3306/dialog-generation-db"
     SQLALCHEMY_DATABASE_URI: str = "mysql://root:uet@2021@165.22.106.61:3306/medius"
+
+    DOMAIN_NAME: str = "medius.tk"
     
 settings = Settings()

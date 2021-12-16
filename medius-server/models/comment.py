@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 from db.base_class import Base
 
@@ -12,3 +13,5 @@ class Comment(Base):
     created_at = Column(DateTime)
     upvote = Column(Integer)
     downvote = Column(Integer)
+
+    post = relationship("Post", back_populates="comments")

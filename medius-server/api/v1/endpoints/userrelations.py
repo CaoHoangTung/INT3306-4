@@ -1,10 +1,11 @@
-from datetime import timedelta
+from datetime import date, timedelta, datetime
 from typing import Any, List
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from sqlalchemy.sql.functions import user
+from sqlalchemy.orm import Session, query, relationship
+from sqlalchemy.sql.expression import and_
+from sqlalchemy.sql.functions import func, user
 
 import crud, models, schemas
 from api import deps, msg
@@ -13,6 +14,7 @@ from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.userrelation import UserRelation, UserRelationCreate, UserRelationDelete, UserRelationUpdate
+from models.notification import Notification
 
 router = APIRouter()
 
@@ -124,7 +126,12 @@ def view_relation(db: Session = Depends(deps.get_db), user_id_1:int = Query(...)
         user_id_2=user_id_2
     )
     if not relation:
-        raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
+        # return default relation 
+        return schemas.UserRelation(
+            user_id_1=user_id_1,
+            user_id_2=user_id_2
+        )
+        # raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
             
     return relation
 
@@ -135,12 +142,7 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
     """
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=creating_relation.user_id_1, user_id_2=creating_relation.user_id_2)
     if query_relation:
-        updating_relation = creating_relation 
-        relation = crud.userrelation.update(
-            db=db,
-            db_obj=query_relation,
-            obj_in=updating_relation
-        )
+        relation = update_relation(db=db, updating_relation=creating_relation)
         return relation 
     else: 
         try:
@@ -162,12 +164,42 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=updating_relation.user_id_1, user_id_2=updating_relation.user_id_2)
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
+
+    notification_creation = updating_relation.is_following and not query_relation.is_following    
+    notification_deletion = not updating_relation.is_following and query_relation.is_following
+    
+    # relation = crud.userrelation.update(
+    #     db=db,
+    #     db_obj=query_relation,
+    #     obj_in=updating_relation
+    # )
+    # fill all fields missing in updating_relation
+    for k, v in query_relation.__dict__.items():
+        if not k.__contains__("_sa_instance_state") and (not k in updating_relation.__dict__ or updating_relation.__dict__[k] is None):
+            updating_relation.__dict__[k] = v
+
+    if notification_creation or notification_deletion:
+        # delete if exists 
+        notification = db.query(Notification) \
+                .filter(and_(Notification.user_id_1==updating_relation.user_id_1,\
+                            Notification.user_id_2==updating_relation.user_id_2,\
+                            Notification.type == "FOLLOW")).first()
         
-    relation = crud.userrelation.update(
+        if notification:
+            crud.notification.delete(db=db, notification_id=notification.notification_id)
+
+    # this step is used to execute trigger 
+    relation = crud.userrelation.delete(
         db=db,
-        db_obj=query_relation,
+        user_id_1=updating_relation.user_id_1,
+        user_id_2=updating_relation.user_id_2
+    )
+
+    relation = crud.userrelation.create(
+        db=db,
         obj_in=updating_relation
     )
+
     return relation
 
     
