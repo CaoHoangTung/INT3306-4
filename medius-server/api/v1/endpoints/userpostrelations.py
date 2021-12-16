@@ -140,11 +140,11 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         notification_type = "UPVOTE"
 
     # update relation here 
-    relation = crud.userpostrelation.update(
-        db=db,
-        db_obj=query_relation,
-        obj_in=updating_relation
-    )
+    # relation = crud.userpostrelation.update(
+    #     db=db,
+    #     db_obj=query_relation,
+    #     obj_in=updating_relation
+    # )
 
     # print(notification_type)
 
@@ -166,13 +166,13 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     # this step is used to execute trigger 
     relation = crud.userpostrelation.delete(
         db=db,
-        user_id=relation.user_id,
-        post_id=relation.post_id
+        user_id=updating_relation.user_id,
+        post_id=updating_relation.post_id
     )
 
     relation = crud.userpostrelation.create(
         db=db,
-        obj_in=relation
+        obj_in=updating_relation
     )
 
     return relation 
