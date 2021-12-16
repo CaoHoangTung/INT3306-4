@@ -51,9 +51,6 @@ class PostInDBBase(PostBase):
 
 # Additional properties to return via API
 class Post(PostInDBBase):
-    first_name: Optional[str]
-    last_name: Optional[str]
-
     user_detail: Optional[User]
 
     def get_user_detail(self, db):

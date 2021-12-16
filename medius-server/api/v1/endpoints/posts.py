@@ -20,46 +20,42 @@ from schemas.posttopic import PostTopicCreate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None)) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(10)) -> Any:
     """
     Get all posts with user_id 
     """
-    print("TOPCI", topic_ids)
+    query = db.query(models.Post, models.User)
+    query = query.join(models.User, models.User.user_id == models.Post.user_id)
     if topic_ids:
-        if not user_id: 
-            posts = db.query(models.Post).outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids)).\
-                group_by(models.Post.post_id).\
-                having(func.count(models.PostTopic.topic_id) == len(topic_ids)).all()
-        else:
-            posts = db.query(models.Post).outerjoin(models.PostTopic).\
-                filter(and_(models.PostTopic.topic_id.in_(topic_ids), models.Post.user_id == user_id)).\
-                group_by(models.Post.post_id).\
-                having(func.count(models.PostTopic.topic_id) == len(topic_ids)).all()
-    elif user_id: 
-        posts = crud.post.get_by_user_id(db=db, user_id=user_id)
-    else: 
-        posts = crud.post.get_all(db=db)
+        query = query.outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids))
+    
+        if user_id:
+            query = query.group_by(models.Post.post_id)
+    elif user_id:
+        query = query.where(models.Post.user_id == user_id)
+    else:
+        pass
+    
     
     if sort_by_upvote: 
-        posts = sorted(posts, key = lambda post: post.upvote, reverse=False)
-
-    posts.reverse()
-
+        query = query.order_by(models.Post.upvote.desc())
+        
+    query = query.order_by(models.Post.created_at.desc())
+    
     if limit:
-        posts = posts[offset:offset+limit]
+        query = query.limit(limit).offset(offset)
 
-    if not isinstance(posts, List):
+    results = query.all()
+
+    if not isinstance(results, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
-    print('A')
     schemas_posts = []
-    for post in posts: 
+    for post, user in results: 
         schemas_post = schemas.Post.from_orm(post)
-        schemas_post.get_user_detail(db=db)
+        schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
-    print('B')
-
-    return posts #schemas_posts    
+    return schemas_posts
 
 @router.get("/saved-posts", response_model=List[schemas.Post])
 def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
