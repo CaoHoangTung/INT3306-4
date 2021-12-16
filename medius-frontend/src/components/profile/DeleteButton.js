@@ -2,13 +2,6 @@ import React from 'react';
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deletePost } from "../../api/posts";
 import { getCurrentUser } from "../../utils/auth";
-import { withStyles } from '@mui/styles';
-
-const styles = theme => ({
-    savedIcon : {
-        color: "#ff6d00"
-    }
-});
 
 class DeleteButton extends React.Component {
     constructor(props) {
@@ -46,4 +39,4 @@ class DeleteButton extends React.Component {
     }
 }
 
-export default withStyles(styles)(DeleteButton);
+export default DeleteButton;
