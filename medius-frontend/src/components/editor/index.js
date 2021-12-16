@@ -73,8 +73,7 @@ function WritePost({ editMode = false, postId = null }) {
             console.log("UPDATE", post)
             updatePost(post)
                 .then(data => {
-                    console.log("DAT", data)
-                    // window.location.href = "/post/" + postId;
+                    window.location.href = "/post/" + postId;
                 }).catch(err => {
                     alert("Error editing post");
                     console.error(err);
