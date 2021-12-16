@@ -2,7 +2,7 @@ import API from "./api";
 import qs from "qs";
 
 
-export async function getPosts(user_id = null, topic_ids = [], sort_by_upvote = false, page = 0, limit = 100) {
+export async function getPosts(user_id = null, topic_ids = [], sort_by_upvote = false, page = 0, limit = 10) {
     const offset = page * limit;
     console.log(sort_by_upvote, page, limit, user_id);
     const params = {
