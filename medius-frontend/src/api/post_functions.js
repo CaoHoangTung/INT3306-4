@@ -33,7 +33,7 @@ export async function upvotePost(postId, userId) {
             post_id: postId,
             user_id: userId,
             is_upvote: true,
-            is_downvote: false,
+            // is_downvote: false,
         };
         const response = await createUserPost(upvote);
         return response;
@@ -49,7 +49,7 @@ export async function downvotePost(postId, userId) {
         const downvote = {
             post_id: postId,
             user_id: userId,
-            is_upvote: false,
+            // is_upvote: false,
             is_downvote: true,
         };
         const response = await createUserPost(downvote);
