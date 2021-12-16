@@ -43,7 +43,7 @@ function App() {
     ["/topicPage", <TopicPage />, true],
     ["/setting", <ChangeProfile />, true],
     ["/saved", <Saved />, true],
-    ["/search", <Search queryString={"quân"}/>, true]
+    ["/search/:queryString", <Search queryString={"quân"}/>, true]
   ];
 
   const adminRouters = [
