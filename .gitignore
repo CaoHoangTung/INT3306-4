@@ -55,3 +55,5 @@ venv/
 medius-db/mount
 
 .env
+
+test*.sh
