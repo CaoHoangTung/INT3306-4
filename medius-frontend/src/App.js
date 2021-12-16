@@ -17,7 +17,7 @@ import Saved from "./pages/saved";
 import TopicManager from "./pages/admin/TopicManager";
 import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
-import Search from "./pages/search/index";
+import ViewSearch from "./pages/search/view_search";
 import { BASE_API_PATH } from "./api/api";
 import EditPost from "./pages/editpost";
 
@@ -43,7 +43,7 @@ function App() {
     ["/topicPage", <TopicPage />, true],
     ["/setting", <ChangeProfile />, true],
     ["/saved", <Saved />, true],
-    ["/search/:queryString", <Search queryString={"quân"}/>, true]
+    ["/search/:queryString", <ViewSearch />, true]
   ];
 
   const adminRouters = [
