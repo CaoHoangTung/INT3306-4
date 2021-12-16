@@ -17,6 +17,7 @@ import Saved from "./pages/saved";
 import TopicManager from "./pages/admin/TopicManager";
 import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
+import Search from "./pages/search/index";
 import { BASE_API_PATH } from "./api/api";
 import EditPost from "./pages/editpost";
 
@@ -41,7 +42,8 @@ function App() {
     ["/new-story", <WritePost />, true],
     ["/topicPage", <TopicPage />, true],
     ["/setting", <ChangeProfile />, true],
-    ["/saved", <Saved />, true]
+    ["/saved", <Saved />, true],
+    ["/search", <Search queryString={"quân"}/>, true]
   ];
 
   const adminRouters = [
