@@ -173,6 +173,10 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     #     db_obj=query_relation,
     #     obj_in=updating_relation
     # )
+    # fill all fields missing in updating_relation
+    for k, v in query_relation.__dict__.items():
+        if not k.__contains__("_sa_instance_state") and (not k in updating_relation.__dict__ or updating_relation.__dict__[k] is None):
+            updating_relation.__dict__[k] = v
 
     if notification_creation or notification_deletion:
         # delete if exists 

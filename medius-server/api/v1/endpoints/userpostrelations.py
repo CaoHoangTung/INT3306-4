@@ -130,23 +130,17 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERPOST_ID)
 
-    # print(query_relation.is_upvote)
-    # print(query_relation.is_downvote)
-
     notification_type = "NOT_EXIST"
     if query_relation.is_downvote:
         notification_type = "DOWNVOTE"
     elif query_relation.is_upvote:
         notification_type = "UPVOTE"
 
-    # update relation here 
-    # relation = crud.userpostrelation.update(
-    #     db=db,
-    #     db_obj=query_relation,
-    #     obj_in=updating_relation
-    # )
+    # fill all fields missing in updating_relation
+    for k, v in query_relation.__dict__.items():
+        if not k.__contains__("_sa_instance_state") and (not k in updating_relation.__dict__ or updating_relation.__dict__[k] is None):
+            updating_relation.__dict__[k] = v
 
-    # print(notification_type)
 
     # delete correspond notification if exists 
     if notification_type != "NOT_EXIST":
@@ -157,8 +151,6 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
                             Notification.user_id_2==user_id_2,\
                             Notification.type == notification_type)).first()
 
-        # print(notification.notification_id)
-        
         if notification:
             # print("WTF")
             crud.notification.delete(db=db, notification_id=notification.notification_id)
