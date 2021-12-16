@@ -22,7 +22,7 @@ function Search(props) {
     return (
         <div className="Search">
             <MainNavBar />
-            <MainSection posts={posts}/>
+            <MainSection posts={posts} queryString={queryString}/>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import '../../pages/main/Main.scss'
 
 class Search extends React.Component {
     render() {
+        var value = "";
         return (
             <SearchBar
                 style={{
@@ -12,6 +13,8 @@ class Search extends React.Component {
                     border: "none",                 
                 }}
                 placeholder = 'Search medius'
+                onChange={(newValue) => {value = newValue }}
+                onRequestSearch={() => window.location.href = `/search/${value}`}
             />
         );
     }

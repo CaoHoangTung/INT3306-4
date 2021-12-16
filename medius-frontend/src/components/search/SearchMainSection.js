@@ -10,7 +10,7 @@ function MainSection(props) {
             <Grid container spacing={0}>
                 <Grid item xs={8}>
                     <Typography variant="h4" gutterBottom>
-                        Search Results
+                        Search Results "{props.queryString}"
                     </Typography>
                     <div className="LeftSection">
                         <Container>
