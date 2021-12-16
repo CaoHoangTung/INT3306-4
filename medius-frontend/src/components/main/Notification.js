@@ -59,7 +59,7 @@ class Notification extends React.Component {
                 <p>{text}</p>
             </div>
             <div className="time">
-                {moment(new Date(notif.created_at), "YYYY-MM-DD").fromNow()}
+                {moment(new Date(notif.created_at)).add(7, 'h').fromNow()}
             </div>
         </div>
       </Link>
