@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { getAllTopics } from "../../api/topic.js";
 import Topic from "../../components/shared/Topic.js";
 import '../../pages/main/Main.scss'
-
+import React from 'react';
 function RecommendedTopics() {
     const [topics, setTopics] = useState([]);
 
     useEffect(() => {
         getAllTopics()
-        .then(topics => {
-            console.log(topics);
-            setTopics(topics);
-        })
-        .catch(err => console.error(err));
+            .then(topics => {
+                console.log(topics);
+                setTopics(topics);
+            })
+            .catch(err => console.error(err));
     }, []);
 
     return (
@@ -22,12 +22,12 @@ function RecommendedTopics() {
             </p>
             <div className="RecommendedTopic_Container">
                 {topics.map(topic => (
-                    <Topic 
-                        key={topic.topic_id} 
-                        topic={topic.topic_name}
-                        link={`/topic/${topic.topic_id}`}
+                    <Topic
+                        key={topic.topic_id}
+                        topicId={topic.topic_id}
+                        topicName={topic.topic_name}
                     />
-                    )
+                )
                 )}
             </div>
         </div>

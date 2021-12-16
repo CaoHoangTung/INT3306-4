@@ -26,9 +26,12 @@
             }
         }
     }
+    #logo {
+        height: 80px;
+    }
 }
 .LeftSection {
-    border-right: 1px solid gray;
+    border-right: 1px solid rgba(230, 230, 230, 1);
     padding: 0px;
     margin: 0px;
     .YourTopics {
@@ -37,7 +40,7 @@
         align-items: baseline;
         width: 100%;
         height: 100%;
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid rgba(230, 230, 230, 1);
 
         .TopicContainer {
             display: flex;
@@ -59,5 +62,66 @@
     .WhoToFollow {
         display: flex;
         flex-direction: column;
+    }
+}
+.ProfileMenu {
+    img {
+        border-radius: 50%;
+        max-width: 40px;
+        max-height: 40px;
+    }
+}
+.notificationContent {
+    width: 350px;
+    overflow-wrap: break-word;
+    border-bottom: gray 1px solid;
+    margin-bottom: 20px;
+    .left {
+        display: flex;
+        padding-left: 14px;
+    }
+    .time {
+        color: #757575;
+        padding-left: 15px;
+    }
+}
+
+.CommentModal {
+    /* Hidden by default */
+    // position: fixed; /* Stay in place */
+    // z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    // background-color: rgb(0, 0, 0); /* Fallback color */
+    // background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    // display: flex;
+    // justify-content: right;
+    input {
+        width: 100%;
+    }
+    .modal-content {
+        width: 500px;
+        height: 100%;
+        background-color: #ffff;
+        // overflow-x: scroll;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.Comment {
+    .author {
+        display: flex;
+        justify-content: space-between;
+    }
+    .first {
+        display: flex;
+        align-items: center;
     }
 }

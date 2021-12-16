@@ -6,7 +6,7 @@ export async function getPostTopicAll() {
 }
 
 export async function getPostTopicByPostId(postId) {
-    const response = await API.get(`/posttopic/view-by-post-id/${postId}`);
+    const response = await API.get(`/posts/view-topics/${postId}`);
     return response?.data;
 }
 
@@ -19,19 +19,19 @@ export async function getPostTopic(postId, topicId) {
     const response = await API.get(`/posttopic/view`, {
         params: {
             post_id: postId,
-            topic_id: topicId   
+            topic_id: topicId
         }
     });
     return response?.data;
 }
 
 export async function createPostTopic(posttopic) {
-    const response = await API.post("/posttopic/create", poststopic);
+    const response = await API.post("/posttopic/create", posttopic);
     return response?.data;
 }
 
 export async function updatePostTopic(posttopic) {
-    const response = await API.post("/posttopic/update", poststopic);
+    const response = await API.put("/posttopic/update", posttopic);
     return response?.data;
 }
 
@@ -40,6 +40,6 @@ export async function deletePostTopic(postId, topicId) {
         post_id: postId,
         topic_id: topicId
     };
-    const response = await API.post("/posttopic/delete", body);
+    const response = await API.post("/posttopic/delete", { data: body });
     return response?.data;
 }

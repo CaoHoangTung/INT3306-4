@@ -1,17 +1,25 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 
-const Topic = ({topic, link}) => {
+const Topic = ({ topicId, topicName }) => {
+    const link = `/topic/${topicId}`;
+
     return (
         <Button sx={{
-            color: 'black',
+            ":hover": {
+                backgroundColor: 'rgba(230,230,230)',
+            },
             backgroundColor: 'rgba(242, 242, 242, 1)',
-            ":hover" : {
-                backgroundColor: 'rgba(41, 41, 41, 0.5)'       
-            }
-        }} variant="contained" href={link}>
-            {topic}
+            borderRadius: '100px',
+            margin: '5px',
+            color: 'black',
+            border: 'none',
+            outline: 'none',
+        }}
+            variant="contained" href={link}>
+            {topicName}
         </Button>
+
     );
 }
 export default Topic;

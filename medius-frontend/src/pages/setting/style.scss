@@ -1,0 +1,17 @@
+.setting {
+  div {
+    border: 100px red solid;
+  }
+
+  .content {
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+    padding: 200px;
+  }
+  .aboutYou {
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -8,6 +8,8 @@ class Token(BaseModel):
     token_type: str
     user_id: str
     is_admin: bool
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
 
 class TokenPayload(BaseModel):

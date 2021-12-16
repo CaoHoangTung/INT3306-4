@@ -17,7 +17,9 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-
+#illus {
+    max-width: 100%;
+}
 .NavBar {
     background: #fec016;
     border-bottom: 1px solid black;
@@ -34,7 +36,7 @@ code {
         justify-content: space-between;
     }
     .NavBar_Lists {
-        button {
+        #get_start {
             background: #191919;
             color: #fff;
             text-transform: inherit;
@@ -51,10 +53,17 @@ code {
             }
         }
     }
+    #logo {
+        height: 80px;
+        background: #fec016;
+    }
 }
 .Footer {
     background: #fec016;
     border-bottom: 1px solid black;
+    #logo {
+        height: 80px;
+    }
     img {
         max-width: 250px;
     }
@@ -136,6 +145,9 @@ code {
         border-top: 1px solid #eee;
         border-bottom: 1px solid #eee;
     }
+    small {
+        color : red;
+    }
 }
 
 .MediumPosts {
@@ -185,19 +197,12 @@ code {
         margin-left: 15px;
         height: 100px;
         width: 250px;
-        background: red;
         background-position: center;
         background-size: cover;
     }
 
     .MediumPosts_Text {
         width: 100%;
-        h2 {
-            font-weight: 700;
-            font-size: 23px;
-            color: #2a2a2a;
-            font-family: "Open Sans", sans-serif !important;
-        }
 
         p {
             font-weight: 500;
@@ -211,24 +216,25 @@ code {
 
 .UserIntro {
     display: flex;
-    max-width: 500px;
+    justify-content: space-between;
+    width: 300px;
+    margin: 15px;
     .avatar {
-        //border: solid 1px red;
         padding: 0px;
-
+    }
+    .user {
+        display: flex;
     }
     .text {
-
         //border: solid 1px red;
         color: #757575;
         word-wrap: break-word;
     }
     .header {
         //border: solid 1px red;
-        display: inline-block;
-        cursor:pointer;
+        display: flex;
+        cursor: pointer;
         align-self: center;
-        font: bold;
     }
     .descrip {
         padding: 2px;
@@ -240,4 +246,12 @@ code {
         display: inline-block;
         align-self: center;
     }
+}
+.SignUp {
+    small {
+        color: red;
+    }
+}
+.hover {
+    cursor: pointer;
 }

@@ -26,12 +26,12 @@ export async function getUserTopic(userId, topicId) {
 }
 
 export async function createUserTopic(usertopic) {
-    const response = await API.topic("/usertopic/create", usertopic);
+    const response = await API.post("/usertopic/create", usertopic);
     return response?.data;
 }
 
 export async function updateUserTopic(usertopic) {
-    const response = await API.topic("/usertopic/update", usertopic);
+    const response = await API.put("/usertopic/update", usertopic);
     return response?.data;
 }
 
@@ -40,6 +40,6 @@ export async function deleteUserTopic(userId, topicId) {
         user_id: userId,
         topic_id: topicId
     };
-    const response = await API.topic("/usertopic/delete", body);
+    const response = await API.delete("/usertopic/delete", { data: body });
     return response?.data;
 }

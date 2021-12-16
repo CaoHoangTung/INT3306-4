@@ -1,5 +1,5 @@
 import Topic from "../shared/Topic.js";
-
+import React from 'react';
 function YourTopics() {
     return (
         <div className="YourTopics">

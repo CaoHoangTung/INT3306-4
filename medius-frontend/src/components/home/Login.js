@@ -1,8 +1,7 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Link,Typography } from "@material-ui/core"
-import { useState } from "react"
+import { Button, Checkbox, FormControlLabel, Grid, TextField, Link, Typography } from "@material-ui/core"
+import React, { useState } from "react"
 import { login } from "../../api/login";
-
-const Login = () => {
+const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
@@ -15,38 +14,31 @@ const Login = () => {
                 <Grid align='center'>
                     <h2>Sign In</h2>
                 </Grid>
-                <TextField 
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                    label='Username' 
-                    placeholder='Enter username' 
-                    fullWidth 
-                    required />
-                <TextField 
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    label='Password' 
-                    placeholder='Enter password' 
-                    type='password' 
-                    fullWidth 
-                    required 
-                />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            name="checkedB"
-                            color="primary"
-                            checked={remember}
-                            onChange={e => setRemember(e.target.checked)}
-                        />
-                    }
-                    label="Remember me"
-                />
-                <Button 
-                    type='submit' 
-                    color='primary' 
-                    variant="contained" 
-                    style={btnstyle} 
+                <div>
+                    <TextField
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        label='Username'
+                        placeholder='Enter username'
+                        fullWidth
+                        required />
+                    <TextField
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        label='Password'
+                        placeholder='Enter password'
+                        type='password'
+                        fullWidth
+                        required
+                    />
+                    <small id="fail"></small>
+                </div>
+
+                <Button
+                    type='submit'
+                    color='primary'
+                    variant="contained"
+                    style={btnstyle}
                     fullWidth
                     disabled={disabled}
                     onClick={async () => {
@@ -55,6 +47,7 @@ const Login = () => {
                         if (loginIsSuccess) {
                             window.location.href = "/";
                         } else {
+                            document.getElementById("fail").innerHTML = "Wrong username or password";
                             setDisabled(false);
                         }
                     }}
@@ -66,8 +59,8 @@ const Login = () => {
                         Forgot password ?
                     </Link>
                 </Typography>
-                <Typography > Do you have an account ?
-                    <Link href="#" >
+                <Typography > Do you have an account?
+                    <Link href="#" onClick={() => { props.setIsLogin(false) }}>
                         Sign Up
                     </Link>
                 </Typography>

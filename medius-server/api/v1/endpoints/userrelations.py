@@ -136,7 +136,7 @@ def view_relation(db: Session = Depends(deps.get_db), user_id_1:int = Query(...)
     return relation
 
 @router.post("/create", response_model=schemas.UserRelation)
-def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserRelationCreate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: UserRelationCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new relation
     """
@@ -156,7 +156,7 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
             raise HTTPException(status_code=500, detail=msg.INVALID_USERRELATION_ID)
     
 @router.put("/update", response_model=schemas.UserRelation)
-def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserRelationUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: UserRelationUpdate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update relation
     """
@@ -204,7 +204,7 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
 
     
 @router.delete("/delete", response_model=schemas.UserRelation)
-def delete_relation(db: Session = Depends(deps.get_db), *, deleting_relation:UserRelationDelete, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_relation(db: Session = Depends(deps.get_db), *, deleting_relation:UserRelationDelete, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete relation
     """
