@@ -65,7 +65,7 @@ function WritePost({ editMode = false, postId = null }) {
             content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             preview_image_path: previewImagePath,
             cover_image_path: previewImagePath,
-            topic_ids: [...selectedTopicOptionsId.map(topic => topic.topic_id)]
+            topic_ids: selectedTopicOptionsId
         }
 
         if (editMode) {
@@ -115,7 +115,7 @@ function WritePost({ editMode = false, postId = null }) {
         <div>
             <MainNavBar />
             <Container>
-                <h1>Create new post</h1>
+                <h1>{editMode ? "Edit post" : "Create new post"}</h1>
                 <TextField
                     value={title}
                     onChange={e => setTitle(e.target.value)}
