@@ -102,6 +102,8 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
+        post = super().update(db, db_obj=db_obj, obj_in=update_data)
+
         if obj_in.topic_ids:
             relations = crud.posttopic.get_by_post_id(db=db, post_id=obj_in.post_id)
             for relation in relations: 
@@ -117,7 +119,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
                     )
                 )
 
-        return super().update(db, db_obj=db_obj, obj_in=update_data)
+        return post
     
     def delete(self, db: Session, *, post_id: str) -> Any:
         query = db.query(Post).filter(Post.post_id == post_id)
