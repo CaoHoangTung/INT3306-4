@@ -93,7 +93,7 @@ class CRUDUserPostRelation(CRUDBase[UserPostRelation, UserPostRelationCreate, Us
                 user_id = deleting_relation.user_id,
                 post_id = deleting_relation.post_id,
                 is_saved = deleting_relation.is_saved,
-                is_blocking = deleting_relation.is_blocking, 
+                is_blocked = deleting_relation.is_blocked, 
                 is_upvote = deleting_relation.is_upvote, 
                 is_downvote = deleting_relation.is_downvote 
             )

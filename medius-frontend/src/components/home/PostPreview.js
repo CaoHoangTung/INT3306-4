@@ -32,7 +32,7 @@ const MediumPosts = (props) => {
                 </div>
                 <div
                     className="MediumPosts_image"
-                    style={{ backgroundImage: `url(${props?.previewImagePath})` }}
+                    style={{ backgroundImage: `url("${props?.previewImagePath}")` }}
                 />
             </div>
         </Link>

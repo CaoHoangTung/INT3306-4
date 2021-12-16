@@ -17,7 +17,7 @@ from schemas.comment import CommentCreate, CommentDelete, CommentUpdate
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Comment])
-def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments 
     """
@@ -25,12 +25,19 @@ def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depe
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
             
-    return comments
+    return schemas_comments
 
 
 @router.get("/view-by-post-id/{post_id}", response_model=List[schemas.Comment])
-def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments with post_id 
     """
@@ -38,12 +45,19 @@ def view_by_post_id(db: Session = Depends(deps.get_db), post_id: str = None, cur
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-            
-    return comments
+
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
+
+    return schemas_comments
 
 
 @router.get("/view-by-user-id/{user_id}", response_model=List[schemas.Comment])
-def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     Get all comments with user_id 
     """
@@ -51,12 +65,18 @@ def view_by_user_id(db: Session = Depends(deps.get_db), user_id: str = None, cur
 
     if not isinstance(comments, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-            
-    return comments
 
+    schemas_comments = []
+    for comment in comments: 
+        schemas_comment = schemas.Comment.from_orm(comment)
+        if user_detail:
+            schemas_comment.get_user_detail(db=db)
+        schemas_comments.append(schemas_comment)
+
+    return schemas_comments
 
 @router.get("/view/{comment_id}", response_model=schemas.Comment)
-def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, current_user: models.User = Depends(deps.get_current_user), user_detail: bool = None) -> Any:
     """
     View comment
     """
@@ -67,8 +87,12 @@ def view_comment(db: Session = Depends(deps.get_db), comment_id:str = None, curr
     )
     if not comment:
         raise HTTPException(status_code=404, detail=msg.INVALID_COMMENT_ID)
+
+    schemas_comment = schemas.Comment.from_orm(comment)
+    if user_detail:
+        schemas_comment.get_user_detail(db=db)
             
-    return comment
+    return schemas_comment
 
 
 @router.post("/create", response_model=schemas.Comment)

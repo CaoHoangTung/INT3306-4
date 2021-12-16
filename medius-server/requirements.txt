@@ -67,3 +67,4 @@ wcwidth==0.2.5
 websockets==9.1
 zipp==3.5.0
 aiofiles==0.7.0
+boto3==1.18.24

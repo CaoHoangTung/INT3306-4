@@ -18,3 +18,5 @@ INVALID_USERRELATION_ID = "Invalid userrelation id"
 INVALID_COMMENT_ID = "Invalid comment id"
 INVALID_QUERY_PARAMETER = "Invalid query parameter"
 INVALID_NOTIFICATION_ID = "Invalid notification id"
+
+S3_UPLOAD_ERROR = "Error uploading file to S3"

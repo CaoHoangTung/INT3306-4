@@ -19,6 +19,7 @@ import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
 import Search from "./pages/search/index";
 import { BASE_API_PATH } from "./api/api";
+import EditPost from "./pages/editpost";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
     ["/profile/:userId", <ViewProfile />, true],
     ["/", <Main />, true],
     ["/topic/:topicId", <TopicPage />, true],
+    ["/edit-post/:postId", <EditPost />, true],
     ["/post/:postId", <ViewPost />, true],
     ["/new-story", <WritePost />, true],
     ["/topicPage", <TopicPage />, true],

@@ -4,6 +4,7 @@ from typing import Any, List
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session, query, relationship
+from sqlalchemy.sql.expression import and_
 from sqlalchemy.sql.functions import func, user
 
 import crud, models, schemas
@@ -13,6 +14,7 @@ from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.userrelation import UserRelation, UserRelationCreate, UserRelationDelete, UserRelationUpdate
+from models.notification import Notification
 
 router = APIRouter()
 
@@ -140,12 +142,7 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
     """
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=creating_relation.user_id_1, user_id_2=creating_relation.user_id_2)
     if query_relation:
-        updating_relation = creating_relation 
-        relation = crud.userrelation.update(
-            db=db,
-            db_obj=query_relation,
-            obj_in=updating_relation
-        )
+        relation = update_relation(db=db, updating_relation=creating_relation)
         return relation 
     else: 
         try:
@@ -169,25 +166,35 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
 
     notification_creation = updating_relation.is_following and not query_relation.is_following    
+    notification_deletion = not updating_relation.is_following and query_relation.is_following
     
-    relation = crud.userrelation.update(
+    # relation = crud.userrelation.update(
+    #     db=db,
+    #     db_obj=query_relation,
+    #     obj_in=updating_relation
+    # )
+
+    if notification_creation or notification_deletion:
+        # delete if exists 
+        notification = db.query(Notification) \
+                .filter(and_(Notification.user_id_1==updating_relation.user_id_1,\
+                            Notification.user_id_2==updating_relation.user_id_2,\
+                            Notification.type == "FOLLOW")).first()
+        
+        if notification:
+            crud.notification.delete(db=db, notification_id=notification.notification_id)
+
+    # this step is used to execute trigger 
+    relation = crud.userrelation.delete(
         db=db,
-        db_obj=query_relation,
-        obj_in=updating_relation
+        user_id_1=updating_relation.user_id_1,
+        user_id_2=updating_relation.user_id_2
     )
 
-    if notification_creation:
-        crud.notification.create(
-            db=db,
-            obj_in=schemas.NotificationCreate(
-                user_id_1=updating_relation.user_id_1,
-                user_id_2=updating_relation.user_id_2,
-                post_id=None,
-                type="FOLLOW",
-                is_seen=False,
-                created_at=datetime.now()
-            )
-        )
+    relation = crud.userrelation.create(
+        db=db,
+        obj_in=updating_relation
+    )
 
     return relation
 
