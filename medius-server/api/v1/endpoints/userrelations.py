@@ -168,11 +168,11 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     notification_creation = updating_relation.is_following and not query_relation.is_following    
     notification_deletion = not updating_relation.is_following and query_relation.is_following
     
-    relation = crud.userrelation.update(
-        db=db,
-        db_obj=query_relation,
-        obj_in=updating_relation
-    )
+    # relation = crud.userrelation.update(
+    #     db=db,
+    #     db_obj=query_relation,
+    #     obj_in=updating_relation
+    # )
 
     if notification_creation or notification_deletion:
         # delete if exists 
@@ -187,13 +187,13 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     # this step is used to execute trigger 
     relation = crud.userrelation.delete(
         db=db,
-        user_id_1=relation.user_id_1,
-        user_id_2=relation.user_id_2
+        user_id_1=updating_relation.user_id_1,
+        user_id_2=updating_relation.user_id_2
     )
 
     relation = crud.userrelation.create(
         db=db,
-        obj_in=relation
+        obj_in=updating_relation
     )
 
     return relation
