@@ -4,7 +4,7 @@ from typing import Any, List
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session, query, relationship
-from sqlalchemy.sql.expression import and_, update
+from sqlalchemy.sql.expression import and_
 from sqlalchemy.sql.functions import func, user
 
 import crud, models, schemas
@@ -168,12 +168,11 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     notification_creation = updating_relation.is_following and not query_relation.is_following    
     notification_deletion = not updating_relation.is_following and query_relation.is_following
     
-    # relation = crud.userrelation.update(
-    #     db=db,
-    #     db_obj=query_relation,
-    #     obj_in=updating_relation
-    # )
-    relation = updating_relation
+    relation = crud.userrelation.update(
+        db=db,
+        db_obj=query_relation,
+        obj_in=updating_relation
+    )
 
     if notification_creation or notification_deletion:
         # delete if exists 
