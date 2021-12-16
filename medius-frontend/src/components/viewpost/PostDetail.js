@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
+import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from "../profile/SaveButton";
 import DeleteButton from "../profile/DeleteButton";
 import UpvoteButton from './UpvoteButton';
@@ -52,6 +53,7 @@ export default function PostDetail(props) {
             console.log(postTopics);
             setPostTopics(postTopics);
         }).catch(err => console.error(err));
+        console.log("POST", post, props.postId)
     }, [props.postId]);
 
     return (
@@ -66,20 +68,21 @@ export default function PostDetail(props) {
                     <Avatar
                         alt="username"
                         src={props.author_avatar}
-                        sx = {{marginRight:2, marginBottom:1}}
+                        sx={{ marginRight: 2, marginBottom: 1 }}
                     />
                     <Link href={"/profile/" + props.author_id}>
                         {props.author_name}
                     </Link>
                 </div>
                 <div className="second">
+                    <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
                     <SaveButton
                         post_id={post.post_id}
                         isSaved={isSaved}
                         setIsSaved={setIsSaved}
                     ></SaveButton>
                     <DeleteButton
-                        post_id={"Delete" + post.post_id}
+                        post_id={post.post_id}
                         isOwner={props.isOwner}
                     ></DeleteButton>
                 </div>
@@ -115,7 +118,7 @@ export default function PostDetail(props) {
                             setIsUpvoted={setIsUpvoted}
                             className="upvote"
                             fontSize="large"
-                            ></UpvoteButton>
+                        ></UpvoteButton>
                     </div>
                     <div style={{
                         marginRight: "30px",
@@ -127,7 +130,7 @@ export default function PostDetail(props) {
                             setIsDownvoted={setIsDownvoted}
                             className="downvote"
                             fontSize="large"
-                            ></DownvoteButton>
+                        ></DownvoteButton>
                     </div>
                 </div>
             </div>

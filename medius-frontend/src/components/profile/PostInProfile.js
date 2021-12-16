@@ -7,6 +7,7 @@ import { Link } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import Topic from "../../components/shared/Topic";
@@ -20,16 +21,16 @@ export default function PostInProfile(props) {
 
     useEffect(() => {
         getUserPost(getCurrentUser(), post.post_id)
-        .then(data => {
-            if (data.is_saved === true) {
-                setIsSaved(true);
-            } else {
-                setIsSaved(false);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(data => {
+                if (data.is_saved === true) {
+                    setIsSaved(true);
+                } else {
+                    setIsSaved(false);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }, []);
 
     const [postTopics, setPostTopics] = useState([]);
@@ -97,6 +98,7 @@ export default function PostInProfile(props) {
                     </div>
                 </div>
                 <div>
+                    <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
                     <SaveButton
                         post_id={post.post_id}
                         isSaved={isSaved}

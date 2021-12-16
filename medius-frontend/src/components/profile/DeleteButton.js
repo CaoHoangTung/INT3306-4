@@ -5,7 +5,7 @@ import { getCurrentUser } from "../../utils/auth";
 import { withStyles } from '@mui/styles';
 
 const styles = theme => ({
-    savedIcon : {
+    savedIcon: {
         color: "#ff6d00"
     }
 });
@@ -22,11 +22,12 @@ class DeleteButton extends React.Component {
     handleDelete = () => {
         const { postId, userId } = this.state;
         if (this.props.isOwner) {
-            window.confirm("Are you sure you want to delete this post?");
-            deletePost(postId)
-            .then(() => {
-                window.location.reload();
-            })
+            if (window.confirm("Are you sure you want to delete this post?")) {
+                deletePost(postId)
+                    .then(() => {
+                        window.location.href = "/my-profile";
+                    })
+            }
         } else {
             return;
         }
@@ -34,10 +35,10 @@ class DeleteButton extends React.Component {
 
     render() {
         if (this.props.isOwner) {
-            return(
+            return (
                 <DeleteIcon
                     onClick={this.handleDelete}
-                    >
+                >
                 </DeleteIcon>
             )
         } else {

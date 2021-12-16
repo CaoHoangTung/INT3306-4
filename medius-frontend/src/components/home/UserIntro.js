@@ -45,7 +45,7 @@ const UserIntro = (props) => {
                     }
                 }}
                     variant="contained" href={props.link}>
-                    Follow
+                    View
                 </Button>
             </div>
         </div>
