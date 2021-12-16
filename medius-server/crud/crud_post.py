@@ -102,6 +102,21 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
+        if obj_in.topic_ids:
+            relations = crud.posttopic.get_by_post_id(db=db, post_id=obj_in.post_id)
+            for relation in relations: 
+                crud.posttopic.delete(db=db, post_id=relation.post_id, topic_id=relation.topic_id)
+
+            for topic_id in obj_in.topic_ids:
+                crud.posttopic.create(
+                    db=db,
+                    obj_in=schemas.PostTopicCreate(
+                        post_id=db_obj.post_id,
+                        topic_id=int(topic_id),
+                        score=1
+                    )
+                )
+
         return super().update(db, db_obj=db_obj, obj_in=update_data)
     
     def delete(self, db: Session, *, post_id: str) -> Any:

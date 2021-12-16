@@ -39,7 +39,7 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         posts = crud.post.get_by_user_id(db=db, user_id=user_id)
     else: 
         posts = crud.post.get_all(db=db)
-
+    
     if sort_by_upvote: 
         posts = sorted(posts, key = lambda post: post.upvote, reverse=False)
 
@@ -51,11 +51,15 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
+    print("A")
+
     schemas_posts = []
     for post in posts: 
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.get_user_detail(db=db)
         schemas_posts.append(schemas_post)
+
+    print("B")
             
     return schemas_posts    
 
@@ -122,7 +126,7 @@ def update_post(db: Session = Depends(deps.get_db), updating_post: PostUpdate = 
     if not query_post:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
 
-    if query_post.user_id != current_user.user_id:
+    if query_post.user_id != current_user.user_id and not crud.user.is_admin(db=db, user=current_user):
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
         
     post = crud.post.update(

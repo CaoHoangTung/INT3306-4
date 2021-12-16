@@ -31,6 +31,7 @@ class PostUpdate(PostBase):
     upvote: Optional[int]
     view_count: Optional[int]
     published_at: Optional[datetime] = None 
+    topic_ids: Optional[List[str]]
 
 class PostDelete(BaseModel):
     post_id: int 
