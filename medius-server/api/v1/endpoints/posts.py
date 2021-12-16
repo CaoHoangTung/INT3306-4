@@ -19,7 +19,8 @@ from schemas.posttopic import PostTopicCreate
 
 router = APIRouter()
 
-@router.get("/all", response_model=List[schemas.Post])
+# @router.get("/all", response_model=List[schemas.Post])
+@router.get("/all")
 def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[int]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get all posts with user_id 
@@ -51,17 +52,15 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
     if not isinstance(posts, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
-    print("A")
-
+    print('A')
     schemas_posts = []
     for post in posts: 
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.get_user_detail(db=db)
         schemas_posts.append(schemas_post)
+    print('B')
 
-    print("B")
-            
-    return schemas_posts    
+    return posts #schemas_posts    
 
 @router.get("/saved-posts", response_model=List[schemas.Post])
 def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:

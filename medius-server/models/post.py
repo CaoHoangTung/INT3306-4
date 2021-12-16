@@ -20,6 +20,9 @@ class Post(Base):
     post_id = Column(Integer, primary_key=True, autoincrement=True)
     view_count = Column(Integer)
 
+    first_name = None 
+    last_name = None
+
     topics = relationship("PostTopic", back_populates="post")
     users = relationship("UserPostRelation", back_populates="post")
     comments = relationship("Comment", back_populates="post")
