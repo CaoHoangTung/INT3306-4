@@ -34,7 +34,8 @@
     "semantic-ui-react": "^2.0.4",
     "universal-cookie": "^3.0.2",
     "web-vitals": "^1.0.1",
-    "react-notifications": "^1.7.3"
+    "react-notifications": "^1.7.3",
+    "react-infinite-scroll-component": "^6.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

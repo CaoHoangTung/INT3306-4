@@ -3,12 +3,19 @@ import '../../pages/main/Main.scss'
 import NewsFeed from "./NewsFeed.js";
 import YourTopics from "./YourTopics.js";
 import React from 'react';
+import { getCurrentUser } from "../../utils/auth";
 function LeftSection() {
     return (
         <div className="LeftSection">
             <Container>
                 {/* <YourTopics/> */}
-                <NewsFeed />
+                <NewsFeed
+                    user_id={null}
+                    topic_ids={[]}
+                    sort_by_upvotes={false}
+                    page={0}
+                    limit={5}
+                />
             </Container>
         </div>
     )
