@@ -3,7 +3,7 @@ import { Badge } from '@mui/material';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { downvotePost, undownvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
-import { updatePost } from "../../api/posts";
+import { NotificationManager } from 'react-notifications';
 
 class DownvoteButton extends React.Component {
     constructor(props) {
@@ -24,6 +24,7 @@ class DownvoteButton extends React.Component {
                 this.setState({
                     numDownvotes: this.state.numDownvotes - 1,
                 });
+                NotificationManager.warning('Post Undownvoted', 'Success', 3000);
             });
         } else {
             downvotePost(post.post_id, userId)
@@ -32,6 +33,7 @@ class DownvoteButton extends React.Component {
                 this.setState({
                     numDownvotes: this.state.numDownvotes + 1,
                 });
+                NotificationManager.warning('Post Downvoted', 'Success', 3000);
             });
         }
     };

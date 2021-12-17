@@ -2,6 +2,7 @@ import React from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { savePost, unsavePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
+import { NotificationManager } from 'react-notifications';
 
 class SaveButton extends React.Component {
     constructor(props) {
@@ -18,11 +19,13 @@ class SaveButton extends React.Component {
             unsavePost(postId, userId)
             .then(() => {
                 this.props.setIsSaved(false);
+                NotificationManager.success('Post Unsaved', 'Success', 3000);
             });
         } else {
             savePost(postId, userId)
             .then(() => {
                 this.props.setIsSaved(true);
+                NotificationManager.success('Post Saved', 'Success', 3000);
             });
         }
     };
