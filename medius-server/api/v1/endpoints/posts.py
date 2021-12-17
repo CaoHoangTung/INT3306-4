@@ -32,7 +32,7 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         if user_id:
             query = query.group_by(models.Post.post_id)
     elif user_id:
-        query = query.where(models.Post.user_id == user_id)
+        query = query.filter(models.Post.user_id == user_id)
     else:
         pass
     
