@@ -19,7 +19,7 @@ const Comment = props => {
                     </Link>
                 </div>
                 <div className="time">
-                    {moment(new Date(comment.created_at)).add(7, 'h').fromNow()}
+                    {moment(new Date(comment.created_at)).fromNow()}
                 </div>
             </div>
             <div style={{
