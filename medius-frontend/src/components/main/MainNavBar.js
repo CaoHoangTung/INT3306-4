@@ -6,9 +6,13 @@ import ProfileMenu from "./AccountMenu.js";
 import NotificationsBox from "./NotificationsBox.js";
 import React from 'react';
 import logo from '../../test.png'
+import { NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 function MainNavBar() {
     return (
         <div className="MainNavBar">
+            <NotificationContainer />
             <Container>
                 <div className="Main_NavBar_Container">
                     <Link href="/">

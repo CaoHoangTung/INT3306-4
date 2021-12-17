@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { followUser, unFollowUser } from '../../api/user_functions';
 import { getCurrentUser } from "../../utils/auth";
+import { NotificationManager } from 'react-notifications';
 
 class FollowButton extends React.Component {
     constructor(props) {
@@ -21,11 +22,13 @@ class FollowButton extends React.Component {
             unFollowUser(currentUserId, userId)
             .then(() => {
                 this.props.setIsFollowing(false);
+                NotificationManager.success('User Unfollowed', 'Success', 3000);
             });
         } else {
             followUser(currentUserId, userId)
             .then(() => {
                 this.props.setIsFollowing(true);
+                NotificationManager.success('User Followed', 'Success', 3000);
             });
         }
     };

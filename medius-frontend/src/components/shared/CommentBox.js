@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getCommentByPostId, getComment } from "../../api/comments";
 import { commentPost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
+import { NotificationManager } from 'react-notifications';
 
 const CommentBox = props => {
     const [comments, setComments] = useState([]);
@@ -37,6 +38,7 @@ const CommentBox = props => {
                         commentPost(props.postId, getCurrentUser(), comment).then(data => {
                             getComment(data.comment_id).then(data => {
                                 setComments(comments.concat(data));
+                                NotificationManager.success('Comment posted successfully!', 'Success', 3000);
                             });
                         }).catch(err => console.error(err));
                     }}/>

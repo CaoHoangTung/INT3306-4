@@ -4,6 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { updatePost } from "../../api/posts";
+import { NotificationManager } from 'react-notifications';
 
 class UpvoteButton extends React.Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes - 1,
                 });
+                NotificationManager.success('Post Unvoted', 'Success', 3000);
             });
         } else {
             upvotePost(post.post_id, userId)
@@ -32,6 +34,7 @@ class UpvoteButton extends React.Component {
                 this.setState({
                     numUpvotes: this.state.numUpvotes + 1,
                 });
+                NotificationManager.success('Post Voted', 'Success', 3000);
             });
         }
     };
