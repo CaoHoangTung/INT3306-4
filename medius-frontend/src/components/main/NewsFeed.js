@@ -16,6 +16,7 @@ class NewsFeed extends React.Component {
             page: 0,
             limit: this.props.limit,
         };
+        this.fetchMoreData();
     }
 
     fetchMoreData = async () => {
