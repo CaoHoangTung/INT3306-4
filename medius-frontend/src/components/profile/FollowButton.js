@@ -40,7 +40,7 @@ class FollowButton extends React.Component {
             return (
                 <Button
                     variant="contained"
-                    color="primary"
+                    color={this.props.isFollowing ? "inherit" : "primary"}
                     onClick={this.handleFollow}
                 >
                     {this.props.isFollowing ? "Following" : "Follow"}

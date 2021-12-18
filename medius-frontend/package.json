@@ -35,7 +35,8 @@
     "universal-cookie": "^3.0.2",
     "web-vitals": "^1.0.1",
     "react-notifications": "^1.7.3",
-    "react-infinite-scroll-component": "^6.1.0"
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-search-autocomplete": "^5.4.4"
   },
   "scripts": {
     "start": "react-scripts start",

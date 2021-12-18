@@ -27,3 +27,12 @@ export async function deleteTopic(topicId) {
     const response = await API.delete(`/topic/delete`, { data: body });
     return response?.data;
 }
+
+export async function searchTopics(searched_text) {
+    const response = await API.get(`topic/search`, {
+        params: {
+            searched_text: searched_text
+        }
+    });
+    return response?.data;
+}

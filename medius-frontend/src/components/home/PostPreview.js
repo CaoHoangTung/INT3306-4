@@ -19,11 +19,11 @@ const MediumPosts = (props) => {
                     <div className="MediumPosts_TimeStamps">
                         <div className="MediumPosts_TimeStamp_Paragraph">
                             <span>
-                                {moment(new Date(props.postTime), "YYYYMMDD").add(7, 'h').format("LL")}
+                                {moment(new Date(props.postTime), "YYYYMMDD").format("LL")}
                             </span>
                             &nbsp;-&nbsp;
                             <span style={{ display: "flex", alignItems: "center" }}>
-                                {moment(new Date(props.postTime), "YYYYMMDD").add(7, 'h').fromNow()}
+                                {moment(new Date(props.postTime), "YYYYMMDD").fromNow()}
                                 <StarIcon />
                             </span>
                         </div>

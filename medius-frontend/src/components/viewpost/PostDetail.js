@@ -135,7 +135,11 @@ export default function PostDetail(props) {
                 </div>
             </div>
             <hr></hr>
-            <CommentBox postId={post.post_id}></CommentBox>
+            <CommentBox 
+                key={"CommentBox" + post.post_id}
+                postId={post.post_id}
+                isOwner={props.isOwner}
+            />
         </Grid>
     );
 }
