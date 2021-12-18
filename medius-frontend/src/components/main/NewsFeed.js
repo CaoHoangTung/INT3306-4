@@ -1,8 +1,7 @@
 import MediumPosts from "../home/PostPreview.js";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../../pages/main/Main.scss'
 import { getPosts } from "../../api/posts.js";
-import { getUser } from "../../api/users.js";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 class NewsFeed extends React.Component {

@@ -1,7 +1,6 @@
 import React from 'react';
 import DeleteIcon from "@material-ui/icons/Delete";
 import { getCurrentUser } from "../../utils/auth";
-import { deleteComment } from '../../api/comments';
 
 class DeleteCommentButton extends React.Component {
     constructor(props) {

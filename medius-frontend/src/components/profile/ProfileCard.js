@@ -7,10 +7,6 @@ import FollowButton from './FollowButton';
 import BlockButton from './BlockButton';
 
 class ProfileCard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { author } = this.props;
         return (

@@ -1,7 +1,7 @@
 import Comment from "./Comment";
 import Input from "@mui/material/Input";
 import { Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { getCommentByPostId, getComment } from "../../api/comments";
 import { commentPost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
