@@ -1,58 +1,86 @@
-import Comment from "./Comment"
-import CloseIcon from '@mui/icons-material/Close';
+import Comment from "./Comment";
 import Input from "@mui/material/Input";
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCommentByPostId, getComment } from "../../api/comments";
 import { commentPost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { NotificationManager } from 'react-notifications';
 
-const CommentBox = props => {
-    const [comments, setComments] = useState([]);
-    const [comment, setComment] = useState("");
-    
-    useEffect(() => {
-        getCommentByPostId(props.postId).then(comments => {
-            setComments(comments);
+
+class CommentBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            postId: this.props.postId,
+            comments: [],
+            commentText: "",
+        }
+    }
+
+    componentDidMount() {
+        getCommentByPostId(
+            this.state.postId
+        ).then(data => {
+            this.setState({
+                comments: data,
+            });
         }).catch(err => console.error(err));
-    }, []);
-    
-    return(
-        <div className="CommentModal">
-            <div className="modal-content">
-                <div className="header">
+    }
+
+    handleDelete(commentId) {
+        const newComments = this.state.comments.filter((item) => item.comment_id != commentId);
+        this.setState({
+            comments: newComments,
+        });
+    }
+
+    handleSubmit() {
+        commentPost(this.state.postId, getCurrentUser(), this.state.commentText).then(data => {
+            getComment(data.comment_id).then(data => {
+                this.setState({
+                    comments: this.state.comments.concat(data)
+                });
+                NotificationManager.success('Comment posted successfully!', 'Success', 3000);
+            });
+        }).catch(err => console.error(err));
+    }
+
+    render() {
+        return (
+            <div className="CommentModal">
+                <div className="modal-content">
+                    <div className="header">
+                        <div>
+                            <Typography variant="h5" gutterBottom component="div">
+                                Comments
+                            </Typography>
+                        </div>
+                    </div>
                     <div>
-                        <Typography variant="h5" gutterBottom component="div">
-                            Comments
-                        </Typography>
+                        <Input type="text" label="Outlined" id="comment-text" onChange={(e) => {
+                            this.setState({
+                                commentText: e.target.value
+                            });
+                        }}
+                                placeholder="What are your thought?"
+                        />
+                        <Input type="submit" onClick={(e) => this.handleSubmit(e)}/>
+                    </div>
+                    <div>
+                        {this.state.comments.map(comment => (
+                            <Comment 
+                                key={"Comment" + comment.comment_id}
+                                comment={comment}
+                                isOwner={this.props.isOwner}
+                                handleDelete={(commendId) => this.handleDelete(commendId)}
+                            />
+                        ))}
                     </div>
                 </div>
-                <div>
-                    <Input type="text" label="Outlined" id="comment-text" onChange={(e) => {
-                        setComment(e.target.value);
-                    }}
-                            placeholder="What are your thought?"
-                    />
-                    <Input type="submit" onClick={() => {
-                        commentPost(props.postId, getCurrentUser(), comment).then(data => {
-                            getComment(data.comment_id).then(data => {
-                                setComments(comments.concat(data));
-                                NotificationManager.success('Comment posted successfully!', 'Success', 3000);
-                            });
-                        }).catch(err => console.error(err));
-                    }}/>
-                </div>
-                <div>
-                    {comments.map(comment => (
-                        <Comment 
-                            key={"Comment" + comment.comment_id}
-                            comment={comment}
-                        />
-                    ))}
-                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
+
 export default CommentBox;

@@ -2,34 +2,72 @@ import { Avatar, Typography } from "@mui/material";
 import { Link } from "@material-ui/core";
 import moment from "moment";
 import * as React from "react";
-const Comment = props => {
-    const comment = props.comment;
-    return (
-        <div className="Comment">
-            <div className="author">
-                <div className="first">
-                    <Avatar alt="username" src={comment.user} />
-                    <Link style={{
-                        marginLeft: "10px",
-                        href: `/profile/${comment.user_id}`,
-                    }}>
-                        <Typography>
-                            {comment.user_detail?.first_name + " " + comment.user_detail?.last_name}
-                        </Typography>
-                    </Link>
+import DeleteCommentButton from "./DeleteCommentButton";
+import { getCurrentUser } from "../../utils/auth";
+import { deleteComment } from "../../api/comments";
+
+class Comment extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            comment: this.props.comment,
+            userId: this.props.userId,
+            deletePermission: (this.props.comment.user_id == getCurrentUser()) || this.props.isOwner
+        }
+    }
+
+    handleDelete = () => {
+        const commentId = this.state.comment.comment_id;
+        if (this.state.deletePermission) {
+            if (window.confirm("Are you sure you want to delete this comment?")) {
+                deleteComment(commentId)
+                    .then(() => {
+                        this.props.handleDelete(commentId);
+                    })
+            }
+        } else {
+            return;
+        }
+    }
+
+    render() {
+        const comment = this.state.comment;
+        return (
+            <div className="Comment">
+                <div className="author">
+                    <div className="first">
+                        <Avatar alt="username" src={comment.user_detail?.avatar_path} />
+                        <Link style={{
+                            marginLeft: "10px",
+                            href: `/profile/${comment.user_id}`,
+                        }}>
+                            <Typography>
+                                {comment.user_detail?.first_name + " " + comment.user_detail?.last_name}
+                            </Typography>
+                        </Link>
+                    </div>
+                    <div className="time">
+                        {moment(new Date(comment.created_at)).fromNow()}
+                    </div>
+                    <div>
+                        <DeleteCommentButton
+                            key={"DeleteCommentButton" + comment.comment_id}
+                            commentId={comment.comment_id}
+                            deletePermission={this.state.deletePermission}
+                            handleDelete={this.handleDelete}
+                        />
+                    </div>
                 </div>
-                <div className="time">
-                    {moment(new Date(comment.created_at)).fromNow()}
+                <div style={{
+                    marginLeft: "50px",
+                }}>
+                    <Typography>
+                        {comment.content}
+                    </Typography>
                 </div>
             </div>
-            <div style={{
-                marginLeft: "50px",
-            }}>
-                <Typography>
-                    {comment.content}
-                </Typography>
-            </div>
-        </div>
-    );
+        );
+    }
 }
+
 export default Comment;
