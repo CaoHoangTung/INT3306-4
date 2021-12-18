@@ -22,9 +22,9 @@ function MainNavBar() {
                             alt="logo"
                         />
                     </Link>
+                    <Search />
                     <div className="Main_NavBar_List">
                         <ul>
-                            <li><Search /></li>
                             <li>
                                 <BookmarksIcon 
                                     onClick={() => window.location.href = "/saved"}
