@@ -54,6 +54,9 @@
     }
 }
 .RightSection {
+    position: sticky;
+    z-index: 10;
+    top: 0;
     .RecommendedTopic {
         display: flex;
         flex-direction: column;
