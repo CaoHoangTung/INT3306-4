@@ -30,6 +30,11 @@
         height: 80px;
     }
 }
+@media only screen and (max-width: 1024px) {
+    .LeftSection {
+        border-right: none !important;
+    }
+}
 .LeftSection {
     border-right: 1px solid rgba(230, 230, 230, 1);
     padding: 0px;
