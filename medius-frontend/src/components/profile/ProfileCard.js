@@ -4,51 +4,7 @@ import { Card, CardContent, CardMedia, Avatar, Typography, Grid } from '@mui/mat
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import PeopleIcon from '@mui/icons-material/People';
 import FollowButton from './FollowButton';
-import { withStyles } from '@mui/styles';
-
-// A custom theme for this app
-// const theme = createTheme({
-//     palette: {
-//         primary: {
-//             main: "#556cd6",
-//         },
-//         secondary: {
-//             main: "#19857b",
-//         },
-//         error: {
-//             main: red.A400,
-//         },
-//         background: {
-//             default: "#fff",
-//             card: "#fff",
-//         },
-//     },
-// });
-
-const styles = theme => ({
-    // text: {
-    //     margin: theme.spacing(0, 0, 0.5),
-    //     color: theme.palette.secondary.contrastText,
-    // },
-    // avatar: {
-    //     verticalAlign: "middle",
-    // },
-    // large: {
-    //     width: theme.spacing(12),
-    //     height: theme.spacing(12),
-    //     margin: theme.spacing(2, 2, 0),
-    // },
-    // pcard: {
-    //     borderRadius: 15,
-    //     maxWidth: "270px",
-    //     minWidth: "270px",
-    //     height: "330px",
-    //     backgroundColor: theme.palette.background.card,
-    // },
-    // cardContent: {
-    //     padding: theme.spacing(2, 0, 0, 0),
-    // },
-});
+import BlockButton from './BlockButton';
 
 class ProfileCard extends React.Component {
     constructor(props) {
@@ -56,7 +12,7 @@ class ProfileCard extends React.Component {
     }
 
     render() {
-        const { author, classes } = this.props;
+        const { author } = this.props;
         return (
             <Grid item xs={12}>
                 <Card
@@ -79,9 +35,8 @@ class ProfileCard extends React.Component {
                             }}
                         />
                     </CardMedia>
-                    <CardContent className={classes.cardContent}>
+                    <CardContent>
                         <Typography
-                            className={classes.text}
                             color="textSecondary"
                             variant="h6"
                             align="center"
@@ -89,16 +44,14 @@ class ProfileCard extends React.Component {
                             {author?.first_name} {author?.last_name}
                         </Typography>
                         <Typography
-                            className={classes.text}
                             color="textSecondary"
                             variant="subtitle1"
                             align="center"
                         >
-                            <LocalPostOfficeIcon className={classes.avatar} fontSize="small" />
+                            <LocalPostOfficeIcon fontSize="small" />
                             {author.email}
                         </Typography>{" "}
                         <Typography
-                            className={classes.text}
                             color="textSecondary"
                             variant="subtitle1"
                             align="center"
@@ -108,16 +61,20 @@ class ProfileCard extends React.Component {
                                 setIsFollowing={this.props.setIsFollowing}
                                 isOwner={this.props.isOwner}
                                 userId={author.user_id}
-
+                            />
+                            <BlockButton
+                                isBlocking={this.props.isBlocking}
+                                setIsBlocking={this.props.setIsBlocking}
+                                isOwner={this.props.isOwner}
+                                userId={author.user_id}
                             />
                         </Typography>{" "}
                         <Typography
-                            className={classes.text}
                             color="textSecondary"
                             variant="subtitle1"
                             align="center"
                         >
-                            <PeopleIcon className={classes.avatar} fontSize="small"
+                            <PeopleIcon fontSize="small"
                                         sx = {{marginTop:1}}
                             />
                             {author.num_followers} Followers
@@ -129,4 +86,4 @@ class ProfileCard extends React.Component {
     }
 }
 
-export default withStyles(styles)(ProfileCard);
+export default ProfileCard;

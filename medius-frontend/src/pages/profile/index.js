@@ -16,6 +16,7 @@ function Profile(props) {
     const [author, setAuthor] = useState({});
     const [isOwner, setIsOwner] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [isBlocking, setIsBlocking] = useState(false);
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -31,6 +32,11 @@ function Profile(props) {
                                 setIsFollowing(true);
                             } else {
                                 setIsFollowing(false);
+                            }
+                            if (data.is_blocking === true) {
+                                setIsBlocking(true);
+                            } else {
+                                setIsBlocking(false);
                             }
                         })
                 }
@@ -63,6 +69,8 @@ function Profile(props) {
                                 author={author}
                                 isFollowing={isFollowing}
                                 setIsFollowing={setIsFollowing}
+                                isBlocking={isBlocking}
+                                setIsBlocking={setIsBlocking}
                                 isOwner={isOwner}
                                 />
                         </Grid>
