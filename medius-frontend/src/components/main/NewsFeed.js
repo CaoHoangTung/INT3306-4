@@ -15,7 +15,11 @@ class NewsFeed extends React.Component {
             sort_by_upvotes: this.props.sort_by_upvotes,
             page: 0,
             limit: this.props.limit,
+            has_more: true,
         };
+    }
+
+    componentDidMount() {
         this.fetchMoreData();
     }
 
@@ -28,6 +32,11 @@ class NewsFeed extends React.Component {
                 posts: this.state.posts.concat(newPosts),
                 page: this.state.page + 1,
             });
+            if (newPosts.length === 0) {
+                this.setState({
+                    has_more: false,
+                });
+            }
         })
     }
 
@@ -36,7 +45,7 @@ class NewsFeed extends React.Component {
             <InfiniteScroll
                 dataLength={this.state.posts.length}
                 next={this.fetchMoreData}
-                hasMore={true}
+                hasMore={this.state.has_more}
                 loader={<h4>Loading...</h4>}
                 endMessage={
                     <p style={{ textAlign: "center" }}>
