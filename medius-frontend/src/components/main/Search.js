@@ -56,7 +56,7 @@ class Search extends React.Component {
     }
 
     formatResult(result) {
-        return <p>{result.slice(0,10)}</p>
+        return <p>{result.slice(0,30)}</p>
     }
 
     render() {
