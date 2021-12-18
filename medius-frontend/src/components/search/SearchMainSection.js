@@ -2,6 +2,8 @@ import { Container, Typography } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import React from 'react';
 import MediumPosts from "../home/PostPreview.js";
+import UserIntro from "../home/UserIntro";
+import Topic from "../shared/Topic.js";
 
 function MainSection(props) {
     return (
@@ -34,18 +36,49 @@ function MainSection(props) {
                     </div>
                 </Grid>
                 <Grid item xs={4}>
-                    {/* <div className="RightSection">
+                    <div className="RightSection">
                         <Container>
                             <Grid container>
                             <Grid item xs={8}>
-                            <RecommendedTopics/>
+                            <div className="RecommendedTopic">
+                                <Typography variant="h5" gutterBottom>
+                                    Topics Search Results
+                                </Typography>
+                                <div className="RecommendedTopic_Container">
+                                    {props.topics.map(topic => (
+                                        <Topic
+                                            key={topic.topic_id}
+                                            topicId={topic.topic_id}
+                                            topicName={topic.topic_name}
+                                        />
+                                    )
+                                    )}
+                                </div>
+                            </div>
                             </Grid>
                             <Grid item xs={8}>
-                            <WhoToFollow/>
+                            <div className="WhoToFollow">
+                                <Typography variant="h5" gutterBottom>
+                                    User Search Results
+                                </Typography>
+                                <div className="WhoToFollow_Container">
+                                    {props.users.map((user, idx) => {
+                                        return (
+                                            <UserIntro
+                                                key={idx}
+                                                author={`${user.first_name} ${user.last_name}`}
+                                                image={user.avatar_path}
+                                                description={`${user.num_followers} followers`}
+                                                link={`/profile/${user.user_id}`}
+                                            />
+                                        )
+                                    })}
+                                </div>
+                            </div>
                             </Grid>
                             </Grid>
                         </Container>
-                    </div> */}
+                    </div>
                 </Grid>
             </Grid>
             </Container>
