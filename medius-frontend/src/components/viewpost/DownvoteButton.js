@@ -4,7 +4,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { downvotePost, undownvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { NotificationManager } from 'react-notifications';
-
+import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
 class DownvoteButton extends React.Component {
     constructor(props) {
         super(props);
@@ -45,8 +45,8 @@ class DownvoteButton extends React.Component {
                 badgeContent={ this.state.numDownvotes }
                 showZero
             >
-                <ThumbDownIcon
-                color={this.props.isDownvoted ? "primary" : "inherit"}
+                <ArrowCircleDownTwoToneIcon
+                color={this.props.isDownvoted ? "warning" : "inherit"}
                 onClick={this.handleDownvote}
                 />
             </Badge>

@@ -81,7 +81,7 @@ export default function AccountMenu() {
                     <Avatar /> Write a story
                 </MenuItem>
                 <Divider />
-                <MenuItem>
+                <MenuItem onClick={event => window.location.href = '/setting'}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>

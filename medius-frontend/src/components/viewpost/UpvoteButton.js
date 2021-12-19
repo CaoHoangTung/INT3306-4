@@ -4,7 +4,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { upvotePost, unupvotePost } from "../../api/post_functions";
 import { getCurrentUser } from "../../utils/auth";
 import { NotificationManager } from 'react-notifications';
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 class UpvoteButton extends React.Component {
     constructor(props) {
         super(props);
@@ -45,8 +46,8 @@ class UpvoteButton extends React.Component {
                 badgeContent={ this.state.numUpvotes }
                 showZero
             >
-                <FavoriteIcon
-                    color={this.props.isUpvoted ? "primary" : "inherit"}
+                <ArrowCircleUpTwoToneIcon
+                    color={this.props.isUpvoted ? "success" : "inherit"}
                     onClick={this.handleUpvote}
                 />
             </Badge>

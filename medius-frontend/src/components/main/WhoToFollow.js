@@ -17,9 +17,9 @@ function WhoToFollow() {
 
     return (
         <div className="WhoToFollow">
-            <p>
+            <b>
                 Who to follow
-            </p>
+            </b>
             <div className="WhoToFollow_Container">
                 {users.map((user, idx) => {
                     return (
