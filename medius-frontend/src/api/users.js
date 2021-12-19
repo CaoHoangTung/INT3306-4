@@ -49,7 +49,7 @@ export async function deleteUser(user_id) {
 export async function searchUsers(searched_text) {
     const response = await API.get(`users/search`, {
         params: {
-            searched_text: searched_text
+            text: searched_text
         }
     });
     return response?.data;
