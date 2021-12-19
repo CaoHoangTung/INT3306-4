@@ -24,7 +24,7 @@ function Saved(props) {
                     <div className="LeftSection">
                         <Container>
                         <SavedFeed
-                            user_id={getCurrentUser()}
+                            user_id={null}
                             topic_ids={[]}
                             sort_by_upvotes={false}
                             page={0}
