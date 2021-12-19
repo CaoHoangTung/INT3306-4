@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, Union, List
 
-from sqlalchemy import asc
+from sqlalchemy import asc, and_, or_
 from sqlalchemy.orm import Session
 
 from  sqlalchemy.sql.expression import func
@@ -98,7 +98,18 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             role_name = matched_role.role_name
         
         return role_name == "admin"
-        
 
+
+    def search(self, db: Session, text: str) -> List: 
+        users = db.query(User).filter( or_(\
+            User.email.like(str("%" + text + "%")), \
+            func.concat(User.first_name, ' ', User.last_name).like(str("%" + text + "%"))) )\
+            .all()    
+
+        # res = "%" + text + "%"
+        # users = db.query(User).filter(User.email.like(str("%" + text + "%"))).all()
+        # users = db.query(User).filter(User.email.like(str())).all()
+
+        return users 
 
 user = CRUDUser(User)
