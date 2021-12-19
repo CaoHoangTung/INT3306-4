@@ -31,7 +31,7 @@ class NewsFeed extends React.Component {
                 posts: this.state.posts.concat(newPosts),
                 page: this.state.page + 1,
             });
-            if (newPosts.length === 0) {
+            if (newPosts.length < limit) {
                 this.setState({
                     has_more: false,
                 });
