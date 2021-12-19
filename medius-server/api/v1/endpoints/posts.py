@@ -30,7 +30,45 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         query = query.outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids))
     
         if user_id:
-            query = query.group_by(models.Post.post_id)
+            query = query.filter(models.Post.user_id == user_id)
+    elif user_id:
+        query = query.filter(models.Post.user_id == user_id)
+    else:
+        pass
+    
+    if sort_by_upvote: 
+        query = query.order_by(models.Post.upvote.desc())
+        
+    query = query.order_by(models.Post.created_at.desc())
+    
+    if limit:
+        query = query.limit(limit).offset(offset)
+
+    results = query.all()
+
+    if not isinstance(results, List):
+        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    schemas_posts = []
+    for post, user in results: 
+        schemas_post = schemas.Post.from_orm(post)
+        schemas_post.user_detail = user
+        schemas_posts.append(schemas_post)
+    return schemas_posts
+
+@router.get("/saved-posts", response_model=List[schemas.Post])
+def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(10)) -> Any:
+    """
+    Get saved posts of current users
+    """
+    query = db.query(models.Post, models.User)
+    query = query.join(models.User, models.User.user_id == models.Post.user_id)
+    query = query.join(models.UserPostRelation, and_(models.UserPostRelation.is_saved == True, models.UserPostRelation.post_id == models.Post.post_id))
+    if topic_ids:
+        query = query.outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids))
+    
+        if user_id:
+            query = query.filter(models.Post.user_id == user_id)
     elif user_id:
         query = query.filter(models.Post.user_id == user_id)
     else:
@@ -56,22 +94,18 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
     return schemas_posts
-
-@router.get("/saved-posts", response_model=List[schemas.Post])
-def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-    "Get saved posts of current users"
-    posts = crud.post.get_saved_post_by_user_id(db=db, user_id=current_user.user_id)
+    # posts = crud.post.get_saved_post_by_user_id(db=db, user_id=current_user.user_id)
     
-    if not isinstance(posts, List):
-        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+    # if not isinstance(posts, List):
+    #     raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
-    schemas_posts = []
-    for post in posts: 
-        schemas_post = schemas.Post.from_orm(post)
-        schemas_post.get_user_detail(db=db)
-        schemas_posts.append(schemas_post)
+    # schemas_posts = []
+    # for post in posts: 
+    #     schemas_post = schemas.Post.from_orm(post)
+    #     schemas_post.get_user_detail(db=db)
+    #     schemas_posts.append(schemas_post)
             
-    return schemas_posts    
+    # return schemas_posts    
 
 
 @router.get("/view/{post_id}", response_model=schemas.Post)
@@ -215,3 +249,11 @@ def delete_post(db: Session = Depends(deps.get_db), current_user: models.User = 
 
     crud.post.truncate(db=db)
     return None
+
+@router.get("/suggest", response_model=List[schemas.Post]) 
+def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    Get list of suggestible posts 
+    """
+    
+    

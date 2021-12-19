@@ -14,6 +14,8 @@ from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.user import UserCreate, UserDelete, UserUpdate
 
+import requests
+
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.User])
@@ -96,6 +98,10 @@ def create_user(db: Session = Depends(deps.get_db), *, creating_user: UserCreate
     if is_user and not is_admin:
         raise HTTPException(status_code=400, detail=msg.INVALID_USER_ID)
 
+    # get an random avatar 
+    if not creating_user.avatar_path:
+        creating_user.avatar_path = "https://avatars.dicebear.com/api/human/" + str(creating_user.email) + ".svg"
+
     try:
         user = crud.user.create(
             db=db, 
@@ -139,3 +145,18 @@ def delete_user(db: Session = Depends(deps.get_db), deleting_user: UserDelete = 
     if not user:
         raise HTTPException(status_code=404, detail=msg.INVALID_USER_ID)
     return user
+
+
+@router.get("/search", response_model=List[schemas.User]) 
+def search_user(db: Session = Depends(deps.get_db), text: str = Query(""), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    """
+    search user by text 
+    """ 
+    users = crud.user.search(
+        db=db, 
+        text=text 
+    )
+    if not isinstance(users, List):
+        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    return users
