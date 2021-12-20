@@ -19,7 +19,7 @@ from schemas.notification import Notification, NotificationCreate, NotificationD
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Notification])
-def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_admin), user_detail: bool = Query(None), unseen_filter: bool = Query(None)) -> Any:
+def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_admin), user_detail: bool = Query(None), unseen_filter: bool = Query(None), offset: int = Query(0), limit: int = Query(10)) -> Any:
     """
     Get all notifications 
     """
@@ -35,11 +35,11 @@ def get_all(db: Session = Depends(deps.get_db), current_user: models.User = Depe
             schemas_notification.get_user_1_detail(db=db)
         schemas_notifications.append(schemas_notification)
             
-    return schemas_notifications
+    return schemas_notifications[offset:offset+limit]
 
 
 @router.get("/view-by-user-id-1/{user_id}", response_model=List[schemas.Notification])
-def view_by_user_id_1(db: Session = Depends(deps.get_db), user_id: str = None, unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def view_by_user_id_1(db: Session = Depends(deps.get_db), user_id: str = None, unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_admin), offset: int = Query(0), limit: int = Query(10)) -> Any:
     """
     Get all notifications with user_id 
     """
@@ -55,11 +55,11 @@ def view_by_user_id_1(db: Session = Depends(deps.get_db), user_id: str = None, u
             schemas_notification.get_user_1_detail(db=db)
         schemas_notifications.append(schemas_notification)
             
-    return schemas_notifications
+    return schemas_notifications[offset:offset+limit]
 
 
 @router.get("/view-by-user-id-2", response_model=List[schemas.Notification])
-def view_by_user_id_2(db: Session = Depends(deps.get_db), unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def view_by_user_id_2(db: Session = Depends(deps.get_db), unseen_filter: bool = None, user_detail: bool = Query(None), current_user: models.User = Depends(deps.get_current_user), offset: int = Query(0), limit: int = Query(10)) -> Any:
     """
     Get all notifications with user_id 
     """

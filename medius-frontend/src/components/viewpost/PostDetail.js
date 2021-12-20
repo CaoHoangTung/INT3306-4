@@ -49,10 +49,9 @@ export default function PostDetail(props) {
     const [postTopics, setPostTopics] = useState([]);
     useEffect(() => {
         getPostTopicByPostId(props.postId).then(postTopics => {
-            console.log(postTopics);
+            console.log("TOPICS", postTopics);
             setPostTopics(postTopics);
         }).catch(err => console.error(err));
-        console.log("POST", post, props.postId)
     }, [props.postId]);
 
     return (
@@ -99,12 +98,13 @@ export default function PostDetail(props) {
                 {postTopics.map(postTopic => (
                     <Topic
                         key={"Topic" + postTopic.topic_id}
-                        topic={postTopic.topic_id}
-                        link={`/topic/${postTopic.topic_id}`}
+                        topicId={postTopic.topic_id}
+                        topicName={postTopic.topic_name}
                     />
                 )
                 )}
             </div>
+            <br />
             <div className="react">
                 <div className="vote">
                     {/* <div style={{

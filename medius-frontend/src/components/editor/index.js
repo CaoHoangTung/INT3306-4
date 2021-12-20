@@ -11,6 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MainNavBar from "../main/MainNavBar.js";
 import { uploadFile } from "../../api/file.js";
 import htmlToDraft from 'html-to-draftjs';
+import TopicSelector from "./TopicSelector";
+import { getAllTopics } from "../../api/topic";
+import { getPostTopicByPostId } from "../../api/posts_topic";
+import { setCredential } from "../../utils/auth";
 
 function WritePost({ editMode = false, postId = null }) {
 
@@ -19,22 +23,38 @@ function WritePost({ editMode = false, postId = null }) {
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
+    const [topicOptions, setTopicOptions] = useState([]);
+    const [selectedTopicOptionsId, setSelectedTopicOptionsId] = useState([]);
     const [creatingPost, setCreatingPost] = useState(false);
 
     useEffect(() => {
-        if (editMode) {
-            getPost(postId).then(post => {
-                setTitle(post.title);
-                setPreviewImagePath(post.preview_image_path);
+        setCreatingPost(true);
+        let p0, p1, p2;
+        p0 = getAllTopics()
+            .then(topics => {
+                setTopicOptions(topics);
+            });
 
-                const contentBlock = htmlToDraft(post.content);
-                if (contentBlock) {
-                    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                    const editorState = EditorState.createWithContent(contentState);
-                    setEditorState(editorState);
-                }
-            })
+        if (editMode) {
+            p1 = getPost(postId)
+                .then(post => {
+                    setTitle(post.title);
+                    setPreviewImagePath(post.preview_image_path);
+
+                    const contentBlock = htmlToDraft(post.content);
+                    if (contentBlock) {
+                        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                        const editorState = EditorState.createWithContent(contentState);
+                        setEditorState(editorState);
+                    }
+                });
+            p2 = getPostTopicByPostId(postId)
+                .then(topics => setSelectedTopicOptionsId(topics.map(topic => topic.topic_id)))
+
         }
+        Promise.all([p0, p1, p2]).then(() => {
+            setCreatingPost(false);
+        })
     }, []);
 
     const publish = (event) => {
@@ -44,15 +64,17 @@ function WritePost({ editMode = false, postId = null }) {
             title: title,
             content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             preview_image_path: previewImagePath,
-            cover_image_path: previewImagePath
+            cover_image_path: previewImagePath,
+            topic_ids: selectedTopicOptionsId
         }
 
         if (editMode) {
             post.post_id = postId;
+            console.log("UPDATE", post)
             updatePost(post)
                 .then(data => {
                     window.location.href = "/post/" + postId;
-                }).error(err => {
+                }).catch(err => {
                     alert("Error editing post");
                     console.error(err);
                 });
@@ -60,7 +82,7 @@ function WritePost({ editMode = false, postId = null }) {
             createPost(post)
                 .then(data => {
                     window.location.href = "/post/" + data.post_id;
-                }).error(err => {
+                }).catch(err => {
                     alert("Error creating post");
                     console.error(err);
                 });
@@ -93,7 +115,7 @@ function WritePost({ editMode = false, postId = null }) {
         <div>
             <MainNavBar />
             <Container>
-                <h1>Create new post</h1>
+                <h1>{editMode ? "Edit post" : "Create new post"}</h1>
                 <TextField
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -138,10 +160,11 @@ function WritePost({ editMode = false, postId = null }) {
                         },
                     }}
                 />
-                {/* <textarea
-                    disabled
-                    value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-                /> */}
+                <TopicSelector
+                    topicOptions={topicOptions}
+                    selectedTopicOptionsId={selectedTopicOptionsId}
+                    setSelectedTopicOptionsId={setSelectedTopicOptionsId}
+                />
 
                 <Button
                     type='submit'
