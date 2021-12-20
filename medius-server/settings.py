@@ -11,7 +11,8 @@ class Settings():
     
     FIRST_SUPERUSER: str = "vinbdi"
     FIRST_SUPERUSER_PASSWORD: str = "Vinbdi@2021"
-    SQLALCHEMY_DATABASE_URI: str = "mysql://root:uet@2021@165.22.106.61:3306/medius"
+    # SQLALCHEMY_DATABASE_URI: str = "mysql://root:uet@2021@165.22.106.61:3306/medius"
+    SQLALCHEMY_DATABASE_URI: str = "mysql://root:uet@2021@159.223.79.135:3306/medius"
 
     DOMAIN_NAME: str = "medius.tk"
     

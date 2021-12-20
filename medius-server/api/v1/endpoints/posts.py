@@ -1,8 +1,10 @@
 from datetime import timedelta
+from re import S
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from requests.api import post
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import user
 from sqlalchemy import func, and_
@@ -16,6 +18,7 @@ from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
 from schemas.post import PostCreate, PostDelete, PostUpdate
 from schemas.posttopic import PostTopicCreate
+import random 
 
 router = APIRouter()
 
@@ -51,6 +54,7 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
 
     schemas_posts = []
     for post, user in results: 
+        assert post.user_id == user.user_id
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
@@ -124,6 +128,7 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_us
     schemas_post.get_user_detail(db=db)
     return schemas_post
 
+
 @router.post("/create", response_model=schemas.Post)
 def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
@@ -133,8 +138,8 @@ def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = 
         post = crud.post.create(
             db=db, 
             obj_in=creating_post,
-            # user_id =  creating_post.user_id
-            user_id=current_user.user_id
+            user_id = creating_post.user_id
+            # user_id=current_user.user_id
         )
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.get_user_detail(db=db)
@@ -188,6 +193,7 @@ def delete_post(db: Session = Depends(deps.get_db), deleting_post: PostDelete = 
     
     return post
 
+
 # additional routers 
 @router.get("/search", response_model=List[schemas.Post]) 
 def search(db: Session = Depends(deps.get_db), *, searched_text: Optional[str] = Query(None), current_user: models.User = Depends(deps.get_current_user)) -> Any:
@@ -224,6 +230,7 @@ def search(db: Session = Depends(deps.get_db), *, searched_text: Optional[str] =
         schemas_posts.append(schemas_post)
     return schemas_posts    
 
+
 @router.get("/view-topics/{post_id}", response_model=List[schemas.Topic])
 def get_topic_title(db: Session = Depends(deps.get_db), *, post_id, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     post = crud.post.get_by_post_id(
@@ -241,6 +248,7 @@ def get_topic_title(db: Session = Depends(deps.get_db), *, post_id, current_user
 
     return topics 
 
+
 @router.delete("/truncate", response_model=schemas.Post)
 def delete_post(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_admin)) -> Any:
     """
@@ -250,10 +258,81 @@ def delete_post(db: Session = Depends(deps.get_db), current_user: models.User = 
     crud.post.truncate(db=db)
     return None
 
+
 @router.get("/suggest", response_model=List[schemas.Post]) 
 def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Get list of suggestible posts 
     """
+
+    # print(current_user.user_id)
+    schemas_posts = []
+
+    # post suggested from following user  
+    query = db.query(models.User, models.Post)
+    query = query.join(models.User, models.User.user_id == models.Post.user_id)
+    query = query.join(models.UserRelation, and_(
+        models.UserRelation.is_following == True,
+        models.UserRelation.user_id_1 == current_user.user_id,
+        models.UserRelation.user_id_2 == models.User.user_id))
+
+    results = query.all()
+    random.shuffle(results)
+
+    taken_post_id = []
+    for user, post in results: 
+        assert post.user_id == user.user_id
+        schemas_post = schemas.Post.from_orm(post)
+        schemas_post.user_detail = user
+        schemas_posts.append(schemas_post)
+
+        taken_post_id.append(int(post.post_id))
+
+    # post suggested from list liked topics
+    query = db.query(models.Topic, models.PostTopic) 
+    query = query.join(models.PostTopic, models.Topic.topic_id == models.PostTopic.topic_id)
+
+    query = query.join(models.UserPostRelation, and_(
+        models.PostTopic.post_id == models.UserPostRelation.post_id,
+        models.UserPostRelation.user_id == current_user.user_id,
+        models.UserPostRelation.is_upvote == True  
+    ))
+
+    liked_topics = []
+    for post, topic in query.all():
+        liked_topics.append(topic.topic_id)
+
+    query = db.query(models.User, models.Post)
+    query = query.join(models.User, models.User.user_id == models.Post.user_id)
+
+    query = query.join(models.PostTopic, and_(
+        models.Post.post_id == models.PostTopic.post_id, 
+        models.PostTopic.topic_id.in_(liked_topics),
+        models.Post.post_id.notin_(taken_post_id)
+    ))
+
+    results = query.all()
+    random.shuffle(results)
+    for user, post in results: 
+        assert post.user_id == user.user_id
+        schemas_post = schemas.Post.from_orm(post)
+        schemas_post.user_detail = user
+        schemas_posts.append(schemas_post)
     
+    return schemas_posts
+
+    # for user, post in query.all():
+
+    # query = db.query(models.Topic)
+    # query = query.join(models.PostTopic, models.PostTopic.topic_id == models.Topic.topic_id)
+    # # query = db.query(models.Topic, models.PostTopic).filter(models.PostTopic.topic_id == models.Topic.topic_id)
+    # query = query.join(models.UserPostRelation, and_(\
+    #     models.UserPostRelation.post_id == models.PostTopic.post_id,\
+    #     models.UserPostRelation.user_id == 9))
+
+    # schemas_topic = []
+    # for topic in query.all():
+    #     schemas_topic.append(topic)
+    
+    # return schemas_topic
     
