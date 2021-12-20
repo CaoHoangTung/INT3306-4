@@ -1,7 +1,6 @@
 :root {
     box-sizing: border-box;
 }
-
 .MainNavBar {
     display: flex;
     img {
@@ -30,6 +29,11 @@
         height: 80px;
     }
 }
+@media only screen and (max-width: 1024px) {
+    .LeftSection {
+        border-right: none !important;
+    }
+}
 .LeftSection {
     border-right: 1px solid rgba(230, 230, 230, 1);
     padding: 0px;
@@ -49,11 +53,18 @@
     }
 }
 .RightSection {
+    position: sticky;
+    z-index: 10;
+    top: 0;
     .RecommendedTopic {
         display: flex;
         flex-direction: column;
+        width: 100%;
+        height: 100%;
 
         .RecommendedTopic_Container {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;
@@ -124,4 +135,28 @@
         display: flex;
         align-items: center;
     }
+}
+.TopicContainer {
+    background-color: rgba(242, 242, 242, 1);
+    padding: 8px 16px;
+    border-radius: 100px;
+    margin: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    display: block;
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.TopicContainer:hover {
+    background-color: rgba(230, 230, 230);
+}
+a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+a:visited {
+    color: black;
+}
+a:link {
+    color: black;
 }

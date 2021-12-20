@@ -33,7 +33,7 @@ class SaveButton extends React.Component {
     render() {
         return(
             <BookmarkIcon
-            color={this.props.isSaved ? "primary" : "inherit"}
+            color={this.props.isSaved ? "success" : "inherit"}
             onClick={this.handleSave}
             >
             </BookmarkIcon>

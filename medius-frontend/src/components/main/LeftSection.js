@@ -3,7 +3,6 @@ import '../../pages/main/Main.scss'
 import NewsFeed from "./NewsFeed.js";
 import YourTopics from "./YourTopics.js";
 import React from 'react';
-import { getCurrentUser } from "../../utils/auth";
 function LeftSection() {
     return (
         <div className="LeftSection">

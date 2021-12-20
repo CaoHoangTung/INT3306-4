@@ -1,10 +1,9 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Link, Typography } from "@material-ui/core"
+import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
 import { login } from "../../api/login";
 const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(false);
     const [disabled, setDisabled] = useState(false);
 
     const btnstyle = { margin: '8px 0' }

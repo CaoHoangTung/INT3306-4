@@ -1,4 +1,3 @@
-import SearchBar from "material-ui-search-bar";
 import React from "react";
 import '../../pages/main/Main.scss'
 import { ReactSearchAutocomplete } from "react-search-autocomplete";

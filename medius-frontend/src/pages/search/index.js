@@ -1,5 +1,5 @@
 import MainNavBar from "../../components/main/MainNavBar.js";
-import MainSection from "../../components/search/SearchMainSection.js";
+import SearchMainSection from "../../components/search/SearchMainSection.js";
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { searchPosts } from "../../api/posts";
@@ -18,7 +18,8 @@ function Search(props) {
             setPosts(data);
         });
     }, [queryString]);
-
+    
+    console.log(users);
     useEffect(() => {
         searchUsers(queryString)
         .then(data => {
@@ -36,7 +37,7 @@ function Search(props) {
     return (
         <div className="Search">
             <MainNavBar />
-            <MainSection 
+            <SearchMainSection 
                 queryString={queryString}
                 posts={posts}
                 topics={topics}

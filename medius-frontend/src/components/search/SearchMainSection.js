@@ -5,7 +5,7 @@ import MediumPosts from "../home/PostPreview.js";
 import UserIntro from "../home/UserIntro";
 import Topic from "../shared/Topic.js";
 
-function MainSection(props) {
+function SearchMainSection(props) {
     return (
         <div className="MainSection_Container">
             <Container>
@@ -85,4 +85,4 @@ function MainSection(props) {
         </div>
     );
 }
-export default MainSection;
+export default SearchMainSection;

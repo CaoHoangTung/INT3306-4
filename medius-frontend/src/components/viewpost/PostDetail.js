@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Button from "@mui/material/Button";
 import { Avatar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Link } from "@material-ui/core";
@@ -14,7 +13,7 @@ import CommentBox from '../shared/CommentBox';
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 import { getPostTopicByPostId } from "../../api/posts_topic";
-
+import Clap from './Clap';
 export default function PostDetail(props) {
     const post = props.post;
     const [isSaved, setIsSaved] = useState(false);
@@ -108,7 +107,7 @@ export default function PostDetail(props) {
             <br />
             <div className="react">
                 <div className="vote">
-                    <div style={{
+                    {/* <div style={{
                         marginRight: "30px",
                     }}>
                         <UpvoteButton
@@ -119,8 +118,8 @@ export default function PostDetail(props) {
                             className="upvote"
                             fontSize="large"
                         ></UpvoteButton>
-                    </div>
-                    <div style={{
+                    </div> */}
+                    {/* <div style={{
                         marginRight: "30px",
                     }}>
                         <DownvoteButton
@@ -131,6 +130,9 @@ export default function PostDetail(props) {
                             className="downvote"
                             fontSize="large"
                         ></DownvoteButton>
+                    </div> */}
+                    <div>
+                        <Clap/>
                     </div>
                 </div>
             </div>

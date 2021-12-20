@@ -1,6 +1,6 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import { Box, Menu, Badge } from "@mui/material";

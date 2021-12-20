@@ -5,7 +5,7 @@ import '../../pages/main/Main.scss'
 import ProfileMenu from "./AccountMenu.js";
 import NotificationsBox from "./NotificationsBox.js";
 import React from 'react';
-import logo from '../../test.png'
+import logo from '../../mediusLogo.png'
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 

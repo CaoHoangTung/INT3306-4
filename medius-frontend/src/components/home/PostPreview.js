@@ -3,7 +3,6 @@ import StarIcon from "@material-ui/icons/Star";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router";
 const MediumPosts = (props) => {
     const mustLoginFirst = !!props?.mustLoginFirst;
     const postUrl = mustLoginFirst ? "/" : `/post/${props.postId}`;

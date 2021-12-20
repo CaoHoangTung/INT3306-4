@@ -1,10 +1,11 @@
 import MediumPosts from "../home/PostPreview.js";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../pages/main/Main.scss'
-import { getPosts } from "../../api/posts.js";
+import { getSavedPosts } from "../../api/posts.js";
+import { getUser } from "../../api/users.js";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-class NewsFeed extends React.Component {
+class SavedFeed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,14 +18,14 @@ class NewsFeed extends React.Component {
             has_more: true,
         };
     }
-
+    
     componentDidMount() {
         this.fetchMoreData();
     }
 
     fetchMoreData = async () => {
         var { _, user_id, topic_ids, sort_by_upvotes, page, limit } = this.state;
-        await getPosts(
+        await getSavedPosts(
             user_id, topic_ids, sort_by_upvotes, page, limit
         ).then(newPosts => {
             this.setState({
@@ -70,4 +71,4 @@ class NewsFeed extends React.Component {
     }
 }
 
-export default NewsFeed;
+export default SavedFeed;

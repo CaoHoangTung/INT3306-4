@@ -9,7 +9,7 @@ import draftToHtml from 'draftjs-to-html';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
 import MainNavBar from "../main/MainNavBar.js";
-import { convertFileToBase64, uploadFile } from "../../api/file.js";
+import { uploadFile } from "../../api/file.js";
 import htmlToDraft from 'html-to-draftjs';
 import TopicSelector from "./TopicSelector";
 import { getAllTopics } from "../../api/topic";

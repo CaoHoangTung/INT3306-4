@@ -18,7 +18,6 @@ import TopicManager from "./pages/admin/TopicManager";
 import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
 import ViewSearch from "./pages/search/view_search";
-import { BASE_API_PATH } from "./api/api";
 import EditPost from "./pages/editpost";
 
 

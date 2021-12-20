@@ -18,7 +18,7 @@ function RecommendedTopics() {
     return (
         <div className="RecommendedTopic">
             <p>
-                Recommended topics
+                <b>Recommended topics</b>
             </p>
             <div className="RecommendedTopic_Container">
                 {topics.map(topic => (

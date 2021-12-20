@@ -12,7 +12,7 @@ const LoginModal = props => {
             <div className="modal" onClick={props.onClose}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
                     <div className="modal-header">
-                        <h4 className="modal-title " id='model-header'>Login</h4>
+                        <h4 className="modal-title " id='model-header'>Join Medius</h4>
                     </div>
                     <div className="modal-body">
                         <Login setIsLogin={props.setIsLogin} />
@@ -31,7 +31,7 @@ const LoginModal = props => {
             <div className="modal" onClick={props.onClose}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
                     <div className="modal-header">
-                        <h4 className="modal-title " id='model-header'>Sign Up</h4>
+                        <h4 className="modal-title " id='model-header'>Join Medius</h4>
                     </div>
                     <div className="modal-body">
                         <SignUp setIsLogin={props.setIsLogin} />
