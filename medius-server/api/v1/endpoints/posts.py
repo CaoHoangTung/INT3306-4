@@ -138,8 +138,8 @@ def create_post(db: Session = Depends(deps.get_db), creating_post: PostCreate = 
         post = crud.post.create(
             db=db, 
             obj_in=creating_post,
-            user_id = creating_post.user_id
-            # user_id=current_user.user_id
+            # user_id = creating_post.user_id
+            user_id=current_user.user_id
         )
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.get_user_detail(db=db)
