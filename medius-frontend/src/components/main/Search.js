@@ -1,7 +1,10 @@
 import React from "react";
 import '../../pages/main/Main.scss'
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import { Avatar } from '@material-ui/core';
+import UserIntro from "../home/UserIntro";
 import { searchPosts } from "../../api/posts";
+import { searchUsers } from "../../api/users";
 
 class Search extends React.Component {
     constructor(props) {
@@ -14,12 +17,14 @@ class Search extends React.Component {
 
     async fetchResults() {
         const queryString = this.state.searchText;
-        await searchPosts(queryString)
+        await searchUsers(queryString)
         .then(data => {
+            console.log(data);
             this.setState({
-                results: data.map(post => ({
-                    id: post.post_id,
-                    name: post.title,
+                results: data.map(user => ({
+                    id: user.user_id,
+                    name: user.first_name + " " + user.last_name,
+                    avatar: user.avatar_path
                 })),
             });
         });
@@ -42,7 +47,7 @@ class Search extends React.Component {
     }
 
     handleOnSelect(item) {
-        window.location.href = `/post/${item.id}`;
+        window.location.href = `/profile/${item.id}`;
         console.log(item);
     }
 
@@ -55,7 +60,20 @@ class Search extends React.Component {
     }
 
     formatResult(result) {
-        return <p>{result.slice(0,30)}</p>
+        const user = this.state.results.filter(user => user.name === result)[0];
+        if (user.id === "0") {
+            return (
+                <p>{result}</p>
+            )
+        } else {
+            return (
+                <UserIntro
+                    author={user.name}
+                    image={user.avatar}
+                    link={`/profile/${user.id}`}
+                />
+            )
+        }
     }
 
     render() {
@@ -78,7 +96,7 @@ class Search extends React.Component {
                     onFocus={() => this.handleOnFocus()}
                     onClear={() => this.handleOnClear()}
                     styling={{ zIndex: 2 }} 
-                    autoFocus
+                    // autoFocus
                     formatResult={(item) => this.formatResult(item)}
                 />
             </div>
