@@ -59,7 +59,7 @@ function WritePost({ editMode = false, postId = null }) {
         } else {
             createPost(post)
                 .then(data => {
-                    window.location.href = "/post/" + data.postId;
+                    window.location.href = "/post/" + data.post_id;
                 }).error(err => {
                     alert("Error creating post");
                     console.error(err);
