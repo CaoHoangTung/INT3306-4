@@ -3,6 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import moment from "moment";
 import { Link } from '@mui/material';
 import { updateNotification } from '../../api/notifications';
+import { Card } from '@material-ui/core';
 
 class Notification extends React.Component {
   constructor(props) {
@@ -13,12 +14,15 @@ class Notification extends React.Component {
 
   }
 
-  handleClick = async () => {
+  handleClick = async (link) => {
     var new_notif = {
       notification_id: this.props.notif.notification_id,
       is_seen: true
     }
-    await updateNotification(new_notif);
+    await updateNotification(new_notif)
+    .then(data => {
+      window.location.href = link;
+    });
   };
 
 
@@ -43,26 +47,25 @@ class Notification extends React.Component {
     }
     
     return (
-        <Link 
-          href={link} 
-          color="inherit" 
-          underline="none"
-          onClick={this.handleClick}
-        >
-          <div className="notificationContent">
-            <div className="left">
-                <div>
-                  <Avatar
-                      src={user_1_detail?.avatar_path}
-                  />
-                </div>
-                <p>{text}</p>
-            </div>
-            <div className="time">
-                {moment(new Date(notif.created_at)).fromNow()}
-            </div>
-        </div>
-      </Link>
+        <Card
+          href={link}
+          style={{backgroundColor: notif.is_seen ? "#ffffff" : "#b8bfbf"}}
+          onClick={(e) => this.handleClick(link)}
+          >
+            <div className="notificationContent">
+              <div className="left">
+                  <div>
+                    <Avatar
+                        src={user_1_detail?.avatar_path}
+                        />
+                  </div>
+                  <p>{text}</p>
+              </div>
+              <div className="time">
+                  {moment(new Date(notif.created_at)).fromNow()}
+              </div>
+          </div>
+        </Card>
       )
   }
 }
