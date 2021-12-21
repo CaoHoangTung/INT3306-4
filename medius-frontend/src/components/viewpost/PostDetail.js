@@ -65,7 +65,7 @@ export default function PostDetail(props) {
                 <div className="first">
                     <Avatar
                         alt="username"
-                        src={props.author_avatar}
+                        src={props.avatar_path}
                         sx={{ marginRight: 2, marginBottom: 1 }}
                     />
                     <Link href={"/profile/" + props.author_id}>

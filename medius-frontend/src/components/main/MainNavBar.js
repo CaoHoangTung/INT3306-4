@@ -8,8 +8,24 @@ import React from 'react';
 import logo from '../../mediusLogo.png'
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { getUser } from "../../api/users.js";
+import { getCurrentUser } from "../../utils/auth.js";
 
 function MainNavBar() {
+    const [user, setUser] = React.useState({});
+
+    React.useEffect(() => {
+        getUser(getCurrentUser())
+        .then(user => {
+            setUser(user);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }, []);
+
+    console.log(user);
+
     return (
         <div className="MainNavBar">
             <NotificationContainer />
@@ -31,7 +47,7 @@ function MainNavBar() {
                                 />
                             </li>
                             <li><NotificationsBox/></li>
-                            <li><ProfileMenu/></li>
+                            <li><ProfileMenu user={user}/></li>
                         </ul>
                     </div>
                 </div>
