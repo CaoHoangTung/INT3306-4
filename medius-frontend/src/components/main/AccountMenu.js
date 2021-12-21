@@ -17,7 +17,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
 import { Link } from "react-router-dom";
 
-export default function AccountMenu() {
+export default function AccountMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -32,7 +32,7 @@ export default function AccountMenu() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                        <Avatar sx={{ width: 32, height: 32 }}>{getLocalCredential().first_name[0]}</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }} src={props.user.avatar_path}/>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -72,13 +72,13 @@ export default function AccountMenu() {
             >
                 <Link to="/my-profile" style={{ textDecoration: "none", color: "inherit" }}>
                     <MenuItem>
-                        <Avatar /> My Profile
+                        <Avatar src={props.user.avatar_path}/> My Profile
                     </MenuItem>
                 </Link>
 
 
                 <MenuItem onClick={event => window.location.href = '/new-story'}>
-                    <Avatar /> Write a story
+                    <Avatar src={props.user.avatar_path}/> Write a story
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={event => window.location.href = '/setting'}>

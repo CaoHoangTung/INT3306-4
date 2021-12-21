@@ -68,7 +68,7 @@ function ViewPost(props) {
                                     <PostDetail
                                         key={"PostDetail" + post?.post_id}
                                         author_name={author?.first_name + " " + author?.last_name}
-                                        author_avatar="https://picsum.photos/seed/picsum/200/300"
+                                        avatar_path={author.avatar_path}
                                         author_id={post?.user_id}
                                         post={post}
                                         isOwner={isOwner}

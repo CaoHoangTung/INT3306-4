@@ -51,7 +51,7 @@ export default function PostInProfile(props) {
             </Link>
             <div className="author">
                 <div className="first">
-                    <Avatar alt="username" src={props.author_avatar} />
+                    <Avatar alt="username" src={props.avatar_path} />
                     <Link>{props.author_name}</Link>
                 </div>
                 <div className="second">

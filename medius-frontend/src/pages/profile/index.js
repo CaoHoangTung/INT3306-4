@@ -79,7 +79,7 @@ function Profile(props) {
                                 <PostInProfile
                                     key={"PostInProfile" + post.post_id}
                                     author_name={author.first_name + " " + author.last_name}
-                                    author_avatar="https://picsum.photos/seed/picsum/200/300"
+                                    avatar_path={author.avatar_path}
                                     post={post}
                                     isOwner={isOwner}
                                     />

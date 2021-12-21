@@ -29,6 +29,9 @@ export async function getUserByEmail(email) {
 }
 
 export async function createUser(user) {
+    if (user.avatar_path == null) {
+        user.avatar_path = `https://avatars.dicebear.com/api/adventurer-neutral/${user.email}.svg`
+    }
     const response = await API.post("/users/create", user);
     return response?.data;
 }
