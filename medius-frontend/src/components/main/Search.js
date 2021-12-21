@@ -15,9 +15,9 @@ class Search extends React.Component {
         }
     }
 
-    async fetchResults() {
+    fetchResults() {
         const queryString = this.state.searchText;
-        await searchUsers(queryString)
+        searchUsers(queryString)
         .then(data => {
             console.log(data);
             this.setState({
@@ -30,15 +30,15 @@ class Search extends React.Component {
         });
     }
 
-    async handleChange(value) {
+    handleChange(value) {
         this.setState({
             searchText: value
         });
-        await this.fetchResults();
+        this.fetchResults();
     }
 
     async handleOnSearch(string, results) {
-        await this.handleChange(string);
+        this.handleChange(string);
         console.log(results);
     };
 
@@ -60,19 +60,18 @@ class Search extends React.Component {
     }
 
     formatResult(result) {
-        const user = this.state.results.filter(user => user.name === result)[0];
-        if (user.id === "0") {
-            return (
-                <p>{result}</p>
-            )
+        const tmp = this.state.results.filter(user => user.name === result);
+        if (tmp.length === 0) {
+            return result;
         } else {
+            const user = tmp[0];
             return (
                 <UserIntro
                     author={user.name}
                     image={user.avatar}
                     link={`/profile/${user.id}`}
                 />
-            )
+            );
         }
     }
 
