@@ -23,10 +23,10 @@ class UserCreate(UserBase):
 
 # Properties to receive via API on update
 class UserUpdate(UserBase):
+    user_id: str
     role_id: Optional[int]
     first_name: Optional[str]
     last_name: Optional[str]
-    email: Optional[str]
     password_hash: Optional[str]
 
 class UserInDBBase(UserBase):

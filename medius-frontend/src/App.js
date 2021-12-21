@@ -19,6 +19,7 @@ import PostManager from "./pages/admin/postmanager";
 import ViewProfile from "./pages/profile/view_profile";
 import ViewSearch from "./pages/search/view_search";
 import EditPost from "./pages/editpost";
+import CommentManager from "./pages/admin/commentmanager";
 
 
 function App() {
@@ -48,7 +49,8 @@ function App() {
   const adminRouters = [
     ["/admin/user", <UserManager />, true],
     ["/admin/topic", <TopicManager />, true],
-    ["/admin/post", <PostManager />, true]
+    ["/admin/post", <PostManager />, true],
+    ["/admin/comment", <CommentManager />, true]
   ];
 
   const api_regex = /^\/api\/.*/

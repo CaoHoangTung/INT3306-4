@@ -44,8 +44,11 @@ function WritePost({ editMode = false, postId = null }) {
                     const contentBlock = htmlToDraft(post.content);
                     if (contentBlock) {
                         const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                        const editorState = EditorState.createWithContent(contentState);
-                        setEditorState(editorState);
+                        const loadedEditorState = EditorState.createWithContent(contentState);
+                        console.log("EDITOR STATE", loadedEditorState);
+                        console.log("CONTENT STATE", contentState);
+                        console.log("CONTENT BLOCK", contentBlock);
+                        setEditorState(loadedEditorState);
                     }
                 });
             p2 = getPostTopicByPostId(postId)
