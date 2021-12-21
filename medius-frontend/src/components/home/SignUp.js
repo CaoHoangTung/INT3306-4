@@ -1,7 +1,7 @@
 import { Button, Grid, TextField, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
-import { login } from "../../api/login";
-import { createUser } from "../../api/users"
+import { login, register } from "../../api/login";
+
 const SignUp = (props) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -82,15 +82,24 @@ const SignUp = (props) => {
                         setDisabled(true);
                         if (email.search("@") == -1) {
                             document.getElementById("email").innerHTML = "Invalid email";
-                            setDisabled(false)
+                            setDisabled(false);
+                            return;
+                        } else {
+                            document.getElementById("email").innerHTML = "";
                         }
                         if (password.length < 8) {
                             document.getElementById("password").innerHTML = "Password must have at 8 characters";
                             setDisabled(false)
+                            return;
+                        } else {
+                            document.getElementById("password").innerHTML = "";
                         }
                         if (password != repassword) {
                             document.getElementById("repassword").innerHTML = "The password does not match";
                             setDisabled(false)
+                            return;
+                        } else {
+                            document.getElementById("repassword").innerHTML = "";
                         }
                         const newUser = {
                             "first_name": firstName,
@@ -98,9 +107,9 @@ const SignUp = (props) => {
                             "email": email,
                             "password": password
                         }
-                        const signUpIsSuccess = await createUser(newUser);
+                        const signUpIsSuccess = await register(firstName, lastName, email, password);
                         console.log(signUpIsSuccess);
-                        if (signUpIsSuccess) {
+                        if (signUpIsSuccess !== false) {
                             login(email, password)
                                 .then(() => {
                                     window.location.href = "/";
@@ -109,7 +118,9 @@ const SignUp = (props) => {
                                     alert("Something went wrong, please try again later");
                                 });
                         } else {
+                            document.getElementById("repassword").innerHTML = "Email exists or invalid password";
                             setDisabled(false);
+                            return;
                         }
                     }}
                 >

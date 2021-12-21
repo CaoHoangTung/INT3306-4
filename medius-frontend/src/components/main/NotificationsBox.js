@@ -35,7 +35,7 @@ function NotificationsBox() {
                     <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
                         <Badge
                             color="primary"
-                            badgeContent={ notifications.length }
+                            badgeContent={ notifications.filter(notification => notification.is_seen == false).length }
                         >
                             <NotificationsIcon sx={{ width: 32, height: 32 }} />
                         </Badge>
