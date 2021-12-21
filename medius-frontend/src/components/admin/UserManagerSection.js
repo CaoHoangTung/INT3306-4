@@ -311,7 +311,7 @@ export default function UserManageTable() {
                                             <TableCell component="th" scope="row">
                                                 <Avatar
                                                     alt="Remy Sharp"
-                                                    src={row.avatar}
+                                                    src={row.avatar_path}
                                                 />
                                             </TableCell>
                                             <TableCell component="th" scope="row">{row.first_name + " " + row.last_name}</TableCell>
