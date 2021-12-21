@@ -20,7 +20,7 @@ function NotificationsBox() {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            getNotificationByUserId2()
+            getNotificationByUserId2(false, true)
             .then(data => {
                 setNotifications(data.reverse());
             }); 
