@@ -132,7 +132,10 @@ export default function PostDetail(props) {
                         ></DownvoteButton>
                     </div> */}
                     <div>
-                        <Clap/>
+                        <Clap
+                            key={"Clap" + post.post_id}
+                            post={post}
+                        />
                     </div>
                 </div>
             </div>
