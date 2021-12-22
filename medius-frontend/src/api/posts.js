@@ -90,3 +90,19 @@ export async function searchPosts(searched_text) {
     });
     return response?.data;
 }
+
+export async function getSuggestedPosts(page = 0, limit = 10) {
+    const offset = page * limit;
+    const params = {
+        offset: offset,
+        limit: limit,
+    }
+
+    const response = await API.get(`/posts/suggest`, {
+        params,
+        paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: "repeat" })
+        }
+    });
+    return response?.data;
+}

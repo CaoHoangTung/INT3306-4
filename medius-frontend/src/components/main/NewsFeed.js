@@ -1,7 +1,7 @@
 import MediumPosts from "../home/PostPreview.js";
 import React from 'react';
 import '../../pages/main/Main.scss'
-import { getPosts } from "../../api/posts.js";
+import { getSuggestedPosts } from "../../api/posts.js";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 class NewsFeed extends React.Component {
@@ -24,8 +24,8 @@ class NewsFeed extends React.Component {
 
     fetchMoreData = async () => {
         var { _, user_id, topic_ids, sort_by_upvotes, page, limit } = this.state;
-        await getPosts(
-            user_id, topic_ids, sort_by_upvotes, page, limit
+        await getSuggestedPosts(
+            page, limit
         ).then(newPosts => {
             this.setState({
                 posts: this.state.posts.concat(newPosts),
