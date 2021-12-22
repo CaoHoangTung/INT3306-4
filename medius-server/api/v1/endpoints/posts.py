@@ -322,7 +322,11 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
         taken_post_id.append(int(post.post_id))
 
     # remain post 
-    query = db.query(models.Post).filter(models.Post.post_id.notin_(taken_post_id)); 
+    query = db.query(models.User, models.Post)
+    query = query.join(models.User, and_(
+        models.Post.post_id.notin_(taken_post_id),
+        models.Post.user_id == models.User.user_id
+    )); 
     results = query.all()
     random.shuffle(results)
     for user, post in results: 
@@ -330,6 +334,8 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
+
+        taken_post_id.append(int(post.post_id))
     
     return schemas_posts[offset:offset+limit]
 
