@@ -4,7 +4,8 @@ import Container from "@mui/material/Container";
 import React from 'react';
 import MainNavBar from "../../components/main/MainNavBar.js";
 import ProfileCard from '../../components/profile/ProfileCard';
-import PostInProfile from '../../components/profile/PostInProfile';
+// import PostInProfile from '../../components/profile/PostInProfile';
+import ProfileFeed from '../../components/profile/ProfileFeed';
 import Footer from "../../components/home/Footer";
 import { useState, useEffect } from 'react';
 import { getUser } from '../../api/users';
@@ -75,15 +76,11 @@ function Profile(props) {
                                 />
                         </Grid>
                         <Grid item xs={6}>
-                            {posts.map(post => (
-                                <PostInProfile
-                                    key={"PostInProfile" + post.post_id}
-                                    author_name={author.first_name + " " + author.last_name}
-                                    avatar_path={author.avatar_path}
-                                    post={post}
-                                    isOwner={isOwner}
-                                    />
-                            ))}
+                            <ProfileFeed 
+                                user_id={author.user_id}
+                                limit={5}
+                                isOwner={isOwner}
+                            />
                         </Grid>
                         <Grid item xs={3}></Grid>
                         <Grid item xs={12}></Grid>
