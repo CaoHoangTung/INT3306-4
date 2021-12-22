@@ -24,8 +24,6 @@ function MainNavBar() {
         });
     }, []);
 
-    console.log(user);
-
     return (
         <div className="MainNavBar">
             <NotificationContainer />
