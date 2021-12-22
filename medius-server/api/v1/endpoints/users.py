@@ -165,7 +165,13 @@ def search_user(db: Session = Depends(deps.get_db), text: str = Query(""), curre
     if not isinstance(users, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
 
-    return users
+    return_users = []
+    for user in users:
+        user_dict = user.__dict__
+        user_dict["num_followers"] = len(user.following_relationships.all())
+        return_users.append(user_dict)
+
+    return return_users
 
 
 # @router.get("/statistic", response_model=List[schemas.User])
