@@ -22,7 +22,7 @@ import EditPost from "./pages/editpost";
 import CommentManager from "./pages/admin/commentmanager";
 import ResetPassword from "./pages/passwordreset";
 import ForgotPassword from "./pages/passwordreset/forgot";
-
+import "./global.css";
 
 function App() {
   /**
@@ -64,7 +64,7 @@ function App() {
   } else {
     return (
       <Router>
-        <div>
+        <div class="demo-wrap">
           <Switch>
             {getLocalCredential()?.is_admin &&
               /**
