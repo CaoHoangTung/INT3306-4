@@ -10,7 +10,9 @@ class Search extends React.Component {
                 style={{
                     margin: "0 auto",
                     height: '40px',
-                    border: "none",                 
+                    border: "none", 
+                    width: "400px",
+                    borderRadius: "20px",                
                 }}
                 placeholder = 'Search medius'
                 onChange={(newValue) => {value = newValue }}
