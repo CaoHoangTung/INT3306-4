@@ -73,7 +73,9 @@ export default function PostDetail(props) {
                     </Link>
                 </div>
                 <div className="second">
-                    <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
+                    {props?.author_id == getCurrentUser() && (
+                        <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
+                    )}
                     <SaveButton
                         post_id={post.post_id}
                         isSaved={isSaved}
@@ -140,7 +142,7 @@ export default function PostDetail(props) {
                 </div>
             </div>
             <hr></hr>
-            <CommentBox 
+            <CommentBox
                 key={"CommentBox" + post.post_id}
                 postId={post.post_id}
                 isOwner={props.isOwner}

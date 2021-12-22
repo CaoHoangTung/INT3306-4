@@ -20,6 +20,8 @@ import ViewProfile from "./pages/profile/view_profile";
 import ViewSearch from "./pages/search/view_search";
 import EditPost from "./pages/editpost";
 import CommentManager from "./pages/admin/commentmanager";
+import ResetPassword from "./pages/passwordreset";
+import ForgotPassword from "./pages/passwordreset/forgot";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
   const commonRouters = [
     ["/", <Home />, true],
     ["/login", <Home isLoggingIn={true} />, true],
+    ["/passwordreset", <ResetPassword />, true],
+    ["/passwordforgot", <ForgotPassword />, true],
   ];
 
   const userRouters = [

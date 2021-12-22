@@ -57,3 +57,22 @@ export async function searchUsers(searched_text) {
     });
     return response?.data;
 }
+
+export async function resetPassword(token, password) {
+    const response = await API.post(`passwordreset/change-password`, {
+        hashed_password: password
+    },
+        {
+            params: {
+                token: token,
+            }
+        });
+    return response?.data;
+}
+
+export async function sendResetPasswordRequest(email) {
+    const response = await API.post(`passwordreset/send-password-token`, {
+        email: email
+    });
+    return response?.data;
+}
