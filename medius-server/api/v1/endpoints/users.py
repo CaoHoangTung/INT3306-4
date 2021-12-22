@@ -6,6 +6,7 @@ from fastapi.param_functions import Header, Query, Security
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.elements import and_
+from sqlalchemy.sql.functions import func
 
 import crud, models, schemas
 from api import deps, msg
@@ -13,7 +14,7 @@ from core import security
 from settings import settings
 from core.security import get_password_hash
 from fastapi import FastAPI, Form, Depends, HTTPException
-from schemas.user import UserCreate, UserDelete, UserUpdate
+from schemas.user import UserCreate, UserDelete, UserUpdate, UserWithNumPostLike
 
 import requests
 
@@ -172,6 +173,31 @@ def search_user(db: Session = Depends(deps.get_db), text: str = Query(""), curre
         return_users.append(user_dict)
 
     return return_users
+
+# @router.get("/rank", response_model=List[schemas.UserWithNumPostLike]) 
+# def rank(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+#     # test = db.query(models.User, func.count(models.Post.post_id)). .join(models.Post, models.User.user_id == models.Post.user_id)\
+#     #     .group_by(models.User.user_id)
+
+#     # for user, cnt in test.all(): 
+#     #     print(user.user_id, " ", cnt)
+    
+#     query = db.query(models.User, func.sum(models.UserPostRelation.is_upvote))\
+#             .join(models.Post, models.User.user_id == models.Post.user_id)\
+#             .outerjoin(models.UserPostRelation, and_(True))\
+#             .group_by(models.User.user_id)\
+    
+#     results = query.all()
+
+#     ranked_users = []
+#     for user, num_likes in results:
+#         print(user.user_id, " ", num_likes)
+
+#         user_like = schemas.UserWithNumPostLike.from_orm(user)
+#         user_like.num_likes = num_likes   
+#         ranked_users.append(user_like)
+
+#     sorted(ranked_users, key=lambda x: x.num_likes, reverse=True)                   
 
 
 # @router.get("/statistic", response_model=List[schemas.User])

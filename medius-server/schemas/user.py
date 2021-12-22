@@ -53,3 +53,7 @@ class User(UserInDBBase):
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):
     hashed_password: str
+
+
+class UserWithNumPostLike(User):
+    num_likes: Optional[int]
