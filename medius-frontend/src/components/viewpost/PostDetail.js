@@ -9,17 +9,18 @@ import DeleteButton from "../profile/DeleteButton";
 import UpvoteButton from './UpvoteButton';
 import DownvoteButton from './DownvoteButton';
 import Topic from "../../components/shared/Topic";
-import CommentBox from '../shared/CommentBox';
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 import { getPostTopicByPostId } from "../../api/posts_topic";
 import Clap from './Clap';
+import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
+import CommentBoxModal from './CommentBoxModal.js';
 export default function PostDetail(props) {
     const post = props.post;
     const [isSaved, setIsSaved] = useState(false);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [isDownvoted, setIsDownvoted] = useState(false);
-
+    const [show, setShow] = useState(false);
     useEffect(() => {
         getUserPost(getCurrentUser(), props.postId)
             .then(data => {
@@ -107,30 +108,6 @@ export default function PostDetail(props) {
             <br />
             <div className="react">
                 <div className="vote">
-                    {/* <div style={{
-                        marginRight: "30px",
-                    }}>
-                        <UpvoteButton
-                            key={"Upvote" + post.post_id}
-                            post={post}
-                            isUpvoted={isUpvoted}
-                            setIsUpvoted={setIsUpvoted}
-                            className="upvote"
-                            fontSize="large"
-                        ></UpvoteButton>
-                    </div> */}
-                    {/* <div style={{
-                        marginRight: "30px",
-                    }}>
-                        <DownvoteButton
-                            key={"Downvote" + post.post_id}
-                            post={post}
-                            isDownvoted={isDownvoted}
-                            setIsDownvoted={setIsDownvoted}
-                            className="downvote"
-                            fontSize="large"
-                        ></DownvoteButton>
-                    </div> */}
                     <div>
                         <Clap
                             key={"Clap" + post.post_id}
@@ -138,13 +115,20 @@ export default function PostDetail(props) {
                         />
                     </div>
                 </div>
+                <div>
+                    <ChatBubbleOutlineRoundedIcon
+                        onClick={() => setShow(true)}
+                    />
+                    <CommentBoxModal show={show} onClose={() => setShow(false)}/>
+
+                </div>
             </div>
             <hr></hr>
-            <CommentBox 
+            {/* <CommentBox 
                 key={"CommentBox" + post.post_id}
                 postId={post.post_id}
                 isOwner={props.isOwner}
-            />
+            /> */}
         </Grid>
     );
 }
