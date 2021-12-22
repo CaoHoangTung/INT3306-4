@@ -18,7 +18,6 @@ function Profile(props) {
     const [isOwner, setIsOwner] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
     const [isBlocking, setIsBlocking] = useState(false);
-    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         getUser(props.userId)
@@ -47,16 +46,6 @@ function Profile(props) {
             });
     }, [isFollowing]);
 
-    useEffect(() => {
-        getAllPostsOfUserId(props.userId)
-            .then(data => {
-                setPosts(data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, [props.userId]);
-
     return (
         <div>
             <MainNavBar/>
@@ -77,7 +66,7 @@ function Profile(props) {
                         </Grid>
                         <Grid item xs={6}>
                             <ProfileFeed 
-                                user_id={author.user_id}
+                                user_id={props.userId}
                                 limit={5}
                                 isOwner={isOwner}
                             />
