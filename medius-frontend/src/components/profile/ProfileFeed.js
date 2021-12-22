@@ -1,20 +1,19 @@
-import MediumPosts from "../home/PostPreview.js";
 import React from 'react';
 import '../../pages/main/Main.scss'
-import { getSuggestedPosts } from "../../api/posts.js";
+import { getPosts } from "../../api/posts.js";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PostInProfile from "./PostInProfile.js";
 
-class NewsFeed extends React.Component {
+class ProfileFeed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             posts: [],
             user_id: this.props.user_id,
-            topic_ids: this.props.topic_ids,
-            sort_by_upvotes: this.props.sort_by_upvotes,
             page: 0,
             limit: this.props.limit,
             has_more: true,
+            isOwner: this.props.isOwner,
         };
     }
 
@@ -23,9 +22,9 @@ class NewsFeed extends React.Component {
     }
 
     fetchMoreData = async () => {
-        var { _, user_id, topic_ids, sort_by_upvotes, page, limit } = this.state;
-        await getSuggestedPosts(
-            page, limit
+        var { _, user_id, page, limit } = this.state;
+        await getPosts(
+            user_id, [], false, page, limit
         ).then(newPosts => {
             this.setState({
                 posts: this.state.posts.concat(newPosts),
@@ -54,14 +53,12 @@ class NewsFeed extends React.Component {
             >
                 <div className="newsFeed">
                     {this.state.posts.map((post, index) => (
-                        <MediumPosts
-                            key={post.post_id}
-                            postId={post.post_id}
-                            author={post?.user_detail?.first_name + " " + post?.user_detail?.last_name}
-                            // topic="topic"
-                            title={post.title}
-                            postTime={post.published_at}
-                            previewImagePath={post.preview_image_path}
+                        <PostInProfile
+                            key={"PostInProfile" + post.post_id}
+                            author_name={post.user_detail.first_name + " " + post.user_detail.last_name}
+                            avatar_path={post.user_detail.avatar_path}
+                            post={post}
+                            isOwner={this.state.isOwner}
                         />
                     ))}
                 </div>
@@ -70,4 +67,4 @@ class NewsFeed extends React.Component {
     }
 }
 
-export default NewsFeed;
+export default ProfileFeed;
