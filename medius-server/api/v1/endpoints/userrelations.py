@@ -140,6 +140,10 @@ def create_relation(db: Session = Depends(deps.get_db), *, creating_relation: Us
     """
     Create new relation
     """
+    if creating_relation.is_blocking == True and crud.user.is_admin(db=db,user=crud.user.get_by_id(db=db, user_id=creating_relation.user_id_2)):
+        raise HTTPException(status_code=400, detail="CAN'T BLOCK ADMIN !!!")
+
+
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=creating_relation.user_id_1, user_id_2=creating_relation.user_id_2)
     if query_relation:
         relation = update_relation(db=db, updating_relation=creating_relation)
@@ -164,6 +168,9 @@ def update_relation(db: Session = Depends(deps.get_db), *, updating_relation: Us
     query_relation = crud.userrelation.get_by_id(db=db, user_id_1=updating_relation.user_id_1, user_id_2=updating_relation.user_id_2)
     if not query_relation:
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
+
+    if updating_relation.is_blocking == True and crud.user.is_admin(db=db,user=crud.user.get_by_id(db=db, user_id=updating_relation.user_id_2)):
+        raise HTTPException(status_code=400, detail="CAN'T BLOCK ADMIN !!!")
 
     notification_creation = updating_relation.is_following and not query_relation.is_following    
     notification_deletion = not updating_relation.is_following and query_relation.is_following
