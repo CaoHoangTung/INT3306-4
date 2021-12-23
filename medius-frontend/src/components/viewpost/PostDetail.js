@@ -119,7 +119,11 @@ export default function PostDetail(props) {
                     <ChatBubbleOutlineRoundedIcon
                         onClick={() => {setShow(true);window.scrollTo(0, 0)}}
                     />
-                    <CommentBoxModal show={show} onClose={() => setShow(false)}/>
+                    <CommentBoxModal 
+                        show={show} onClose={() => setShow(false)}
+                        postId={post.post_id}
+                        isOwner={props.isOwner}
+                    />
 
                 </div>
             </div>

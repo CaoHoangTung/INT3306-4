@@ -1,11 +1,25 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import cn from "classnames";
+import { Avatar, Link } from "@mui/material";
+import { getCurrentUser } from "../../utils/auth";
+import { getUser } from "../../api/users";
+import { commentPost } from "../../api/post_functions";
+import { getComment } from "../../api/comments";
+import { NotificationManager } from 'react-notifications';
 
-const INITIAL_HEIGHT = 46;
+const INITIAL_HEIGHT = 210;
 
-const NewCommentBox = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const NewCommentBox = (props) => {
+    const [isExpanded, setIsExpanded] = useState(true);
     const [commentValue, setCommentValue] = useState("");
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        getUser(getCurrentUser())
+        .then(data => {
+            setUser(data);
+        });
+    }, []);
 
     const outerHeight = useRef(INITIAL_HEIGHT);
     const textRef = useRef(null);
@@ -28,7 +42,12 @@ const NewCommentBox = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log('send the form data somewhere')
+        commentPost(props.postId, getCurrentUser(), commentValue).then(data => {
+            getComment(data.comment_id).then(data => {
+                props.setComments(props.comments.concat(data));
+                NotificationManager.success('Comment posted successfully!', 'Success', 3000);
+            });
+        }).catch(err => console.error(err));
     }
 
 
@@ -43,16 +62,18 @@ const NewCommentBox = () => {
                 modified: commentValue.length > 0,
             })}
             style={{
-                minHeight: isExpanded ? outerHeight.current : INITIAL_HEIGHT
+                minHeight: INITIAL_HEIGHT
             }}
         >
             <div className="header">
                 <div className="user">
-                    <img
-                        src="avatar/path"
-                        alt="User avatar"
+                    <Avatar
+                        alt="username"
+                        src={user.avatar_path}
                     />
-                    <span>User Name</span>
+                    <Link href={"/profile/" + user.user_id}>
+                        {user.first_name + " " + user.last_name}
+                    </Link>
                 </div>
             </div>
 
