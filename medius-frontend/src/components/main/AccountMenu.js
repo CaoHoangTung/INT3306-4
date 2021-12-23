@@ -13,6 +13,7 @@ import Logout from '@mui/icons-material/Logout';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import ClassIcon from '@mui/icons-material/Class';
 import CreateIcon from '@mui/icons-material/Create';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import { currentUserIsAdmin, getLocalCredential } from "../../utils/auth.js";
 import { Link } from "react-router-dom";
@@ -77,9 +78,17 @@ export default function AccountMenu(props) {
                 </Link>
 
 
-                <MenuItem onClick={event => window.location.href = '/new-story'}>
+                {/* <MenuItem onClick={event => window.location.href = '/new-story'}>
                     <Avatar src={props.user.avatar_path}/> Write a story
-                </MenuItem>
+                </MenuItem> */}
+                <Link to="/new-story" style={{ textDecoration: "none", color: "inherit" }}>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <CreateIcon fontSize="small" />
+                        </ListItemIcon>
+                        Write a story
+                    </MenuItem>
+                </Link>
                 <Divider />
                 <MenuItem onClick={event => window.location.href = '/setting'}>
                     <ListItemIcon>
@@ -109,7 +118,7 @@ export default function AccountMenu(props) {
                         <Link to="/admin/post" style={{ textDecoration: "none", color: "inherit" }}>
                             <MenuItem>
                                 <ListItemIcon>
-                                    <CreateIcon fontSize="small" />
+                                    <ArticleIcon fontSize="small" />
                                 </ListItemIcon>
                                 Manage posts
                             </MenuItem>
