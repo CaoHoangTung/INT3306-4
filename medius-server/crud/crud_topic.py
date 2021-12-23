@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional, Union, List
 
 from sqlalchemy.orm import Session
-from sqlalchemy.sql.elements import conv
+from sqlalchemy.sql.elements import conv, or_
 from sqlalchemy.sql.expression import func
 
 from core.security import get_password_hash, verify_password
@@ -76,5 +76,9 @@ class CRUDTopic(CRUDBase[Topic, TopicCreate, TopicUpdate]):
         """)
         db.commit()
         return result
+
+    def search(self, db: Session, text: str) -> List: 
+        topics = db.query(Topic).filter(Topic.topic_name.like(str("%" + text + "%"))).all()    
+        return topics
 
 topic = CRUDTopic(Topic)

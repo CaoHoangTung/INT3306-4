@@ -47,7 +47,7 @@ class Comment extends React.Component {
                         </Link>
                     </div>
                     <div className="time">
-                        {moment(new Date(comment.created_at)).fromNow()}
+                        {moment(new Date(comment.created_at)).add(7, 'h').fromNow()}
                     </div>
                     <div>
                         <DeleteCommentButton
