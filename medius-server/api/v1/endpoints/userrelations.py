@@ -67,10 +67,14 @@ def view_blocked_users(user_id: int, db: Session = Depends(deps.get_db), current
         db=db, 
         user_id=user_id
     )
+    
     if not isinstance(relations, List):
         raise HTTPException(status_code=404, detail=msg.INVALID_USERRELATION_ID)
-            
-    return relations
+    
+    full_relations = [schemas.UserRelation.from_orm(relation) for relation in relations]
+    for r in full_relations:
+        r.get_user_detail(db)
+    return full_relations
 
 @router.get("/view-followed-users/{user_id}", response_model=List[schemas.UserRelation])
 def view_followed_users(user_id: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:

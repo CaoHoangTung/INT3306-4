@@ -3,28 +3,26 @@ import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Button from "@mui/material/Button";
+import { deleteUserRelation } from '../../api/users_users';
 
-const Block = (props) => {
+const Block = ({ user, unBlock }) => {
+
     return (
         <div className="UserIntro">
             <div className="user">
                 <div className="header">
                     <CardHeader className="avatar"
-                                avatar={
-                                    <Avatar
-                                        alt={props.author}
-                                        src={props.image}
-                                    />
-                                }
+                        avatar={
+                            <Avatar
+                                alt={user.first_name + " " + user.last_name}
+                                src={user.avatar_path}
+                            />
+                        }
                     />
                 </div>
                 <div className="descrip">
                     <Typography variant="subtitle1">
-                        <b>{props.author} author</b>
-                    </Typography>
-                    <Typography className="text"
-                                variant="subtitle2">
-                        {props.description} mo ta
+                        <b>{user.first_name + " " + user.last_name}</b>
                     </Typography>
                 </div>
             </div>
@@ -32,19 +30,20 @@ const Block = (props) => {
                 <Button sx={{
                     color: 'black',
                     backgroundColor: 'rgba(255, 0, 0, 1)',
-                    borderStyle:'solid',
-                    borderColor:'rgba(117, 117, 117, 1)',
-                    borderWidth:'1px',
-                    borderRadius:'99em',
+                    borderStyle: 'solid',
+                    borderColor: 'rgba(117, 117, 117, 1)',
+                    borderWidth: '1px',
+                    borderRadius: '99em',
                     fontSize: '12px',
-                    ":hover" : {
+                    ":hover": {
                         backgroundColor: 'green',
                         color: 'rgba(8, 8, 8, 1)',
                         borderColor: 'rgba(41, 41, 41, 1)',
-                        fontWeight:'400'
+                        fontWeight: '400'
                     }
                 }}
-                        variant="contained" href={props.link}>
+                    variant="contained"
+                    onClick={unBlock}>
                     Unblock
                 </Button>
             </div>

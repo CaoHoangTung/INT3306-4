@@ -1,18 +1,59 @@
 import MainNavBar from "../../components/main/MainNavBar";
-import { Container, Grid } from "@mui/material";
+import { Avatar, Button, Container, Grid, IconButton, Input } from "@mui/material";
 import Block from "./Block";
 import { useEffect, useState } from "react";
-import { getUser } from "../../api/users";
+import { getUser, updateUser } from "../../api/users";
 import { getLocalCredential } from "../../utils/auth";
+import { deleteUserRelation, getUsersIsBlockedByUserId } from "../../api/users_users";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import { uploadFile } from "../../api/file";
+import { Link } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
 
 function Setting(props) {
     const [profile, setProfile] = useState({})
+    const [blockedUsers, setBlockedUsers] = useState([]);
 
-    useEffect(() => {
-        getUser(getLocalCredential())
+    const fetchUser = async () => {
+        return getUser(getLocalCredential().user_id)
             .then(data => {
+                delete data["password_hash"];
                 setProfile(data)
             })
+            .catch(err => console.error(err));
+    }
+
+    const fetchBlockedUsers = async () => {
+        return getUsersIsBlockedByUserId(getLocalCredential().user_id)
+            .then(data => {
+                setBlockedUsers(data);
+            })
+    }
+
+    const handleSelectImage = (e) => {
+        return uploadFile(e.target.files[0])
+            .then(response => {
+                console.log(response);
+                setProfile({ ...profile, avatar_path: response.url })
+            }).catch(err => {
+                console.error(err);
+            });
+    }
+
+    const handleSaveInfo = () => {
+        updateUser(profile)
+            .then(data => {
+                console.log(data);
+                NotificationManager.success('Information saved', 'Success', 3000);
+            }).catch(err => {
+                console.error(err);
+                NotificationManager.error('Error', 'Error', 3000);
+            });
+    }
+
+    useEffect(() => {
+        fetchUser();
+        fetchBlockedUsers();
     }, []);
 
     return (
@@ -21,75 +62,80 @@ function Setting(props) {
             <Container>
                 <div className="content">
                     <div className="aboutYou">
+                        <h3>Information</h3>
                         <Grid container>
-                            <Grid item xs={2}>First Name</Grid>
-                            <Grid item xs={1}>
-                                <input type="text"
-                                    placeholder={"oldFirstname"}
+                            <Grid item xs={12} md={2}>
+                                <input
+                                    accept="image/*"
+                                    id="icon-button-file"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={handleSelectImage}
                                 />
+                                <label htmlFor="icon-button-file">
+                                    <IconButton color="primary" aria-label="upload picture"
+                                        component="span">
+                                        <Avatar src={profile.avatar_path} style={{ width: "100%", height: "100%" }} />
+                                    </IconButton>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12} md={10} style={{ padding: "20px" }}>
+                                <Grid container>
+                                    <Grid item xs={2}>First Name</Grid>
+                                    <Grid item xs={1}>
+                                        <Input type="text"
+                                            placeholder={"oldFirstname"}
+                                            value={profile.first_name}
+                                            onChange={(e) => { setProfile({ ...profile, first_name: e.target.value }) }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <br />
+                                <Grid container>
+                                    <Grid item xs={2}>Last Name</Grid>
+                                    <Grid item xs={1}>
+                                        <Input type="text"
+                                            placeholder={"oldFirstname"}
+                                            value={profile.last_name}
+                                            onChange={(e) => { setProfile({ ...profile, last_name: e.target.value }) }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <br />
+                                <Grid container>
+                                    <Grid item xs={2}>Email</Grid>
+                                    <Grid item xs={1}>
+                                        <span>{profile.email}</span>
+                                    </Grid>
+                                </Grid>
+                                <br />
+                                <Button onClick={handleSaveInfo}>Save changes</Button>
                             </Grid>
                         </Grid>
-                        <Grid container>
-                            <Grid item xs={2}>Last Name</Grid>
-                            <Grid item xs={1}>
-                                <input type="text"
-                                    placeholder={"oldFirstname"}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container>
-                            <Grid item xs={2}>Email</Grid>
-                            <Grid item xs={1}>
-                                <input type="text"
-                                    placeholder={"oldFirstname"}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container>
-                            <Grid item xs={2}>Avatar</Grid>
-                            <Grid item xs={1}>
-                                <input type="file" id="myFile" name="filename" />
-                            </Grid>
-                        </Grid>
-                        <div>
-                            <button>Save changes</button>
-                        </div>
+                        <br />
+
                     </div>
                     <div className="security">
+                        <h3>Security</h3>
                         <Grid container>
-                            <Grid item xs={2}>Old pass</Grid>
-                            <Grid item xs={1}>
-                                <input type="password"
-                                    placeholder={"oldFirstname"}
-
-                                />
-                            </Grid>
+                            <Link to={`/passwordforgot?email=${profile.email}`}>
+                                <Button>Change password</Button>
+                            </Link>
                         </Grid>
-                        <Grid container>
-                            <Grid item xs={2}>New pass</Grid>
-                            <Grid item xs={1}>
-                                <input type="password"
-                                    placeholder={"oldFirstname"}
-
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container>
-                            <Grid item xs={2}>Retype</Grid>
-                            <Grid item xs={1}>
-                                <input type="password"
-                                    placeholder={"oldFirstname"}
-
-                                />
-                            </Grid>
-                        </Grid>
-                        <div>
-                            <button>Change password</button>
-                        </div>
                     </div>
                     <div className="blocking">
-                        <p>List of blocked users</p>
-                        <Block></Block>
+                        <h3>Blocked users</h3>
+                        {blockedUsers.map(user => (
+                            <Block
+                                user={user.user_detail}
+                                unBlock={() => {
+                                    deleteUserRelation(user?.user_id_1, user?.user_id_2)
+                                        .then(() => {
+                                            fetchBlockedUsers();
+                                        })
+                                }}
+                            ></Block>
+                        ))}
                     </div>
                 </div>
             </Container>
