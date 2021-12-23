@@ -152,15 +152,18 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         return result
 
     def search_post_by_text(self, db: Session, searched_text: str) -> List[Post]: 
-        try:
-            raw_query = sqlalchemy.text(
-                'SELECT * FROM Post WHERE MATCH (title, content) AGAINST (:value IN NATURAL LANGUAGE MODE)', 
-                bindparams=[bindparam('value', searched_text)]) 
-            result = db.execute(raw_query)
-            return result 
-            # return db.query(Post).filter(Post.title.match(text)).all()
-        except Exception as e:
-            print(e)
-            return None 
+        posts = db.query(Post).filter(and_(Post.title.like(str("%" + searched_text + "%")))).all()
+        return posts     
+
+        # try:
+        #     raw_query = sqlalchemy.text(
+        #         'SELECT * FROM Post WHERE MATCH (title, content) AGAINST (:value IN NATURAL LANGUAGE MODE)', 
+        #         bindparams=[bindparam('value', searched_text)]) 
+        #     result = db.execute(raw_query)
+        #     return result 
+        #     # return db.query(Post).filter(Post.title.match(text)).all()
+        # except Exception as e:
+        #     print(e)
+        #     return None 
 
 post = CRUDPost(Post)

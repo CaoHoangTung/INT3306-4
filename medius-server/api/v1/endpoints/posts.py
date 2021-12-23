@@ -43,7 +43,7 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
         query = query.order_by(models.Post.upvote.desc())
         
     query = query.order_by(models.Post.created_at.desc())
-    
+
     if limit:
         query = query.limit(limit).offset(offset)
 
