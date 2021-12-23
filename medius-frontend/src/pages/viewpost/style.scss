@@ -19,7 +19,8 @@
   }
   .react {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 50px;
   }
   .vote {
     display: flex;
@@ -40,16 +41,20 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-end;
+  opacity: 1;
 }
 .comment-modal-content {
   width: 500px;
   background-color: #fff;
+  height: 100%;
 }
 .comment-modal-header,
 .comment-modal-footer {
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 .comment-modal-body {
   padding: 10px;
@@ -82,9 +87,8 @@
   }
 
   button[type="submit"] {
-    background: var(--green);
-    color: var(--white);
-    border-radius: var(--border-radius);
+    background: green;
+    border-radius: 100px;
   }
   .comment-box {
     display: flex;
@@ -165,4 +169,8 @@
   .comment-box.expanded .comment-field {
     transform: translateY(40px);
   }
+}
+.chat-icon{
+  display: flex;
+  align-items: center;
 }

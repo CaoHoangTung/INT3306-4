@@ -115,9 +115,9 @@ export default function PostDetail(props) {
                         />
                     </div>
                 </div>
-                <div>
+                <div className="chat-icon">
                     <ChatBubbleOutlineRoundedIcon
-                        onClick={() => setShow(true)}
+                        onClick={() => {setShow(true);window.scrollTo(0, 0)}}
                     />
                     <CommentBoxModal show={show} onClose={() => setShow(false)}/>
 

@@ -1,26 +1,28 @@
 import NewCommentBox from './NewCommentBox.js';
-const CommentBoxModal = props =>{
-    if(!props.show){
+import CloseIcon from '@mui/icons-material/Close';
+const CommentBoxModal = props => {
+    if (!props.show) {
         return null;
     }
-    return(
-        <div className ="comment-modal" onClick={props.onClose}>
-            <div className = "comment-modal-content" onClick={e=> e.stopPropagation()}>
+    return (
+        <div className="comment-modal" onClick={props.onClose}>
+            <div className="comment-modal-content" onClick={e => e.stopPropagation()}>
                 <div className="comment-modal-header">
-                    <h4>
-                       Comments
-                    </h4>
+                    <h2>
+                        Responses
+                    </h2>
+                    <CloseIcon onClick={props.onClose}/>
                 </div>
 
-                <div className="comment-modal-body">
-                    <NewCommentBox/>
+                <div className="comment-modal-content">
+                    <NewCommentBox />
+                    <div>
+                        Comment listed here
+                    </div>
                 </div>
 
-                <div className="comment-modal-footer">
-                    <button className="button" onClick={props.onClose}>
-                        Close
-                    </button>
-                </div>
+
+
 
             </div>
         </div>
