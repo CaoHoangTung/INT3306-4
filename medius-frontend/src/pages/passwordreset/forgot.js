@@ -3,8 +3,16 @@ import React from "react";
 import { useLocation } from "react-router";
 import { resetPassword, sendResetPasswordRequest, updateUser } from "../../api/users";
 
+function useQuery() {
+    const { search } = useLocation();
+
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 const ForgotPassword = () => {
-    const [email, setEmail] = React.useState("");
+    const query = useQuery();
+
+    const [email, setEmail] = React.useState(query.get("email") || "");
     const [disabled, setDisabled] = React.useState(false);
     const [successMessage, setSuccessMessage] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");

@@ -16,7 +16,7 @@ export async function getUserRelationByUserId2(userId2) {
 }
 
 export async function getUsersIsBlockedByUserId(userId) {
-    const response = await API.get(`/userrelation/view-blocked-users/${userId}`);
+    const response = await API.get(`/userrelation/view-blocked_users/${userId}`);
     return response?.data;
 }
 

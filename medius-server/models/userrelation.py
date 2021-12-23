@@ -11,6 +11,3 @@ class UserRelation(Base):
     user_id_2 = Column(Integer, ForeignKey("User.user_id"), primary_key=True)
     is_following = Column(Boolean, default=False)
     is_blocking = Column(Boolean, default=False)    
-
-    # user1 = relationship("User", back_populates="users2", foreign_keys=[user_id_1])
-    # user2 = relationship("User", back_populates="users1", foreign_keys=[user_id_2])
