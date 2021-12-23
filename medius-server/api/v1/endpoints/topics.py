@@ -2,6 +2,7 @@ from datetime import timedelta
 from typing import Any, List
 
 from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi.param_functions import Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import user
@@ -89,3 +90,15 @@ def delete_topic(db: Session = Depends(deps.get_db), deleting_topic: TopicDelete
         raise HTTPException(status_code=404, detail=msg.INVALID_TOPIC_ID)
     
     return topic
+
+@router.get("/search", response_model=List[schemas.Topic])
+def search(db: Session = Depends(deps.get_db), text: str = Query(None), current_user: models.User = Depends(deps.get_current_user)):
+    """
+    Search topic 
+    """    
+    topics = crud.topic.search(db=db, text=text)
+
+    if not isinstance(topics, List):
+        raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    return topics
