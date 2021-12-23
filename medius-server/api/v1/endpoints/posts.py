@@ -6,7 +6,8 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from requests.api import post
 from sqlalchemy.orm import Session
-from sqlalchemy.sql.functions import user
+from sqlalchemy.sql.elements import or_
+from sqlalchemy.sql.functions import current_date, user
 from sqlalchemy import func, and_
 from starlette import responses 
 
@@ -23,10 +24,33 @@ import random
 router = APIRouter()
 
 @router.get("/all", response_model=List[schemas.Post])
-def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(10)) -> Any:
+def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None), topic_ids: Optional[List[str]] = Query(None), sort_by_upvote: bool = Query(None), offset: int = Query(0), limit: int = Query(10), token: str = Depends(deps.auto_error_reusable_oauth2)) -> Any:
     """
     Get all posts with user_id 
-    """
+    """ 
+
+    taken_post_id = []
+    if token: 
+        current_user = deps.get_current_user(db, token)
+
+        query = db.query(models.User, models.Post)
+        query = query.join(models.User, models.User.user_id == models.Post.user_id)
+        query = query.join(models.UserRelation, and_(\
+            models.UserRelation.is_blocking == True,\
+            or_(\
+                and_(\
+                    models.UserRelation.user_id_1 == current_user.user_id,\
+                    models.UserRelation.user_id_2 == models.User.user_id\
+                ),\
+                and_(\
+                    models.UserRelation.user_id_1 == models.User.user_id,\
+                    models.UserRelation.user_id_2 == current_user.user_id\
+                )\
+            )\
+        ))
+        for user, post in query.all(): 
+            taken_post_id.append(int(post.post_id))
+
     query = db.query(models.Post, models.User)
     query = query.join(models.User, models.User.user_id == models.Post.user_id)
     if topic_ids:
@@ -39,10 +63,20 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
     else:
         pass
     
+    # remove all posts from blocked users
+    # query = query.join(models.UserPostRelation, and_(
+    #     models.UserPostRelation.is_blocked == False, 
+    #     models.UserPostRelation.post_id == models.Post.post_id,
+    #     models.UserPostRelation.user_id == current_user.user_id
+    # ))
+    
     if sort_by_upvote: 
         query = query.order_by(models.Post.upvote.desc())
         
     query = query.order_by(models.Post.created_at.desc())
+
+    if token: 
+        query = query.filter(models.Post.post_id.notin_(taken_post_id))
 
     if limit:
         query = query.limit(limit).offset(offset)
@@ -51,6 +85,8 @@ def view_all_posts(db: Session = Depends(deps.get_db), user_id: str = Query(None
 
     if not isinstance(results, List):
         raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
+
+    print(len(results))
 
     schemas_posts = []
     for post, user in results: 
@@ -122,6 +158,14 @@ def view_post(db: Session = Depends(deps.get_db), post_id:str = None, current_us
         post_id=post_id
     )
     if not post:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+
+    relation = crud.userrelation.get_by_id(db=db, user_id_1=current_user.user_id, user_id_2=post.user_id)
+    if relation and relation.is_blocking == True:
+        raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
+
+    relation = crud.userrelation.get_by_id(db=db, user_id_1=post.user_id, user_id_2=current_user.user_id)
+    if relation and relation.is_blocking == True:
         raise HTTPException(status_code=404, detail=msg.INVALID_POST_ID)
 
     schemas_post = schemas.Post.from_orm(post)
@@ -264,9 +308,27 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
     """
     Get list of suggestible posts 
     """
-
-    # print(current_user.user_id)
     schemas_posts = []
+
+    # remove all invalid post with current user 
+    taken_post_id = []
+    query = db.query(models.User, models.Post)
+    query = query.join(models.User, models.User.user_id == models.Post.user_id)
+    query = query.join(models.UserRelation, and_(\
+        models.UserRelation.is_blocking == True,\
+        or_(\
+            and_(\
+                models.UserRelation.user_id_1 == current_user.user_id,\
+                models.UserRelation.user_id_2 == models.User.user_id\
+            ),\
+            and_(\
+                models.UserRelation.user_id_1 == models.User.user_id,\
+                models.UserRelation.user_id_2 == current_user.user_id\
+            )\
+        )\
+    ))
+    for user, post in query.all(): 
+        taken_post_id.append(int(post.post_id))
 
     # post suggested from following user  
     query = db.query(models.User, models.Post)
@@ -279,7 +341,6 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
     results = query.all()
     random.shuffle(results)
 
-    taken_post_id = []
     for user, post in results: 
         assert post.user_id == user.user_id
         schemas_post = schemas.Post.from_orm(post)
@@ -297,6 +358,7 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
         models.UserPostRelation.user_id == current_user.user_id,
         models.UserPostRelation.is_upvote == True  
     ))
+
 
     liked_topics = []
     for post, topic in query.all():
@@ -336,7 +398,7 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
         schemas_posts.append(schemas_post)
 
         taken_post_id.append(int(post.post_id))
-    
+
     return schemas_posts[offset:offset+limit]
 
     # for user, post in query.all():
