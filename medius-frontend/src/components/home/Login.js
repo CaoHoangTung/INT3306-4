@@ -54,7 +54,7 @@ const Login = (props) => {
                     Sign in
                 </Button>
                 <Typography >
-                    <Link href="#" >
+                    <Link href="/passwordforgot" >
                         Forgot password ?
                     </Link>
                 </Typography>

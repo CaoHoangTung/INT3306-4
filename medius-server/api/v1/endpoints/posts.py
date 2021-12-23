@@ -260,7 +260,7 @@ def delete_post(db: Session = Depends(deps.get_db), current_user: models.User = 
 
 
 @router.get("/suggest", response_model=List[schemas.Post]) 
-def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user), offset: int = Query(0), limit: int = Query(10)) -> Any:
     """
     Get list of suggestible posts 
     """
@@ -318,8 +318,26 @@ def suggest_posts(db: Session = Depends(deps.get_db), current_user: models.User 
         schemas_post = schemas.Post.from_orm(post)
         schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
+
+        taken_post_id.append(int(post.post_id))
+
+    # remain post 
+    query = db.query(models.User, models.Post)
+    query = query.join(models.User, and_(
+        models.Post.post_id.notin_(taken_post_id),
+        models.Post.user_id == models.User.user_id
+    )); 
+    results = query.all()
+    random.shuffle(results)
+    for user, post in results: 
+        assert post.user_id == user.user_id
+        schemas_post = schemas.Post.from_orm(post)
+        schemas_post.user_detail = user
+        schemas_posts.append(schemas_post)
+
+        taken_post_id.append(int(post.post_id))
     
-    return schemas_posts
+    return schemas_posts[offset:offset+limit]
 
     # for user, post in query.all():
 

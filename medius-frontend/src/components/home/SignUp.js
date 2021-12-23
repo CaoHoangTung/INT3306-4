@@ -127,7 +127,7 @@ const SignUp = (props) => {
                     Sign up
                 </Button>
                 <Typography >
-                    <Link href="#" >
+                    <Link href="/passwordforgot" >
                         Forgot password ?
                     </Link>
                 </Typography>

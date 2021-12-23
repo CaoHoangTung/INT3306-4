@@ -2,7 +2,10 @@ import API from "./api";
 import qs from "qs";
 
 export async function getCommentAll() {
-    const response = await API.get("/comment/all");
+    const query = qs.stringify({
+        user_detail: true
+    });
+    const response = await API.get(`/comment/all?${query}`);
     return response?.data;
 }
 

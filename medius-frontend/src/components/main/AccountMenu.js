@@ -8,6 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Comment from '@mui/icons-material/Comment';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
@@ -112,6 +113,14 @@ export default function AccountMenu(props) {
                                     <CreateIcon fontSize="small" />
                                 </ListItemIcon>
                                 Manage posts
+                            </MenuItem>
+                        </Link>
+                        <Link to="/admin/comment" style={{ textDecoration: "none", color: "inherit" }}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Comment fontSize="small" />
+                                </ListItemIcon>
+                                Manage comments
                             </MenuItem>
                         </Link>
                         <Divider />

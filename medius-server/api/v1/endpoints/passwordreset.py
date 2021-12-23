@@ -19,7 +19,10 @@ router = APIRouter()
 
 @router.post("/send-password-token")
 def send_password_token(db: Session = Depends(deps.get_db), email: str = Body(..., embed=True)):
-    # print(email)
+    # check if email exist 
+    user = crud.user.get_by_email(db=db, email=email)
+    if not user:
+        raise HTTPException(status_code=404, detail="email it not registed yet !!")
 
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = security.create_access_token(
@@ -50,7 +53,7 @@ def change_password(db: Session = Depends(deps.get_db), token: str = Query(...),
     if not user: 
         raise HTTPException(status_code=404, detail="User not found")
 
-    updating_user = schemas.UserUpdate(password_hash = hashed_password)
+    updating_user = schemas.UserUpdate(user_id = user.user_id, password_hash = hashed_password)
 
     crud.user.update(
         db=db,

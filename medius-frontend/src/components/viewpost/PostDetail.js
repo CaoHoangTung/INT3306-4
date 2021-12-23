@@ -74,7 +74,9 @@ export default function PostDetail(props) {
                     </Link>
                 </div>
                 <div className="second">
-                    <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
+                    {props?.author_id == getCurrentUser() && (
+                        <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
+                    )}
                     <SaveButton
                         post_id={post.post_id}
                         isSaved={isSaved}
@@ -117,9 +119,9 @@ export default function PostDetail(props) {
                 </div>
                 <div className="chat-icon">
                     <ChatBubbleOutlineRoundedIcon
-                        onClick={() => {setShow(true);window.scrollTo(0, 0)}}
+                        onClick={() => { setShow(true); window.scrollTo(0, 0) }}
                     />
-                    <CommentBoxModal 
+                    <CommentBoxModal
                         show={show} onClose={() => setShow(false)}
                         postId={post.post_id}
                         isOwner={props.isOwner}
@@ -128,11 +130,6 @@ export default function PostDetail(props) {
                 </div>
             </div>
             <hr></hr>
-            {/* <CommentBox 
-                key={"CommentBox" + post.post_id}
-                postId={post.post_id}
-                isOwner={props.isOwner}
-            /> */}
         </Grid>
     );
 }

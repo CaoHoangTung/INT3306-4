@@ -14,6 +14,7 @@ class NotificationBase(BaseModel):
     user_id_1: int 
     user_id_2: int 
     post_id: Optional[int] 
+    comment_id: Optional[int]
     type: str
     is_seen: int 
     created_at: datetime
@@ -28,6 +29,7 @@ class NotificationUpdate(BaseModel):
     user_id_1: Optional[int]
     user_id_2: Optional[int] 
     post_id: Optional[int] 
+    comment_id: Optional[int]
     type: Optional[str]
     is_seen: Optional[int]
     created_at: Optional[datetime]
