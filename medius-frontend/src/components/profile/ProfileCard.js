@@ -13,7 +13,7 @@ class ProfileCard extends React.Component {
             <Grid item xs={12}>
                 <Card
                     variant="outlined"
-                    style={{ 
+                    style={{
                         display: "inline-block",
                         borderRadius: 15,
                         maxWidth: "270px",
@@ -58,12 +58,14 @@ class ProfileCard extends React.Component {
                                 isOwner={this.props.isOwner}
                                 userId={author.user_id}
                             />
-                            <BlockButton
-                                isBlocking={this.props.isBlocking}
-                                setIsBlocking={this.props.setIsBlocking}
-                                isOwner={this.props.isOwner}
-                                userId={author.user_id}
-                            />
+                            {author.role_id !== 1 && (
+                                <BlockButton
+                                    isBlocking={this.props.isBlocking}
+                                    setIsBlocking={this.props.setIsBlocking}
+                                    isOwner={this.props.isOwner}
+                                    userId={author.user_id}
+                                />
+                            )}
                         </Typography>{" "}
                         <Typography
                             color="textSecondary"
@@ -71,7 +73,7 @@ class ProfileCard extends React.Component {
                             align="center"
                         >
                             <PeopleIcon fontSize="small"
-                                        sx = {{marginTop:1}}
+                                sx={{ marginTop: 1 }}
                             />
                             {author.num_followers} Followers
                         </Typography>{" "}
