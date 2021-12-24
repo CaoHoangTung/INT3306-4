@@ -174,3 +174,12 @@
   display: flex;
   align-items: center;
 }
+.delete-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.Comment{
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
+}
