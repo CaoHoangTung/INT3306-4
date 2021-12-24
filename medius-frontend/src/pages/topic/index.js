@@ -46,10 +46,6 @@ function TopicPage(props) {
                     </Grid>
                     <Grid item xs={4}>
                         <div>
-                            <Container>
-                                <div className="numWriter">Number of writers</div>
-                                <div className="numPost"> Number of post </div>
-                            </Container>
                             <RightSection />
                         </div>
                     </Grid>
