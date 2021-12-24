@@ -76,7 +76,6 @@ function Profile(props) {
                         <Grid item xs={12}></Grid>
                     </Grid>
                 </Container>
-                <Footer />
             </div>
         </div>
     );

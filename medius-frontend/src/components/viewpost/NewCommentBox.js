@@ -37,10 +37,11 @@ const NewCommentBox = (props) => {
 
     const onClose = () => {
         setCommentValue("");
-        setIsExpanded(false);
+        // setIsExpanded(false);
     }
 
     const onSubmit = (e) => {
+        setCommentValue("");
         e.preventDefault();
         commentPost(props.postId, getCurrentUser(), commentValue).then(data => {
             getComment(data.comment_id).then(data => {

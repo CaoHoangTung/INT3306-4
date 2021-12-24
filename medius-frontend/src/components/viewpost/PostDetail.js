@@ -126,7 +126,7 @@ export default function PostDetail(props) {
                         postId={post.post_id}
                         isOwner={props.isOwner}
                     />
-
+                    
                 </div>
             </div>
             <hr></hr>
