@@ -26,7 +26,6 @@ const MediumPosts = (props) => {
                                 <StarIcon />
                             </span>
                         </div>
-                        <BookmarkBorderIcon className="MediumPosts_Bookmark" />
                     </div>
                 </div>
                 <div

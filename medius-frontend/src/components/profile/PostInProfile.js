@@ -13,6 +13,7 @@ import Topic from "../../components/shared/Topic";
 import { getUserPost } from "../../api/users_posts";
 import { getCurrentUser } from '../../utils/auth';
 import { getPostTopicByPostId } from "../../api/posts_topic";
+import Clap from "../viewpost/Clap";
 
 export default function PostInProfile(props) {
     const post = props.post;
@@ -87,14 +88,10 @@ export default function PostInProfile(props) {
             </div>
             <div className="react">
                 <div className="vote">
-                    <div className="upvote">
-                        <ThumbUpIcon></ThumbUpIcon>
-                        {post.upvote}
-                    </div>
-                    <div className="downvote">
-                        <ThumbDownIcon></ThumbDownIcon>
-                        {post.downvote}
-                    </div>
+                    <Clap
+                        key={"Clap" + post.post_id}
+                        post={post}
+                    />
                 </div>
                 <div>
                     <EditIcon onClick={() => window.location.href = `/edit-post/${post.post_id}`}></EditIcon>
