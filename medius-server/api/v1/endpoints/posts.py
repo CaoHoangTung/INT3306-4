@@ -108,9 +108,9 @@ def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.Us
         query = query.outerjoin(models.PostTopic).filter(models.PostTopic.topic_id.in_(topic_ids))
     
         if user_id:
-            query = query.filter(models.Post.user_id == user_id)
+            query = query.filter(models.UserPostRelation.user_id == user_id)
     elif user_id:
-        query = query.filter(models.Post.user_id == user_id)
+        query = query.filter(models.UserPostRelation.user_id == user_id)
     else:
         pass
     
@@ -134,18 +134,6 @@ def view_saved_posts(db: Session = Depends(deps.get_db), current_user: models.Us
         schemas_post.user_detail = user
         schemas_posts.append(schemas_post)
     return schemas_posts
-    # posts = crud.post.get_saved_post_by_user_id(db=db, user_id=current_user.user_id)
-    
-    # if not isinstance(posts, List):
-    #     raise HTTPException(status_code=500, detail=msg.DATABASE_ERROR)
-
-    # schemas_posts = []
-    # for post in posts: 
-    #     schemas_post = schemas.Post.from_orm(post)
-    #     schemas_post.get_user_detail(db=db)
-    #     schemas_posts.append(schemas_post)
-            
-    # return schemas_posts    
 
 
 @router.get("/view/{post_id}", response_model=schemas.Post)

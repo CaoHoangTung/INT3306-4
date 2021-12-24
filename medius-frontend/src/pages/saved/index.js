@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import SavedFeed from "../../components/saved/SavedFeed";
 import React from "react";
 import { Typography } from '@material-ui/core';
-import { getCurrentUser } from '../../utils/auth';
+import { getCurrentUser, getLocalCredential } from '../../utils/auth';
 
 function Saved(props) {
     return (
@@ -23,13 +23,13 @@ function Saved(props) {
                 <div className="left">
                     <div className="LeftSection">
                         <Container>
-                        <SavedFeed
-                            user_id={null}
-                            topic_ids={[]}
-                            sort_by_upvotes={false}
-                            page={0}
-                            limit={5}
-                        />
+                            <SavedFeed
+                                user_id={Number(getLocalCredential().user_id)}
+                                topic_ids={[]}
+                                sort_by_upvotes={false}
+                                page={0}
+                                limit={10}
+                            />
                         </Container>
                     </div>
                 </div>
