@@ -13,11 +13,6 @@ import { getAllTopics } from "../../api/topic";
 function TopicSelector({ topicOptions = [], selectedTopicOptionsId = [], setSelectedTopicOptionsId }) {
     const classes = useStyles();
 
-    console.log("TOPICS", topicOptions);
-    console.log("SELECTED TOPICS", selectedTopicOptionsId);
-
-    const selectedTopicOptionsIdId = selectedTopicOptionsId.map(topic => topic.topic_id);
-
     const isAllSelected = useCallback(() => {
         return topicOptions.length > 0 && selectedTopicOptionsId.length === topicOptions.length;
     }, [topicOptions, selectedTopicOptionsId]);
@@ -28,6 +23,7 @@ function TopicSelector({ topicOptions = [], selectedTopicOptionsId = [], setSele
             setSelectedTopicOptionsId(selectedTopicOptionsId.length === topicOptions.length ? [] : topicOptions.map(topic => topic.topic_id));
             return;
         }
+        console.log("SELECTED", value);
         setSelectedTopicOptionsId(value);
     }, [topicOptions, selectedTopicOptionsId]);
 

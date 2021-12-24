@@ -78,7 +78,7 @@ def view_usertopic(db: Session = Depends(deps.get_db), user_id:str = Query(...),
     return usertopic
 
 @router.post("/create", response_model=schemas.UserTopic)
-def create_usertopic(db: Session = Depends(deps.get_db), *, creating_usertopic: UserTopicCreate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def create_usertopic(db: Session = Depends(deps.get_db), *, creating_usertopic: UserTopicCreate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Create new usertopic
     """
@@ -103,7 +103,7 @@ def create_usertopic(db: Session = Depends(deps.get_db), *, creating_usertopic: 
             raise HTTPException(status_code=500, detail=msg.INVALID_USERTOPIC_ID)
         
 @router.put("/update", response_model=schemas.UserTopic)
-def update_usertopic(db: Session = Depends(deps.get_db), *, updating_usertopic: UserTopicUpdate, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def update_usertopic(db: Session = Depends(deps.get_db), *, updating_usertopic: UserTopicUpdate, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Update usertopic
     """
@@ -121,7 +121,7 @@ def update_usertopic(db: Session = Depends(deps.get_db), *, updating_usertopic: 
 
     
 @router.delete("/delete", response_model=schemas.UserTopic)
-def delete_usertopic(db: Session = Depends(deps.get_db), *, deleting_relation: UserTopicDelete = None, current_user: models.User = Depends(deps.get_current_admin)) -> Any:
+def delete_usertopic(db: Session = Depends(deps.get_db), *, deleting_relation: UserTopicDelete = None, current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Delete usertopic
     """

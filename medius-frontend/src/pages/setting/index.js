@@ -9,10 +9,16 @@ import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { uploadFile } from "../../api/file";
 import { Link } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import TopicSelector from "../../components/editor/TopicSelector";
+import { getAllTopics } from "../../api/topic";
+import { createUserTopic, deleteUserTopic, getUserTopicByUserId } from "../../api/users_topics";
 
 function Setting(props) {
     const [profile, setProfile] = useState({})
     const [blockedUsers, setBlockedUsers] = useState([]);
+    const [topicOptions, setTopicOptions] = useState([]);
+    const [selectedTopicOptionsId, setSelectedTopicOptionsId] = useState([]);
+    const [originalSelectedTopicOptionsId, setOriginalSelectedTopicOptionsId] = useState([]);
 
     const fetchUser = async () => {
         return getUser(getLocalCredential().user_id)
@@ -52,8 +58,45 @@ function Setting(props) {
     }
 
     useEffect(() => {
+        console.log(selectedTopicOptionsId);
+        console.log(originalSelectedTopicOptionsId);
+
+        const promises = []
+
+        for (let topicId of selectedTopicOptionsId) {
+            if (originalSelectedTopicOptionsId.indexOf(topicId) === -1) {
+                let p1 = createUserTopic({
+                    user_id: getLocalCredential().user_id,
+                    topic_id: topicId
+                });
+                promises.push(p1);
+            }
+        }
+        for (let topicId of originalSelectedTopicOptionsId) {
+            if (selectedTopicOptionsId.indexOf(topicId) === -1) {
+                let p2 = deleteUserTopic(getLocalCredential().user_id, topicId);
+                promises.push(p2);
+            }
+        }
+        Promise.all(promises).then(() => {
+            setOriginalSelectedTopicOptionsId(selectedTopicOptionsId);
+        })
+    }, [selectedTopicOptionsId]);
+
+    useEffect(() => {
         fetchUser();
         fetchBlockedUsers();
+
+        getUserTopicByUserId(getLocalCredential().user_id)
+            .then(data => {
+                setSelectedTopicOptionsId(data.map(topic => topic.topic_id))
+                setOriginalSelectedTopicOptionsId(data.map(topic => topic.topic_id))
+            }).then(() => {
+                getAllTopics()
+                    .then(topics => {
+                        setTopicOptions(topics);
+                    });
+            })
     }, []);
 
     return (
@@ -114,6 +157,16 @@ function Setting(props) {
                         </Grid>
                         <br />
 
+                    </div>
+                    <div className="mytopic">
+                        <h3>My topic</h3>
+                        <Grid container>
+                            <TopicSelector
+                                topicOptions={topicOptions}
+                                selectedTopicOptionsId={selectedTopicOptionsId}
+                                setSelectedTopicOptionsId={setSelectedTopicOptionsId}
+                            />
+                        </Grid>
                     </div>
                     <div className="security">
                         <h3>Security</h3>
